@@ -1,0 +1,136 @@
+<?page title="Maestro Productos" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Maestro Productos" border="normal">
+		<radiogroup id="status" />
+		<radiogroup id="washable" />
+		<grid>
+			<columns>
+				<column width="200px"></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<label value="Codigo:"></label>
+					<combobox id="cmbItemCod" width="200px"
+						mold="rounded" autocomplete="true" autodrop="true"
+						buttonVisible="false">
+					</combobox>
+				</row>
+				<row>
+					<label value="Nombre:"></label>
+					<combobox id="cmbItemName" width="200px"
+						mold="rounded" autocomplete="true" autodrop="true"
+						buttonVisible="false">
+					</combobox>
+				</row>
+				<row spans="2">
+					<tabbox>
+						<tabs>
+							<tab id="tabGeneral" label="General"></tab>
+							<tab id="tabSales" label="Ventas"></tab>
+							<tab id="tabBuys" label="Compras"></tab>
+						</tabs>
+						<tabpanels>
+							<tabpanel>
+								<grid>
+									<columns>
+										<column width="200px"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<label
+												value="Unidad de medida:">
+											</label>
+											<hbox>
+												<combobox
+													id="cmbItemUnitCar" width="50px" type="text" mold="rounded"
+													readonly="true">
+												</combobox>
+												<textbox
+													id="txtItemWeightUnit" width="147px" type="text"
+													mold="rounded">
+												</textbox>
+											</hbox>
+										</row>
+										<row>
+											<label value="Tipo:"></label>
+											<combobox id="cmbItemType"
+												width="250px" type="text" mold="rounded" readonly="true">
+											</combobox>
+										</row>
+										<row>
+											<label value="Lavable:"></label>
+											<hbox>
+												<radio
+													id="radioItemWashable" radiogroup="washable" label="Si">
+												</radio>
+												<radio
+													id="radioItemNotWashable" radiogroup="washable"
+													label="No">
+												</radio>
+											</hbox>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+							<tabpanel>
+								<grid>
+									<columns>
+										<column width="200px"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<label value="Costo:">
+											</label>
+											<textbox id="txtItemCost"
+												width="200px" type="text" mold="rounded">
+											</textbox>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+							<tabpanel>
+								<grid>
+									<columns>
+										<column width="200px"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<label value="Precio:">
+											</label>
+											<textbox id="txtItemPrice"
+												width="200px" type="text" mold="rounded">
+											</textbox>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+						</tabpanels>
+					</tabbox>
+				</row>
+				<row>
+					<vbox>
+						<radio id="radioItemActive" radiogroup="status"
+							label="Activo">
+						</radio>
+						<radio id="radioItemInactive"
+							radiogroup="status" label="Inactivo">
+						</radio>
+					</vbox>
+					<space></space>
+				</row>
+				<row>
+					<button id="btnSave" label="Guardar"
+						mold="trendy">
+					</button>
+					<button id="btnCancel" label="Cancelar"
+						mold="trendy">
+					</button>
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>

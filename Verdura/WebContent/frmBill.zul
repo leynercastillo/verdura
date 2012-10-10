@@ -1,0 +1,132 @@
+<?page title="Facturación" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Facturación" border="normal">
+		<radiogroup id="status" />
+		<radiogroup id="washable" />
+		<grid>
+			<columns>
+				<column width="200px"></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<label value="Codigo Cliente:"></label>
+					<combobox id="cmbBPcode" width="200px"
+						mold="rounded" autocomplete="true" autodrop="true"
+						buttonVisible="false">
+					</combobox>
+				</row>
+				<row>
+					<label value="Nombre:"></label>
+					<combobox id="cmbBIbpName" width="200px"
+						mold="rounded" autocomplete="true" autodrop="true"
+						buttonVisible="false">
+					</combobox>
+				</row>
+				<row spans="2">
+					<tabbox>
+						<tabs>
+							<tab id="tabGeneral" label="Contenido"></tab>
+							<tab id="tabSales" label="Direccion"></tab>
+						</tabs>
+						<tabpanels>
+							<tabpanel>
+								<grid>
+									<columns>
+										<column width="200px"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<label
+												value="Unidad de medida:">
+											</label>
+											<hbox>
+												<combobox
+													id="cmbUnitCarItem" width="50px" type="text" mold="rounded"
+													readonly="true">
+												</combobox>
+												<textbox
+													id="txtWeightUnitItem" width="147px" type="text"
+													mold="rounded">
+												</textbox>
+											</hbox>
+										</row>
+										<row>
+											<label value="Tipo:"></label>
+											<combobox id="cmbItemType"
+												width="250px" type="text" mold="rounded" readonly="true">
+											</combobox>
+										</row>
+										<row>
+											<label value="Lavable:"></label>
+											<hbox>
+												<radio
+													id="radioWashableItem" radiogroup="washable" label="Si">
+												</radio>
+												<radio
+													id="radioNotWashableItem" radiogroup="washable"
+													label="No">
+												</radio>
+											</hbox>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+							<tabpanel>
+								<grid>
+									<columns>
+										<column width="200px"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<label value="Destinatario:">
+											</label>
+											<combobox id="cmbBPAname"
+												width="200px" type="text" mold="rounded">
+											</combobox>
+										</row>
+										<row>
+											<label value="Dirección:">
+											</label>
+											<textbox id="txtBPAaddress"
+												width="200px" type="text" mold="rounded">
+											</textbox>
+										</row>
+										<row>
+											<label value="Teléfono:">
+											</label>
+											<textbox id="txtBPAphone"
+												width="200px" type="text" mold="rounded">
+											</textbox>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+						</tabpanels>
+					</tabbox>
+				</row>
+				<row>
+					<vbox>
+						<radio id="radioActiveItem" radiogroup="status"
+							label="Activo">
+						</radio>
+						<radio id="radioInactiveItem"
+							radiogroup="status" label="Inactivo">
+						</radio>
+					</vbox>
+					<space></space>
+				</row>
+				<row>
+					<button id="btnSave" label="Guardar"
+						mold="trendy">
+					</button>
+					<button id="btnCancel" label="Cancelar"
+						mold="trendy">
+					</button>
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>

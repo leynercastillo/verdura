@@ -1,26 +1,36 @@
 <?page title="Maestro de Socios de negocios" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window title="Maestro de Socios de negocios" border="normal" apply="controller.ctrlBusinessPartnerMaster">
+	<window title="Maestro de Socios de negocios" border="normal">
 		<radiogroup id="status" />
 		<grid>
 			<columns>
-				<column id="col1" width="200px"></column>
-				<column id="col2"></column>
+				<column width="200px"></column>
+				<column></column>
 			</columns>
 			<rows>
 				<row>
 					<label value="Codigo:"></label>
-					<combobox id="txtCodBP" mold="rounded" autocomplete="true" autodrop="true" buttonVisible="false"></combobox>
+					<combobox id="txtBPcod" width="200px" mold="rounded"
+						autocomplete="true" autodrop="true" buttonVisible="false">
+					</combobox>
 				</row>
 				<row>
 					<label value="Nombre:"></label>
-					<combobox id="txtNameBP" mold="rounded" autocomplete="true" autodrop="true" buttonVisible="false"></combobox>
+					<combobox id="txtBPname" width="200px"
+						mold="rounded" autocomplete="true" autodrop="true"
+						buttonVisible="false">
+					</combobox>
 				</row>
 				<row>
 					<label value="Rif:"></label>
 					<hbox>
-						<combobox id="cmbTypeRifBP" mold="rounded" readonly="true"></combobox>
-						<combobox id="txtRifBP" mold="rounded" autocomplete="true" autodrop="true" buttonVisible="false"></combobox>
+						<combobox id="cmbBPrifType" width="50px"
+							mold="rounded" readonly="true">
+						</combobox>
+						<combobox id="txtBPrif" width="147px"
+							mold="rounded" autocomplete="true" autodrop="true"
+							buttonVisible="false">
+						</combobox>
 					</hbox>
 				</row>
 				<row spans="2">
@@ -32,13 +42,18 @@
 						<tabpanels>
 							<tabpanel>
 								<grid>
+									<columns>
+										<column width="200px"></column>
+										<column></column>
+									</columns>
 									<rows>
 										<row>
 											<label
 												value="Persona Contacto:">
 											</label>
 											<textbox
-												id="txtContactPerson" type="text" mold="rounded">
+												id="txtBPcontactPerson" width="200px" type="text"
+												mold="rounded">
 											</textbox>
 										</row>
 										<row>
@@ -46,7 +61,8 @@
 												value="Teléfono Contacto:">
 											</label>
 											<textbox
-												id="txtContactPhone" type="text" mold="rounded">
+												id="txtBPcontactPhone" width="200px" type="text"
+												mold="rounded">
 											</textbox>
 										</row>
 									</rows>
@@ -54,7 +70,10 @@
 							</tabpanel>
 							<tabpanel>
 								<grid>
-									<columns></columns>
+									<columns>
+										<column width="200px"></column>
+										<column></column>
+									</columns>
 									<rows>
 										<row>
 											<cell rowspan="10"
@@ -70,52 +89,52 @@
 										</row>
 										<row>
 											<label value="Nombre:"></label>
-											<textbox id="txtNameBPA"
-												type="text" mold="rounded">
+											<textbox id="txtBPAname"
+												width="200px" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
 											<label value="Dirección:"></label>
-											<textbox id="txtAddressBPA"
-												type="text" mold="rounded">
+											<textbox id="txtBPAaddress"
+												width="200px" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
 											<label
 												value="Correo Electrónico:">
 											</label>
-											<textbox id="txtEmailBPA"
-												type="text" mold="rounded">
+											<textbox id="txtBPAemail"
+												width="200px" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
 											<label value="Teléfono:"></label>
-											<textbox id="txtPhoneBPA"
-												type="text" mold="rounded">
+											<textbox id="txtBPAphone"
+												width="200px" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
 											<label value="Fax:"></label>
-											<textbox id="txtFaxBPA"
-												type="text" mold="rounded">
+											<textbox id="txtBPAfax"
+												width="200px" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
 											<label value="Ciudad:"></label>
-											<combobox id="cmbCityBPA"
-												type="text" mold="rounded" readonly="true">
+											<combobox id="cmbBPAcity"
+												width="200px" type="text" mold="rounded" readonly="true">
 											</combobox>
 										</row>
 										<row>
 											<label value="Estado:"></label>
-											<combobox id="cmbStateBPA"
-												type="text" mold="rounded" readonly="true">
+											<combobox id="cmbBPAstate"
+												width="200px" type="text" mold="rounded" readonly="true">
 											</combobox>
 										</row>
 										<row>
 											<label value="País:"></label>
-											<combobox id="cmbCountryBPA"
-												type="text" mold="rounded" readonly="true">
+											<combobox id="cmbBPAcountry"
+												width="200px" type="text" mold="rounded" readonly="true">
 											</combobox>
 										</row>
 										<row>
@@ -131,16 +150,23 @@
 					</tabbox>
 				</row>
 				<row>
-					<radio id="radioActivo" radiogroup="status"
+					<hbox>
+						<radio id="radioBPAstatusA" radiogroup="status"
 							label="Activo">
-					</radio>
-					<radio id="radioInactivo" radiogroup="status"
+						</radio>
+						<radio id="radioBPAstatusI" radiogroup="status"
 							label="Inactivo">
-					</radio>
+						</radio>
+					</hbox>
+					<space></space>
 				</row>
 				<row>
-					<button id="btnSave" label="Guardar" mold="trendy"></button>
-					<button id="btnCancel" label="Cancelar" mold="trendy"></button>
+					<button id="btnSave" label="Guardar"
+						mold="trendy">
+					</button>
+					<button id="btnCancel" label="Cancelar"
+						mold="trendy">
+					</button>
 				</row>
 			</rows>
 		</grid>
