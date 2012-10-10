@@ -1,6 +1,6 @@
 package database;
 
-// Generated 08-oct-2012 11:54:36 by Hibernate Tools 3.6.0
+// Generated 10-oct-2012 10:59:39 by Hibernate Tools 3.6.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,6 +21,7 @@ import javax.persistence.Table;
 public class Titem implements java.io.Serializable {
 
 	private int idite;
+	private Tbasicdata tbasicdata;
 	private String code;
 	private String name;
 	private boolean washable;
@@ -26,7 +29,6 @@ public class Titem implements java.io.Serializable {
 	private float price;
 	private int unitcart;
 	private int volumenunit;
-	private int status;
 	private Set torderdetails = new HashSet(0);
 	private Set tbusinespartneritems = new HashSet(0);
 	private Set tbilldetails = new HashSet(0);
@@ -34,9 +36,11 @@ public class Titem implements java.io.Serializable {
 	public Titem() {
 	}
 
-	public Titem(int idite, String code, String name, boolean washable,
-			float cost, float price, int unitcart, int volumenunit, int status) {
+	public Titem(int idite, Tbasicdata tbasicdata, String code, String name,
+			boolean washable, float cost, float price, int unitcart,
+			int volumenunit) {
 		this.idite = idite;
+		this.tbasicdata = tbasicdata;
 		this.code = code;
 		this.name = name;
 		this.washable = washable;
@@ -44,13 +48,14 @@ public class Titem implements java.io.Serializable {
 		this.price = price;
 		this.unitcart = unitcart;
 		this.volumenunit = volumenunit;
-		this.status = status;
 	}
 
-	public Titem(int idite, String code, String name, boolean washable,
-			float cost, float price, int unitcart, int volumenunit, int status,
-			Set torderdetails, Set tbusinespartneritems, Set tbilldetails) {
+	public Titem(int idite, Tbasicdata tbasicdata, String code, String name,
+			boolean washable, float cost, float price, int unitcart,
+			int volumenunit, Set torderdetails, Set tbusinespartneritems,
+			Set tbilldetails) {
 		this.idite = idite;
+		this.tbasicdata = tbasicdata;
 		this.code = code;
 		this.name = name;
 		this.washable = washable;
@@ -58,7 +63,6 @@ public class Titem implements java.io.Serializable {
 		this.price = price;
 		this.unitcart = unitcart;
 		this.volumenunit = volumenunit;
-		this.status = status;
 		this.torderdetails = torderdetails;
 		this.tbusinespartneritems = tbusinespartneritems;
 		this.tbilldetails = tbilldetails;
@@ -72,6 +76,16 @@ public class Titem implements java.io.Serializable {
 
 	public void setIdite(int idite) {
 		this.idite = idite;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idbasic", nullable = false)
+	public Tbasicdata getTbasicdata() {
+		return this.tbasicdata;
+	}
+
+	public void setTbasicdata(Tbasicdata tbasicdata) {
+		this.tbasicdata = tbasicdata;
 	}
 
 	@Column(name = "code", nullable = false, length = 15)
@@ -135,15 +149,6 @@ public class Titem implements java.io.Serializable {
 
 	public void setVolumenunit(int volumenunit) {
 		this.volumenunit = volumenunit;
-	}
-
-	@Column(name = "status", nullable = false)
-	public int getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "titem")

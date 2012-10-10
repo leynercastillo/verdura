@@ -1,6 +1,6 @@
 package database;
 
-// Generated 08-oct-2012 11:54:36 by Hibernate Tools 3.6.0
+// Generated 10-oct-2012 10:59:39 by Hibernate Tools 3.6.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,7 +8,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,24 +22,24 @@ import javax.persistence.Table;
 public class Srole implements java.io.Serializable {
 
 	private int idr;
-	private char status;
+	private Tbasicdata tbasicdata;
 	private String name;
-	private Set srolegroups = new HashSet(0);
+	private Set sgroups = new HashSet(0);
 
 	public Srole() {
 	}
 
-	public Srole(int idr, char status, String name) {
+	public Srole(int idr, Tbasicdata tbasicdata, String name) {
 		this.idr = idr;
-		this.status = status;
+		this.tbasicdata = tbasicdata;
 		this.name = name;
 	}
 
-	public Srole(int idr, char status, String name, Set srolegroups) {
+	public Srole(int idr, Tbasicdata tbasicdata, String name, Set sgroups) {
 		this.idr = idr;
-		this.status = status;
+		this.tbasicdata = tbasicdata;
 		this.name = name;
-		this.srolegroups = srolegroups;
+		this.sgroups = sgroups;
 	}
 
 	@Id
@@ -49,13 +52,14 @@ public class Srole implements java.io.Serializable {
 		this.idr = idr;
 	}
 
-	@Column(name = "status", nullable = false, length = 1)
-	public char getStatus() {
-		return this.status;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idbasic", nullable = false)
+	public Tbasicdata getTbasicdata() {
+		return this.tbasicdata;
 	}
 
-	public void setStatus(char status) {
-		this.status = status;
+	public void setTbasicdata(Tbasicdata tbasicdata) {
+		this.tbasicdata = tbasicdata;
 	}
 
 	@Column(name = "name", nullable = false, length = 40)
@@ -67,13 +71,14 @@ public class Srole implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "srole")
-	public Set getSrolegroups() {
-		return this.srolegroups;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "srolegroup", joinColumns = { @JoinColumn(name = "idr", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "idg", nullable = false, updatable = false) })
+	public Set getSgroups() {
+		return this.sgroups;
 	}
 
-	public void setSrolegroups(Set srolegroups) {
-		this.srolegroups = srolegroups;
+	public void setSgroups(Set sgroups) {
+		this.sgroups = sgroups;
 	}
 
 }

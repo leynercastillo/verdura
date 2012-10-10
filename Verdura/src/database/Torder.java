@@ -1,6 +1,6 @@
 package database;
 
-// Generated 08-oct-2012 11:54:36 by Hibernate Tools 3.6.0
+// Generated 10-oct-2012 10:59:39 by Hibernate Tools 3.6.0
 
 import java.util.Date;
 import java.util.HashSet;
@@ -24,6 +24,7 @@ import javax.persistence.TemporalType;
 public class Torder implements java.io.Serializable {
 
 	private int ido;
+	private Tbasicdata tbasicdata;
 	private Tbusinesspartneraddress tbusinesspartneraddress;
 	private String ordernumber;
 	private String bpname;
@@ -34,18 +35,19 @@ public class Torder implements java.io.Serializable {
 	private int type;
 	private float ordertotal;
 	private float taxtotal;
-	private int status;
 	private Set tbills = new HashSet(0);
 	private Set torderdetails = new HashSet(0);
 
 	public Torder() {
 	}
 
-	public Torder(int ido, Tbusinesspartneraddress tbusinesspartneraddress,
+	public Torder(int ido, Tbasicdata tbasicdata,
+			Tbusinesspartneraddress tbusinesspartneraddress,
 			String ordernumber, String bpname, Date orderdate,
 			Date deliverydate, String rif, String address, int type,
-			float ordertotal, float taxtotal, int status) {
+			float ordertotal, float taxtotal) {
 		this.ido = ido;
+		this.tbasicdata = tbasicdata;
 		this.tbusinesspartneraddress = tbusinesspartneraddress;
 		this.ordernumber = ordernumber;
 		this.bpname = bpname;
@@ -56,15 +58,15 @@ public class Torder implements java.io.Serializable {
 		this.type = type;
 		this.ordertotal = ordertotal;
 		this.taxtotal = taxtotal;
-		this.status = status;
 	}
 
-	public Torder(int ido, Tbusinesspartneraddress tbusinesspartneraddress,
+	public Torder(int ido, Tbasicdata tbasicdata,
+			Tbusinesspartneraddress tbusinesspartneraddress,
 			String ordernumber, String bpname, Date orderdate,
 			Date deliverydate, String rif, String address, int type,
-			float ordertotal, float taxtotal, int status, Set tbills,
-			Set torderdetails) {
+			float ordertotal, float taxtotal, Set tbills, Set torderdetails) {
 		this.ido = ido;
+		this.tbasicdata = tbasicdata;
 		this.tbusinesspartneraddress = tbusinesspartneraddress;
 		this.ordernumber = ordernumber;
 		this.bpname = bpname;
@@ -75,7 +77,6 @@ public class Torder implements java.io.Serializable {
 		this.type = type;
 		this.ordertotal = ordertotal;
 		this.taxtotal = taxtotal;
-		this.status = status;
 		this.tbills = tbills;
 		this.torderdetails = torderdetails;
 	}
@@ -88,6 +89,16 @@ public class Torder implements java.io.Serializable {
 
 	public void setIdo(int ido) {
 		this.ido = ido;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idbasic", nullable = false)
+	public Tbasicdata getTbasicdata() {
+		return this.tbasicdata;
+	}
+
+	public void setTbasicdata(Tbasicdata tbasicdata) {
+		this.tbasicdata = tbasicdata;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -182,15 +193,6 @@ public class Torder implements java.io.Serializable {
 
 	public void setTaxtotal(float taxtotal) {
 		this.taxtotal = taxtotal;
-	}
-
-	@Column(name = "status", nullable = false)
-	public int getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "torder")

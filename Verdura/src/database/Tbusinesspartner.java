@@ -1,6 +1,6 @@
 package database;
 
-// Generated 08-oct-2012 11:54:36 by Hibernate Tools 3.6.0
+// Generated 10-oct-2012 10:59:39 by Hibernate Tools 3.6.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,42 +21,41 @@ import javax.persistence.Table;
 public class Tbusinesspartner implements java.io.Serializable {
 
 	private int idbp;
+	private Tbasicdata tbasicdata;
 	private String code;
 	private String name;
 	private String rif;
 	private int riftype;
-	private int type;
-	private String address;
-	private int status;
+	private String contactperson;
+	private String contactphone;
 	private Set tbusinesspartneraddresses = new HashSet(0);
 	private Set tbusinespartneritems = new HashSet(0);
 
 	public Tbusinesspartner() {
 	}
 
-	public Tbusinesspartner(int idbp, String code, String name, String rif,
-			int riftype, int type, String address, int status) {
+	public Tbusinesspartner(int idbp, Tbasicdata tbasicdata, String code,
+			String name, String rif, int riftype) {
 		this.idbp = idbp;
+		this.tbasicdata = tbasicdata;
 		this.code = code;
 		this.name = name;
 		this.rif = rif;
 		this.riftype = riftype;
-		this.type = type;
-		this.address = address;
-		this.status = status;
 	}
 
-	public Tbusinesspartner(int idbp, String code, String name, String rif,
-			int riftype, int type, String address, int status,
-			Set tbusinesspartneraddresses, Set tbusinespartneritems) {
+	public Tbusinesspartner(int idbp, Tbasicdata tbasicdata, String code,
+			String name, String rif, int riftype, String contactperson,
+			String contactphone, Set tbusinesspartneraddresses,
+			Set tbusinespartneritems) {
 		this.idbp = idbp;
+		this.tbasicdata = tbasicdata;
 		this.code = code;
 		this.name = name;
 		this.rif = rif;
 		this.riftype = riftype;
-		this.type = type;
-		this.address = address;
-		this.status = status;
+		this.contactperson = contactperson;
+		this.contactphone = contactphone;
 		this.tbusinesspartneraddresses = tbusinesspartneraddresses;
 		this.tbusinespartneritems = tbusinespartneritems;
 	}
@@ -67,6 +68,16 @@ public class Tbusinesspartner implements java.io.Serializable {
 
 	public void setIdbp(int idbp) {
 		this.idbp = idbp;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idbasic", nullable = false)
+	public Tbasicdata getTbasicdata() {
+		return this.tbasicdata;
+	}
+
+	public void setTbasicdata(Tbasicdata tbasicdata) {
+		this.tbasicdata = tbasicdata;
 	}
 
 	@Column(name = "code", nullable = false, length = 15)
@@ -105,31 +116,22 @@ public class Tbusinesspartner implements java.io.Serializable {
 		this.riftype = riftype;
 	}
 
-	@Column(name = "type", nullable = false)
-	public int getType() {
-		return this.type;
+	@Column(name = "contactperson", length = 100)
+	public String getContactperson() {
+		return this.contactperson;
 	}
 
-	public void setType(int type) {
-		this.type = type;
+	public void setContactperson(String contactperson) {
+		this.contactperson = contactperson;
 	}
 
-	@Column(name = "address", nullable = false, length = 200)
-	public String getAddress() {
-		return this.address;
+	@Column(name = "contactphone", length = 15)
+	public String getContactphone() {
+		return this.contactphone;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	@Column(name = "status", nullable = false)
-	public int getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
+	public void setContactphone(String contactphone) {
+		this.contactphone = contactphone;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbusinesspartner")

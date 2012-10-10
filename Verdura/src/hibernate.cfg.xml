@@ -16,19 +16,17 @@
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.search.autoregister_listeners">false</property>
         <property name="hibernate.show_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">create-drop</property>
-        <mapping class="database.Srolegroup" />
         <mapping class="database.Tbilldetail" />
         <mapping class="database.Tbusinespartneritem" />
-        <mapping class="database.Sgroupuser" />
-        <mapping class="database.Sgroup" />
-        <mapping class="database.Titem" />
-        <mapping class="database.Torderdetail" />
-        <mapping class="database.Tbusinesspartneraddress" />
         <mapping class="database.Suser" />
         <mapping class="database.Tbusinesspartner" />
         <mapping class="database.Torder" />
+        <mapping class="database.Tbasicdata" />
+        <mapping class="database.Sgroup" />
         <mapping class="database.Tbill" />
+        <mapping class="database.Titem" />
+        <mapping class="database.Torderdetail" />
+        <mapping class="database.Tbusinesspartneraddress" />
         <mapping class="database.Srole" />
     </session-factory>
 </hibernate-configuration>

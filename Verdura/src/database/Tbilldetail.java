@@ -1,6 +1,6 @@
 package database;
 
-// Generated 08-oct-2012 11:54:36 by Hibernate Tools 3.6.0
+// Generated 10-oct-2012 10:59:39 by Hibernate Tools 3.6.0
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +18,7 @@ import javax.persistence.Table;
 public class Tbilldetail implements java.io.Serializable {
 
 	private int idbd;
+	private Tbasicdata tbasicdata;
 	private Tbill tbill;
 	private Titem titem;
 	private String itemname;
@@ -29,9 +30,11 @@ public class Tbilldetail implements java.io.Serializable {
 	public Tbilldetail() {
 	}
 
-	public Tbilldetail(int idbd, Tbill tbill, Titem titem, String itemname,
-			float quantity, float price, float totalprice, int status) {
+	public Tbilldetail(int idbd, Tbasicdata tbasicdata, Tbill tbill,
+			Titem titem, String itemname, float quantity, float price,
+			float totalprice, int status) {
 		this.idbd = idbd;
+		this.tbasicdata = tbasicdata;
 		this.tbill = tbill;
 		this.titem = titem;
 		this.itemname = itemname;
@@ -49,6 +52,16 @@ public class Tbilldetail implements java.io.Serializable {
 
 	public void setIdbd(int idbd) {
 		this.idbd = idbd;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idbasic", nullable = false)
+	public Tbasicdata getTbasicdata() {
+		return this.tbasicdata;
+	}
+
+	public void setTbasicdata(Tbasicdata tbasicdata) {
+		this.tbasicdata = tbasicdata;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

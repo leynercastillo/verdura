@@ -1,6 +1,6 @@
 package database;
 
-// Generated 08-oct-2012 11:54:36 by Hibernate Tools 3.6.0
+// Generated 10-oct-2012 10:59:39 by Hibernate Tools 3.6.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,7 +8,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,27 +22,30 @@ import javax.persistence.Table;
 public class Sgroup implements java.io.Serializable {
 
 	private int idg;
+	private Tbasicdata tbasicdata;
 	private String name;
 	private int status;
-	private Set sgroupusers = new HashSet(0);
-	private Set srolegroups = new HashSet(0);
+	private Set susers = new HashSet(0);
+	private Set sroles = new HashSet(0);
 
 	public Sgroup() {
 	}
 
-	public Sgroup(int idg, String name, int status) {
+	public Sgroup(int idg, Tbasicdata tbasicdata, String name, int status) {
 		this.idg = idg;
+		this.tbasicdata = tbasicdata;
 		this.name = name;
 		this.status = status;
 	}
 
-	public Sgroup(int idg, String name, int status, Set sgroupusers,
-			Set srolegroups) {
+	public Sgroup(int idg, Tbasicdata tbasicdata, String name, int status,
+			Set susers, Set sroles) {
 		this.idg = idg;
+		this.tbasicdata = tbasicdata;
 		this.name = name;
 		this.status = status;
-		this.sgroupusers = sgroupusers;
-		this.srolegroups = srolegroups;
+		this.susers = susers;
+		this.sroles = sroles;
 	}
 
 	@Id
@@ -50,6 +56,16 @@ public class Sgroup implements java.io.Serializable {
 
 	public void setIdg(int idg) {
 		this.idg = idg;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idbasic", nullable = false)
+	public Tbasicdata getTbasicdata() {
+		return this.tbasicdata;
+	}
+
+	public void setTbasicdata(Tbasicdata tbasicdata) {
+		this.tbasicdata = tbasicdata;
 	}
 
 	@Column(name = "name", nullable = false, length = 40)
@@ -70,22 +86,23 @@ public class Sgroup implements java.io.Serializable {
 		this.status = status;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sgroup")
-	public Set getSgroupusers() {
-		return this.sgroupusers;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "sgroupuser", joinColumns = { @JoinColumn(name = "idg", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "idu", nullable = false, updatable = false) })
+	public Set getSusers() {
+		return this.susers;
 	}
 
-	public void setSgroupusers(Set sgroupusers) {
-		this.sgroupusers = sgroupusers;
+	public void setSusers(Set susers) {
+		this.susers = susers;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sgroup")
-	public Set getSrolegroups() {
-		return this.srolegroups;
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "sgroups")
+	public Set getSroles() {
+		return this.sroles;
 	}
 
-	public void setSrolegroups(Set srolegroups) {
-		this.srolegroups = srolegroups;
+	public void setSroles(Set sroles) {
+		this.sroles = sroles;
 	}
 
 }

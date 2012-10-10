@@ -1,6 +1,6 @@
 package database;
 
-// Generated 08-oct-2012 11:54:36 by Hibernate Tools 3.6.0
+// Generated 10-oct-2012 10:59:39 by Hibernate Tools 3.6.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +21,7 @@ import javax.persistence.Table;
 public class Tbusinesspartneraddress implements java.io.Serializable {
 
 	private int idbpa;
+	private Tbasicdata tbasicdata;
 	private Tbusinesspartner tbusinesspartner;
 	private String name;
 	private String addres;
@@ -30,18 +31,19 @@ public class Tbusinesspartneraddress implements java.io.Serializable {
 	private String fax;
 	private String phone;
 	private int country;
-	private int status;
+	private boolean standard;
 	private Set torders = new HashSet(0);
 	private Set tbills = new HashSet(0);
 
 	public Tbusinesspartneraddress() {
 	}
 
-	public Tbusinesspartneraddress(int idbpa,
+	public Tbusinesspartneraddress(int idbpa, Tbasicdata tbasicdata,
 			Tbusinesspartner tbusinesspartner, String name, String addres,
 			String email, int state, int city, String fax, String phone,
-			int country, int status) {
+			int country, boolean standard) {
 		this.idbpa = idbpa;
+		this.tbasicdata = tbasicdata;
 		this.tbusinesspartner = tbusinesspartner;
 		this.name = name;
 		this.addres = addres;
@@ -51,14 +53,15 @@ public class Tbusinesspartneraddress implements java.io.Serializable {
 		this.fax = fax;
 		this.phone = phone;
 		this.country = country;
-		this.status = status;
+		this.standard = standard;
 	}
 
-	public Tbusinesspartneraddress(int idbpa,
+	public Tbusinesspartneraddress(int idbpa, Tbasicdata tbasicdata,
 			Tbusinesspartner tbusinesspartner, String name, String addres,
 			String email, int state, int city, String fax, String phone,
-			int country, int status, Set torders, Set tbills) {
+			int country, boolean standard, Set torders, Set tbills) {
 		this.idbpa = idbpa;
+		this.tbasicdata = tbasicdata;
 		this.tbusinesspartner = tbusinesspartner;
 		this.name = name;
 		this.addres = addres;
@@ -68,7 +71,7 @@ public class Tbusinesspartneraddress implements java.io.Serializable {
 		this.fax = fax;
 		this.phone = phone;
 		this.country = country;
-		this.status = status;
+		this.standard = standard;
 		this.torders = torders;
 		this.tbills = tbills;
 	}
@@ -81,6 +84,16 @@ public class Tbusinesspartneraddress implements java.io.Serializable {
 
 	public void setIdbpa(int idbpa) {
 		this.idbpa = idbpa;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idbasic", nullable = false)
+	public Tbasicdata getTbasicdata() {
+		return this.tbasicdata;
+	}
+
+	public void setTbasicdata(Tbasicdata tbasicdata) {
+		this.tbasicdata = tbasicdata;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -165,13 +178,13 @@ public class Tbusinesspartneraddress implements java.io.Serializable {
 		this.country = country;
 	}
 
-	@Column(name = "status", nullable = false)
-	public int getStatus() {
-		return this.status;
+	@Column(name = "standard", nullable = false)
+	public boolean isStandard() {
+		return this.standard;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setStandard(boolean standard) {
+		this.standard = standard;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbusinesspartneraddress")

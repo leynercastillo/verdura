@@ -1,6 +1,6 @@
 package database;
 
-// Generated 08-oct-2012 11:54:36 by Hibernate Tools 3.6.0
+// Generated 10-oct-2012 10:59:39 by Hibernate Tools 3.6.0
 
 import java.util.Date;
 import java.util.HashSet;
@@ -24,6 +24,7 @@ import javax.persistence.TemporalType;
 public class Tbill implements java.io.Serializable {
 
 	private int idb;
+	private Tbasicdata tbasicdata;
 	private Torder torder;
 	private Tbusinesspartneraddress tbusinesspartneraddress;
 	private String billnumber;
@@ -36,18 +37,18 @@ public class Tbill implements java.io.Serializable {
 	private int type;
 	private float billtotal;
 	private float taxtotal;
-	private int status;
 	private Set tbilldetails = new HashSet(0);
 
 	public Tbill() {
 	}
 
-	public Tbill(int idb, Torder torder,
+	public Tbill(int idb, Tbasicdata tbasicdata, Torder torder,
 			Tbusinesspartneraddress tbusinesspartneraddress, String billnumber,
 			String bpname, String controlnumber, Date billdate,
 			Date deliverydate, String rif, String address, int type,
-			float billtotal, float taxtotal, int status) {
+			float billtotal, float taxtotal) {
 		this.idb = idb;
+		this.tbasicdata = tbasicdata;
 		this.torder = torder;
 		this.tbusinesspartneraddress = tbusinesspartneraddress;
 		this.billnumber = billnumber;
@@ -60,15 +61,15 @@ public class Tbill implements java.io.Serializable {
 		this.type = type;
 		this.billtotal = billtotal;
 		this.taxtotal = taxtotal;
-		this.status = status;
 	}
 
-	public Tbill(int idb, Torder torder,
+	public Tbill(int idb, Tbasicdata tbasicdata, Torder torder,
 			Tbusinesspartneraddress tbusinesspartneraddress, String billnumber,
 			String bpname, String controlnumber, Date billdate,
 			Date deliverydate, String rif, String address, int type,
-			float billtotal, float taxtotal, int status, Set tbilldetails) {
+			float billtotal, float taxtotal, Set tbilldetails) {
 		this.idb = idb;
+		this.tbasicdata = tbasicdata;
 		this.torder = torder;
 		this.tbusinesspartneraddress = tbusinesspartneraddress;
 		this.billnumber = billnumber;
@@ -81,7 +82,6 @@ public class Tbill implements java.io.Serializable {
 		this.type = type;
 		this.billtotal = billtotal;
 		this.taxtotal = taxtotal;
-		this.status = status;
 		this.tbilldetails = tbilldetails;
 	}
 
@@ -93,6 +93,16 @@ public class Tbill implements java.io.Serializable {
 
 	public void setIdb(int idb) {
 		this.idb = idb;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idbasic", nullable = false)
+	public Tbasicdata getTbasicdata() {
+		return this.tbasicdata;
+	}
+
+	public void setTbasicdata(Tbasicdata tbasicdata) {
+		this.tbasicdata = tbasicdata;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -206,15 +216,6 @@ public class Tbill implements java.io.Serializable {
 
 	public void setTaxtotal(float taxtotal) {
 		this.taxtotal = taxtotal;
-	}
-
-	@Column(name = "status", nullable = false)
-	public int getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbill")

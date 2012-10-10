@@ -1,6 +1,6 @@
 package database;
 
-// Generated 08-oct-2012 11:54:36 by Hibernate Tools 3.6.0
+// Generated 10-oct-2012 10:59:39 by Hibernate Tools 3.6.0
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,27 +18,28 @@ import javax.persistence.Table;
 public class Torderdetail implements java.io.Serializable {
 
 	private int idod;
+	private Tbasicdata tbasicdata;
 	private Torder torder;
 	private Titem titem;
 	private String itemname;
 	private float quantity;
 	private float price;
 	private float totalprice;
-	private int status;
 
 	public Torderdetail() {
 	}
 
-	public Torderdetail(int idod, Torder torder, Titem titem, String itemname,
-			float quantity, float price, float totalprice, int status) {
+	public Torderdetail(int idod, Tbasicdata tbasicdata, Torder torder,
+			Titem titem, String itemname, float quantity, float price,
+			float totalprice) {
 		this.idod = idod;
+		this.tbasicdata = tbasicdata;
 		this.torder = torder;
 		this.titem = titem;
 		this.itemname = itemname;
 		this.quantity = quantity;
 		this.price = price;
 		this.totalprice = totalprice;
-		this.status = status;
 	}
 
 	@Id
@@ -49,6 +50,16 @@ public class Torderdetail implements java.io.Serializable {
 
 	public void setIdod(int idod) {
 		this.idod = idod;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idbasic", nullable = false)
+	public Tbasicdata getTbasicdata() {
+		return this.tbasicdata;
+	}
+
+	public void setTbasicdata(Tbasicdata tbasicdata) {
+		this.tbasicdata = tbasicdata;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -105,15 +116,6 @@ public class Torderdetail implements java.io.Serializable {
 
 	public void setTotalprice(float totalprice) {
 		this.totalprice = totalprice;
-	}
-
-	@Column(name = "status", nullable = false)
-	public int getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
 	}
 
 }

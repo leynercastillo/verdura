@@ -1,6 +1,6 @@
 package database;
 
-// Generated 08-oct-2012 11:54:36 by Hibernate Tools 3.6.0
+// Generated 10-oct-2012 10:59:39 by Hibernate Tools 3.6.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,7 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,32 +21,32 @@ import javax.persistence.Table;
 public class Suser implements java.io.Serializable {
 
 	private int idu;
+	private Tbasicdata tbasicdata;
 	private String name;
 	private String email;
 	private String password;
-	private char status;
-	private Set sgroupusers = new HashSet(0);
+	private Set sgroups = new HashSet(0);
 
 	public Suser() {
 	}
 
-	public Suser(int idu, String name, String email, String password,
-			char status) {
+	public Suser(int idu, Tbasicdata tbasicdata, String name, String email,
+			String password) {
 		this.idu = idu;
+		this.tbasicdata = tbasicdata;
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.status = status;
 	}
 
-	public Suser(int idu, String name, String email, String password,
-			char status, Set sgroupusers) {
+	public Suser(int idu, Tbasicdata tbasicdata, String name, String email,
+			String password, Set sgroups) {
 		this.idu = idu;
+		this.tbasicdata = tbasicdata;
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.status = status;
-		this.sgroupusers = sgroupusers;
+		this.sgroups = sgroups;
 	}
 
 	@Id
@@ -55,6 +57,16 @@ public class Suser implements java.io.Serializable {
 
 	public void setIdu(int idu) {
 		this.idu = idu;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idbasic", nullable = false)
+	public Tbasicdata getTbasicdata() {
+		return this.tbasicdata;
+	}
+
+	public void setTbasicdata(Tbasicdata tbasicdata) {
+		this.tbasicdata = tbasicdata;
 	}
 
 	@Column(name = "name", nullable = false, length = 40)
@@ -84,22 +96,13 @@ public class Suser implements java.io.Serializable {
 		this.password = password;
 	}
 
-	@Column(name = "status", nullable = false, length = 1)
-	public char getStatus() {
-		return this.status;
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "susers")
+	public Set getSgroups() {
+		return this.sgroups;
 	}
 
-	public void setStatus(char status) {
-		this.status = status;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "suser")
-	public Set getSgroupusers() {
-		return this.sgroupusers;
-	}
-
-	public void setSgroupusers(Set sgroupusers) {
-		this.sgroupusers = sgroupusers;
+	public void setSgroups(Set sgroups) {
+		this.sgroups = sgroups;
 	}
 
 }
