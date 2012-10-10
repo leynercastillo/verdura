@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.password">postgres</property>
+        <property name="hibernate.connection.pool_size">1</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/verdura</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.default_schema">public</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.search.autoregister_listeners">false</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+        <mapping class="database.Srolegroup" />
+        <mapping class="database.Tbilldetail" />
+        <mapping class="database.Tbusinespartneritem" />
+        <mapping class="database.Sgroupuser" />
+        <mapping class="database.Sgroup" />
+        <mapping class="database.Titem" />
+        <mapping class="database.Torderdetail" />
+        <mapping class="database.Tbusinesspartneraddress" />
+        <mapping class="database.Suser" />
+        <mapping class="database.Tbusinesspartner" />
+        <mapping class="database.Torder" />
+        <mapping class="database.Tbill" />
+        <mapping class="database.Srole" />
+    </session-factory>
+</hibernate-configuration>

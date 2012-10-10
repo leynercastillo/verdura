@@ -1,0 +1,148 @@
+<?page title="Maestro de Socios de negocios" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Maestro de Socios de negocios" border="normal" apply="controller.ctrlBusinessPartnerMaster">
+		<radiogroup id="status" />
+		<grid>
+			<columns>
+				<column id="col1" width="200px"></column>
+				<column id="col2"></column>
+			</columns>
+			<rows>
+				<row>
+					<label value="Codigo:"></label>
+					<combobox id="txtCodBP" mold="rounded" autocomplete="true" autodrop="true" buttonVisible="false"></combobox>
+				</row>
+				<row>
+					<label value="Nombre:"></label>
+					<combobox id="txtNameBP" mold="rounded" autocomplete="true" autodrop="true" buttonVisible="false"></combobox>
+				</row>
+				<row>
+					<label value="Rif:"></label>
+					<hbox>
+						<combobox id="cmbTypeRifBP" mold="rounded" readonly="true"></combobox>
+						<combobox id="txtRifBP" mold="rounded" autocomplete="true" autodrop="true" buttonVisible="false"></combobox>
+					</hbox>
+				</row>
+				<row spans="2">
+					<tabbox>
+						<tabs>
+							<tab id="tabGeneral" label="General"></tab>
+							<tab id="tabAddress" label="Direcciones"></tab>
+						</tabs>
+						<tabpanels>
+							<tabpanel>
+								<grid>
+									<rows>
+										<row>
+											<label
+												value="Persona Contacto:">
+											</label>
+											<textbox
+												id="txtContactPerson" type="text" mold="rounded">
+											</textbox>
+										</row>
+										<row>
+											<label
+												value="Teléfono Contacto:">
+											</label>
+											<textbox
+												id="txtContactPhone" type="text" mold="rounded">
+											</textbox>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+							<tabpanel>
+								<grid>
+									<columns></columns>
+									<rows>
+										<row>
+											<cell rowspan="10"
+												valign="top">
+												<listbox>
+													<listhead>
+														<listheader
+															label="Sucursal">
+														</listheader>
+													</listhead>
+												</listbox>
+											</cell>
+										</row>
+										<row>
+											<label value="Nombre:"></label>
+											<textbox id="txtNameBPA"
+												type="text" mold="rounded">
+											</textbox>
+										</row>
+										<row>
+											<label value="Dirección:"></label>
+											<textbox id="txtAddressBPA"
+												type="text" mold="rounded">
+											</textbox>
+										</row>
+										<row>
+											<label
+												value="Correo Electrónico:">
+											</label>
+											<textbox id="txtEmailBPA"
+												type="text" mold="rounded">
+											</textbox>
+										</row>
+										<row>
+											<label value="Teléfono:"></label>
+											<textbox id="txtPhoneBPA"
+												type="text" mold="rounded">
+											</textbox>
+										</row>
+										<row>
+											<label value="Fax:"></label>
+											<textbox id="txtFaxBPA"
+												type="text" mold="rounded">
+											</textbox>
+										</row>
+										<row>
+											<label value="Ciudad:"></label>
+											<combobox id="cmbCityBPA"
+												type="text" mold="rounded" readonly="true">
+											</combobox>
+										</row>
+										<row>
+											<label value="Estado:"></label>
+											<combobox id="cmbStateBPA"
+												type="text" mold="rounded" readonly="true">
+											</combobox>
+										</row>
+										<row>
+											<label value="País:"></label>
+											<combobox id="cmbCountryBPA"
+												type="text" mold="rounded" readonly="true">
+											</combobox>
+										</row>
+										<row>
+											<space></space>
+											<button id="btnAdd"
+												label="Añadir" mold="trendy">
+											</button>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+						</tabpanels>
+					</tabbox>
+				</row>
+				<row>
+					<radio id="radioActivo" radiogroup="status"
+							label="Activo">
+					</radio>
+					<radio id="radioInactivo" radiogroup="status"
+							label="Inactivo">
+					</radio>
+				</row>
+				<row>
+					<button id="btnSave" label="Guardar" mold="trendy"></button>
+					<button id="btnCancel" label="Cancelar" mold="trendy"></button>
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>
