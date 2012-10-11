@@ -1,5 +1,6 @@
 <?page title="Facturación" contentType="text/html;charset=UTF-8"?>
 <zk>
+	<style src="/style/style.css"></style>
 	<window title="Facturación" border="normal">
 		<radiogroup id="status" />
 		<radiogroup id="washable" />
@@ -11,14 +12,14 @@
 			<rows>
 				<row>
 					<label value="Codigo Cliente:"></label>
-					<combobox id="cmbBPcode" width="200px"
+					<combobox id="cmbBPcode"
 						mold="rounded" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
 				</row>
 				<row>
 					<label value="Nombre:"></label>
-					<combobox id="cmbBIbpName" width="200px"
+					<combobox id="cmbBIbpName"
 						mold="rounded" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
@@ -84,21 +85,21 @@
 											<label value="Destinatario:">
 											</label>
 											<combobox id="cmbBPAname"
-												width="200px" type="text" mold="rounded">
+												type="text" mold="rounded">
 											</combobox>
 										</row>
 										<row>
 											<label value="Dirección:">
 											</label>
 											<textbox id="txtBPAaddress"
-												width="200px" type="text" mold="rounded">
+												type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
 											<label value="Teléfono:">
 											</label>
 											<textbox id="txtBPAphone"
-												width="200px" type="text" mold="rounded">
+												type="text" mold="rounded">
 											</textbox>
 										</row>
 									</rows>
