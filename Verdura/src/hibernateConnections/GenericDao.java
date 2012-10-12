@@ -3,21 +3,19 @@ package hibernateConnections;
 import java.lang.reflect.ParameterizedType;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.zkoss.zkplus.hibernate.HibernateUtil;
 
 public class GenericDao<Model> {
 	
-	public Class<Model> domainClass = getDomainClass();
-	private Session session;
+	public Class<Model> domainClass = getDomainClass();	
 
 	protected Session currentSession(){
 		return StoreHibernateUtil.openSession();
 	}
 	
-	protected Class getDomainClass(){
+	protected Class<Model> getDomainClass(){
 		if(domainClass == null){
 			ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
-			domainClass = (Class) type.getActualTypeArguments()[0];
+			domainClass = (Class<Model>) type.getActualTypeArguments()[0];
 		}
 		return domainClass;
 	}
@@ -33,29 +31,42 @@ public class GenericDao<Model> {
 
 	public void save(Model model){
 		Transaction transaction = currentSession().beginTransaction();
-		currentSession().save(model);
-		transaction.commit();
+		try {
+			currentSession().save(model);
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+		}
 		currentSession().close();
 	}
 	
 	public void update(Model model){
 		Transaction transaction = currentSession().beginTransaction();
-		currentSession().update(model);
-		transaction.commit();
+		try {
+			currentSession().update(model);
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+		}
+		
 		currentSession().close();
 	}
 	
 	public void delete(Model model){
 		Transaction transaction = currentSession().beginTransaction();
-		currentSession().delete(model);
-		transaction.commit();
+		try {
+			currentSession().delete(model);
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+		}
 		currentSession().close();
 	}
 	
 	public Model findById(Long id){
 		Transaction transaction = currentSession().beginTransaction();
 		Model model = (Model) currentSession().load(domainClass, id);
-		transaction.commit();
+		transaction.commit();		
 		currentSession().close();
 		return model;
 	}
