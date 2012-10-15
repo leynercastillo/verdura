@@ -1,5 +1,6 @@
 <?page title="Maestro Productos" contentType="text/html;charset=UTF-8"?>
 <zk>
+	<style src="/style/style.css"></style>
 	<window title="Maestro Productos" border="normal">
 		<radiogroup id="status" />
 		<radiogroup id="washable" />
@@ -11,14 +12,14 @@
 			<rows>
 				<row>
 					<label value="Codigo:"></label>
-					<combobox id="cmbItemCod" width="200px"
+					<combobox sclass="cmbGeneral" id="cmbItemCod"
 						mold="rounded" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
 				</row>
 				<row>
 					<label value="Nombre:"></label>
-					<combobox id="cmbItemName" width="200px"
+					<combobox sclass="cmbGeneral" id="cmbItemName"
 						mold="rounded" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
@@ -44,11 +45,11 @@
 											</label>
 											<hbox>
 												<combobox
-													id="cmbItemUnitCar" width="50px" type="text" mold="rounded"
-													readonly="true">
+													id="cmbItemUnitCar" sclass="cmbShort"
+													mold="rounded" readonly="true">
 												</combobox>
 												<textbox
-													id="txtItemWeightUnit" width="147px" type="text"
+													id="txtItemWeightUnit" sclass="txtSideShort" type="text"
 													mold="rounded">
 												</textbox>
 											</hbox>
@@ -56,7 +57,8 @@
 										<row>
 											<label value="Tipo:"></label>
 											<combobox id="cmbItemType"
-												width="250px" type="text" mold="rounded" readonly="true">
+												sclass="cmbGeneral" mold="rounded"
+												readonly="true">
 											</combobox>
 										</row>
 										<row>
@@ -85,7 +87,7 @@
 											<label value="Costo:">
 											</label>
 											<textbox id="txtItemCost"
-												width="200px" type="text" mold="rounded">
+												sclass="txtGeneral" type="text" mold="rounded">
 											</textbox>
 										</row>
 									</rows>
@@ -102,7 +104,7 @@
 											<label value="Precio:">
 											</label>
 											<textbox id="txtItemPrice"
-												width="200px" type="text" mold="rounded">
+												sclass="txtGeneral" type="text" mold="rounded">
 											</textbox>
 										</row>
 									</rows>
@@ -112,23 +114,26 @@
 					</tabbox>
 				</row>
 				<row>
-					<vbox>
+					<hbox>
 						<radio id="radioItemActive" radiogroup="status"
 							label="Activo">
 						</radio>
 						<radio id="radioItemInactive"
 							radiogroup="status" label="Inactivo">
 						</radio>
-					</vbox>
+					</hbox>
 					<space></space>
 				</row>
 				<row>
-					<button id="btnSave" label="Guardar"
-						mold="trendy">
-					</button>
-					<button id="btnCancel" label="Cancelar"
-						mold="trendy">
-					</button>
+					<hbox>
+						<button id="btnSave" label="Guardar"
+							mold="trendy">
+						</button>
+						<button id="btnCancel" label="Cancelar"
+							mold="trendy">
+						</button>
+					</hbox>
+					<space></space>
 				</row>
 			</rows>
 		</grid>

@@ -12,14 +12,14 @@
 			<rows>
 				<row>
 					<label value="Codigo Cliente:"></label>
-					<combobox id="cmbBPcode"
+					<combobox id="cmbBPcode" sclass="cmbGeneral"
 						mold="rounded" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
 				</row>
 				<row>
 					<label value="Nombre:"></label>
-					<combobox id="cmbBIbpName"
+					<combobox id="cmbBIbpName" sclass="cmbGeneral"
 						mold="rounded" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
@@ -34,42 +34,37 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column width="200px"></column>
-										<column></column>
+										<column label="Cod Artículo"></column>
+										<column label="Descripción"></column>
+										<column label="Cantidad"></column>
+										<column
+											label="Precio Unitario">
+										</column>
+										<column label="Precio Total"></column>
+										<column label="Impuesto"></column>
 									</columns>
 									<rows>
 										<row>
-											<label
-												value="Unidad de medida:">
-											</label>
-											<hbox>
-												<combobox
-													id="cmbUnitCarItem" width="50px" type="text" mold="rounded"
-													readonly="true">
-												</combobox>
-												<textbox
-													id="txtWeightUnitItem" width="147px" type="text"
-													mold="rounded">
-												</textbox>
-											</hbox>
-										</row>
-										<row>
-											<label value="Tipo:"></label>
-											<combobox id="cmbItemType"
-												width="250px" type="text" mold="rounded" readonly="true">
+											<combobox inplace="true"
+												mold="rounded" autocomplete="true" autodrop="true"
+												buttonVisible="false">
 											</combobox>
-										</row>
-										<row>
-											<label value="Lavable:"></label>
-											<hbox>
-												<radio
-													id="radioWashableItem" radiogroup="washable" label="Si">
-												</radio>
-												<radio
-													id="radioNotWashableItem" radiogroup="washable"
-													label="No">
-												</radio>
-											</hbox>
+											<combobox inplace="true"
+												mold="rounded" autocomplete="true" autodrop="true"
+												buttonVisible="false">
+											</combobox>
+											<spinner inplace="true"
+												mold="rounded">
+											</spinner>
+											<intbox inplace="true"
+												mold="rounded">
+											</intbox>
+											<intbox inplace="true"
+												mold="rounded" readonly="true">
+											</intbox>
+											<intbox inplace="true"
+												mold="rounded" readonly="true">
+											</intbox>
 										</row>
 									</rows>
 								</grid>
@@ -82,24 +77,25 @@
 									</columns>
 									<rows>
 										<row>
-											<label value="Destinatario:">
+											<label
+												value="Destinatario:">
 											</label>
 											<combobox id="cmbBPAname"
-												type="text" mold="rounded">
+												sclass="cmbGeneral" type="text" mold="rounded" readonly="true">
 											</combobox>
 										</row>
 										<row>
 											<label value="Dirección:">
 											</label>
 											<textbox id="txtBPAaddress"
-												type="text" mold="rounded">
+												sclass="txtGeneral" type="text" mold="rounded" readonly="true">
 											</textbox>
 										</row>
 										<row>
 											<label value="Teléfono:">
 											</label>
 											<textbox id="txtBPAphone"
-												type="text" mold="rounded">
+												sclass="txtGeneral" type="text" mold="rounded" readonly="true">
 											</textbox>
 										</row>
 									</rows>
@@ -109,23 +105,15 @@
 					</tabbox>
 				</row>
 				<row>
-					<vbox>
-						<radio id="radioActiveItem" radiogroup="status"
-							label="Activo">
-						</radio>
-						<radio id="radioInactiveItem"
-							radiogroup="status" label="Inactivo">
-						</radio>
-					</vbox>
+					<hbox>
+						<button id="btnSave" label="Guardar"
+							mold="trendy">
+						</button>
+						<button id="btnCancel" label="Cancelar"
+							mold="trendy">
+						</button>
+					</hbox>
 					<space></space>
-				</row>
-				<row>
-					<button id="btnSave" label="Guardar"
-						mold="trendy">
-					</button>
-					<button id="btnCancel" label="Cancelar"
-						mold="trendy">
-					</button>
 				</row>
 			</rows>
 		</grid>
