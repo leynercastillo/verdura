@@ -1,9 +1,25 @@
 @CHARSET "ISO-8859-1";
 
-.z-textbox-rounded-inp{
+/*Tamaño mas comun de los textbox*/
+.txtGeneral .z-textbox-rounded-inp{
 	width: 200px;
 }
 
-.z-combobox-rounded-inp{
+/*Tamaño mas comun de los combobox*/
+.cmbGeneral .z-combobox-rounded-inp{
 	width: 180px;
+}
+
+/*combobox pequeño para rif, types, etc*/
+.cmbShort .z-combobox-rounded-inp{
+	width: 20px;
+}
+
+/*combobox colocado al lado de un cmbShort*/
+.cmbSideShort .z-combobox-rounded-inp{
+	width: 125px;
+}
+
+.txtSideShort .z-textbox-rounded-inp{
+	width: 145px;
 }
