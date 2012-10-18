@@ -10,21 +10,21 @@
 			</columns>
 			<rows>
 				<row>
-					<label value="Codigo:"></label>
+					<label value="Codigo:" sclass="formLabel"></label>
 					<combobox sclass="cmbGeneral" id="txtBPcod"
 						mold="rounded" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
 				</row>
 				<row>
-					<label value="Nombre:"></label>
+					<label value="Nombre:" sclass="formLabel"></label>
 					<combobox sclass="cmbGeneral" id="txtBPname"
 						mold="rounded" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
 				</row>
 				<row>
-					<label value="Rif:"></label>
+					<label value="Rif:" sclass="formLabel"></label>
 					<hbox>
 						<combobox sclass="cmbShort" id="cmbBPrifType"
 							mold="rounded" readonly="true">
@@ -51,7 +51,7 @@
 									<rows>
 										<row>
 											<label
-												value="Persona Contacto:">
+												value="Persona Contacto:" sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
 												id="txtBPcontactPerson" type="text" mold="rounded">
@@ -59,7 +59,7 @@
 										</row>
 										<row>
 											<label
-												value="Teléfono Contacto:">
+												value="Teléfono Contacto:" sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
 												id="txtBPcontactPhone" type="text" mold="rounded">
@@ -89,53 +89,53 @@
 											</cell>
 										</row>
 										<row>
-											<label value="Nombre:"></label>
+											<label value="Nombre:" sclass="formLabel"></label>
 											<textbox sclass="txtGeneral"
 												id="txtBPAname" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
-											<label value="Dirección:"></label>
+											<label value="Dirección:" sclass="formLabel"></label>
 											<textbox sclass="txtGeneral"
 												id="txtBPAaddress" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
 											<label
-												value="Correo Electrónico:">
+												value="Correo Electrónico:" sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAemail" type="text" mold="rounded">
+												id="txtBPAemail" type="text" mold="rounded" constraint="/.+@.+\.[a-z]+/: Por favor ingrese un E-Mail válido.">
 											</textbox>
 										</row>
 										<row>
-											<label value="Teléfono:"></label>
+											<label value="Teléfono:" sclass="formLabel"></label>
 											<textbox sclass="txtGeneral"
 												id="txtBPAphone" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
-											<label value="Fax:"></label>
+											<label value="Fax:" sclass="formLabel"></label>
 											<textbox sclass="txtGeneral"
 												id="txtBPAfax" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
-											<label value="Ciudad:"></label>
+											<label value="Ciudad:" sclass="formLabel"></label>
 											<combobox
 												sclass="cmbGeneral" id="cmbBPAcity"
 												mold="rounded" readonly="true">
 											</combobox>
 										</row>
 										<row>
-											<label value="Estado:"></label>
+											<label value="Estado:" sclass="formLabel"></label>
 											<combobox
 												sclass="cmbGeneral" id="cmbBPAstate"
 												mold="rounded" readonly="true">
 											</combobox>
 										</row>
 										<row>
-											<label value="País:"></label>
+											<label value="País:" sclass="formLabel"></label>
 											<combobox
 												sclass="cmbGeneral" id="cmbBPAcountry"
 												mold="rounded" readonly="true">
@@ -156,10 +156,10 @@
 				<row>
 					<hbox>
 						<radio id="radioBPAstatusA" radiogroup="status"
-							label="Activo">
+							label="Activo" sclass="frmLabel">
 						</radio>
 						<radio id="radioBPAstatusI" radiogroup="status"
-							label="Inactivo">
+							label="Inactivo" sclass="formLabel">
 						</radio>
 					</hbox>
 					<space></space>
