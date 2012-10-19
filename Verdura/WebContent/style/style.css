@@ -5,6 +5,11 @@
 	width: 200px;
 }
 
+/*Tamaño mas comun de los intbox*/
+.intGeneral .z-intbox-rounded-inp{
+	width: 200px;
+}
+
 /*Tamaño mas comun de los combobox*/
 .cmbGeneral .z-combobox-rounded-inp{
 	width: 180px;
@@ -20,10 +25,12 @@
 	width: 125px;
 }
 
+/*textbox ubicado al lado de algun component pequeño.*/
 .txtSideShort .z-textbox-rounded-inp{
 	width: 145px;
 }
 
+/*Etiquetas label principales de los formularios*/
 .formLabel{
 	font-weight: bold;
 }
