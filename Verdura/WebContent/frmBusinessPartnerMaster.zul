@@ -5,20 +5,20 @@
 		<radiogroup id="status" />
 		<grid>
 			<columns>
-				<column width="200px"></column>
+				<column sclass="columnLabel"></column>
 				<column></column>
 			</columns>
 			<rows>
 				<row>
 					<label value="Codigo:" sclass="formLabel"></label>
-					<combobox sclass="cmbGeneral" id="txtBPcod"
+					<combobox sclass="cmbGeneral" id="cmbBPcod"
 						mold="rounded" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
 				</row>
 				<row>
 					<label value="Nombre:" sclass="formLabel"></label>
-					<combobox sclass="cmbGeneral" id="txtBPname"
+					<combobox sclass="cmbGeneral" id="cmbBPname"
 						mold="rounded" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
@@ -29,7 +29,7 @@
 						<combobox sclass="cmbShort" id="cmbBPrifType"
 							mold="rounded" readonly="true" value="--">
 						</combobox>
-						<combobox sclass="cmbSideShort" id="txtBPrif"
+						<combobox sclass="cmbSideShort" id="cmbBPrif"
 							mold="rounded" autocomplete="true" autodrop="true"
 							buttonVisible="false">
 						</combobox>
@@ -40,12 +40,13 @@
 						<tabs>
 							<tab id="tabGeneral" label="General"></tab>
 							<tab id="tabAddress" label="Direcciones"></tab>
+							<tab id="tabProducts" label="Productos"></tab>
 						</tabs>
 						<tabpanels>
 							<tabpanel>
 								<grid>
 									<columns>
-										<column width="200px"></column>
+										<column sclass="columnLabel"></column>
 										<column></column>
 									</columns>
 									<rows>
@@ -54,7 +55,7 @@
 												value="Persona Contacto:" sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPcontactPerson" type="text" mold="rounded">
+												id="txtBPcontactPerson" mold="rounded">
 											</textbox>
 										</row>
 										<row>
@@ -71,8 +72,8 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column width="200px"></column>
-										<column width="200px"></column>
+										<column sclass="columnLabel"></column>
+										<column sclass="columnLabel"></column>
 										<column></column>
 									</columns>
 									<rows>
@@ -93,7 +94,7 @@
 												sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAname" type="text" mold="rounded">
+												id="txtBPAname" mold="rounded">
 											</textbox>
 										</row>
 										<row>
@@ -101,7 +102,7 @@
 												sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAaddress" type="text" mold="rounded">
+												id="txtBPAaddress" mold="rounded">
 											</textbox>
 										</row>
 										<row>
@@ -109,7 +110,7 @@
 												value="Correo Electrónico:" sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAemail" type="text" mold="rounded">
+												id="txtBPAemail" mold="rounded">
 											</textbox>
 										</row>
 										<row>
@@ -117,7 +118,7 @@
 												sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAphone" type="text" mold="rounded">
+												id="txtBPAphone" mold="rounded">
 											</textbox>
 										</row>
 										<row>
@@ -125,7 +126,7 @@
 												sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAfax" type="text" mold="rounded">
+												id="txtBPAfax" mold="rounded">
 											</textbox>
 										</row>
 										<row>
@@ -157,8 +158,46 @@
 										</row>
 										<row>
 											<space></space>
-											<button id="btnAdd"
+											<button id="btnAddAddress"
 												label="Añadir" mold="trendy">
+											</button>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+							<tabpanel>
+								<grid>
+									<columns>
+										<column sclass="columnLabel"></column>
+										<column sclass="columnLabel"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<cell rowspan="10"
+												valign="top">
+												<listbox>
+													<listhead>
+														<listheader
+															label="Ofrecidos">
+														</listheader>
+													</listhead>
+												</listbox>
+											</cell>
+										</row>
+										<row>
+											<label value="Artículo:"
+												sclass="formLabel">
+											</label>
+											<combobox
+												sclass="cmbGeneral" id="cmbProducts" mold="rounded"
+												autocomplete="true" autodrop="true" buttonVisible="false">
+											</combobox>
+										</row>
+										<row>
+											<space></space>
+											<button label="Añadir"
+												id="btnAddProducts">
 											</button>
 										</row>
 									</rows>
