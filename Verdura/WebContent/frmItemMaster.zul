@@ -6,7 +6,7 @@
 		<radiogroup id="washable" />
 		<grid>
 			<columns>
-				<column width="200px"></column>
+				<column sclass="columnLabel"></column>
 				<column></column>
 			</columns>
 			<rows>
@@ -35,7 +35,7 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column width="200px"></column>
+										<column sclass="columnLabel"></column>
 										<column></column>
 									</columns>
 									<rows>
@@ -45,11 +45,11 @@
 											</label>
 											<hbox>
 												<combobox
-													id="cmbItemUnitCar" sclass="cmbShort"
-													mold="rounded" readonly="true">
+													id="cmbItemUnitCar" sclass="cmbShort" mold="rounded"
+													readonly="true" value="--">
 												</combobox>
 												<textbox
-													id="txtItemWeightUnit" sclass="txtSideShort" type="text"
+													id="txtItemWeightUnit" sclass="txtSideShort"
 													mold="rounded">
 												</textbox>
 											</hbox>
@@ -57,8 +57,8 @@
 										<row>
 											<label value="Tipo:"></label>
 											<combobox id="cmbItemType"
-												sclass="cmbGeneral" mold="rounded"
-												readonly="true">
+												sclass="cmbGeneral" mold="rounded" readonly="true"
+												value="--Seleccione--">
 											</combobox>
 										</row>
 										<row>
@@ -79,7 +79,7 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column width="200px"></column>
+										<column sclass="columnLabel"></column>
 										<column></column>
 									</columns>
 									<rows>
@@ -87,7 +87,7 @@
 											<label value="Costo:">
 											</label>
 											<textbox id="txtItemCost"
-												sclass="txtGeneral" type="text" mold="rounded">
+												sclass="txtGeneral" mold="rounded">
 											</textbox>
 										</row>
 									</rows>
@@ -96,7 +96,7 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column width="200px"></column>
+										<column sclass="columnLabel"></column>
 										<column></column>
 									</columns>
 									<rows>
@@ -104,7 +104,7 @@
 											<label value="Precio:">
 											</label>
 											<textbox id="txtItemPrice"
-												sclass="txtGeneral" type="text" mold="rounded">
+												sclass="txtGeneral" mold="rounded">
 											</textbox>
 										</row>
 									</rows>
