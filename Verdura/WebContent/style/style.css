@@ -5,6 +5,17 @@
 	width: 200px;
 }
 
+/*Tamaño para textbox medianos*/
+.txtSmall .z-textbox-rounded-inp{
+	width: 100px
+}
+
+//PENDIENTEEEEEEEE
+/*Tamaño para datebox medianos*/
+.dtboxSmall{
+	width: 70px;
+}
+
 /*Tamaño mas comun de los intbox*/
 .intGeneral .z-intbox-rounded-inp{
 	width: 200px;
@@ -33,4 +44,9 @@
 /*Etiquetas label principales de los formularios*/
 .formLabel{
 	font-weight: bold;
+}
+
+/*Columnas que almacenan las etiquetas principales de los formularios*/
+.columnLabel{
+	width: 200px;
 }
