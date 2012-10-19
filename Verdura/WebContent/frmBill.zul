@@ -6,25 +6,43 @@
 		<radiogroup id="washable" />
 		<grid>
 			<columns>
-				<column width="200px"></column>
+				<column sclass="columnLabel"></column>
+				<column width="50%"></column>
+				<column width="10%"></column>
 				<column></column>
 			</columns>
 			<rows>
 				<row>
-					<label value="Codigo Cliente:"></label>
+					<label value="Codigo Cliente:" sclass="formLabel"></label>
 					<combobox id="cmbBPcode" sclass="cmbGeneral"
 						mold="rounded" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
+					<label value="Fecha:" sclass="formLabel"></label>
+					<datebox disabled="true"
+						mold="rounded">
+					</datebox>
 				</row>
 				<row>
-					<label value="Nombre:"></label>
+					<label value="Nombre:" sclass="formLabel"></label>
 					<combobox id="cmbBIbpName" sclass="cmbGeneral"
 						mold="rounded" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
+					<label value="Factura:" sclass="formLabel"></label>
+					<textbox disabled="true" sclass="txtSmall"
+						mold="rounded">
+					</textbox>
 				</row>
-				<row spans="2">
+				<row>
+					<space></space>
+					<space></space>
+					<label value="Nro Control:" sclass="formLabel"></label>
+					<textbox disabled="true" sclass="txtSmall"
+						mold="rounded">
+					</textbox>
+				</row>
+				<row spans="4">
 					<tabbox>
 						<tabs>
 							<tab id="tabGeneral" label="Contenido"></tab>
@@ -34,36 +52,46 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column label="Cod Artículo"></column>
-										<column label="Descripción"></column>
-										<column label="Cantidad"></column>
-										<column
-											label="Precio Unitario">
+										<column label="Cod Artículo"
+											width="100px">
 										</column>
-										<column label="Precio Total"></column>
-										<column label="Impuesto"></column>
+										<column label="Descripción"
+											width="250px">
+										</column>
+										<column label="Cantidad"
+											width="80px">
+										</column>
+										<column label="Precio Unitario"
+											width="150px">
+										</column>
+										<column label="Precio Total"
+											width="150px">
+										</column>
+										<column label="Impuesto"
+											width="80px">
+										</column>
 									</columns>
 									<rows>
 										<row>
 											<combobox inplace="true"
 												mold="rounded" autocomplete="true" autodrop="true"
-												buttonVisible="false">
+												buttonVisible="false" width="85px">
 											</combobox>
 											<combobox inplace="true"
 												mold="rounded" autocomplete="true" autodrop="true"
-												buttonVisible="false">
+												buttonVisible="false" width="235px">
 											</combobox>
 											<spinner inplace="true"
-												mold="rounded">
+												mold="rounded" width="65px">
 											</spinner>
 											<intbox inplace="true"
-												mold="rounded">
+												mold="rounded" width="135px">
 											</intbox>
 											<intbox inplace="true"
-												mold="rounded" readonly="true">
+												mold="rounded" readonly="true" width="135px">
 											</intbox>
 											<intbox inplace="true"
-												mold="rounded" readonly="true">
+												mold="rounded" readonly="true" width="65px">
 											</intbox>
 										</row>
 									</rows>
@@ -72,30 +100,33 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column width="200px"></column>
+										<column sclass="columnLabel"></column>
 										<column></column>
 									</columns>
 									<rows>
 										<row>
-											<label
-												value="Destinatario:">
+											<label value="Destinatario:"
+												sclass="formLabel">
 											</label>
 											<combobox id="cmbBPAname"
-												sclass="cmbGeneral" type="text" mold="rounded" readonly="true">
+												sclass="cmbGeneral" mold="rounded" readonly="true"
+												value="--Seleccione--">
 											</combobox>
 										</row>
 										<row>
-											<label value="Dirección:">
+											<label value="Dirección:"
+												sclass="formLabel">
 											</label>
 											<textbox id="txtBPAaddress"
-												sclass="txtGeneral" type="text" mold="rounded" readonly="true">
+												sclass="txtGeneral" mold="rounded" readonly="true">
 											</textbox>
 										</row>
 										<row>
-											<label value="Teléfono:">
+											<label value="Teléfono:"
+												sclass="formLabel">
 											</label>
 											<textbox id="txtBPAphone"
-												sclass="txtGeneral" type="text" mold="rounded" readonly="true">
+												sclass="txtGeneral" mold="rounded" readonly="true">
 											</textbox>
 										</row>
 									</rows>
@@ -113,6 +144,8 @@
 							mold="trendy">
 						</button>
 					</hbox>
+					<space></space>
+					<space></space>
 					<space></space>
 				</row>
 			</rows>
