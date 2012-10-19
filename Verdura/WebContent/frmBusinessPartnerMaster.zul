@@ -27,7 +27,7 @@
 					<label value="Rif:" sclass="formLabel"></label>
 					<hbox>
 						<combobox sclass="cmbShort" id="cmbBPrifType"
-							mold="rounded" readonly="true">
+							mold="rounded" readonly="true" value="--">
 						</combobox>
 						<combobox sclass="cmbSideShort" id="txtBPrif"
 							mold="rounded" autocomplete="true" autodrop="true"
@@ -62,7 +62,7 @@
 												value="Teléfono Contacto:" sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPcontactPhone" type="text" mold="rounded">
+												id="txtBPcontactPhone" mold="rounded">
 											</textbox>
 										</row>
 									</rows>
@@ -89,13 +89,17 @@
 											</cell>
 										</row>
 										<row>
-											<label value="Nombre:" sclass="formLabel"></label>
+											<label value="Nombre:"
+												sclass="formLabel">
+											</label>
 											<textbox sclass="txtGeneral"
 												id="txtBPAname" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
-											<label value="Dirección:" sclass="formLabel"></label>
+											<label value="Dirección:"
+												sclass="formLabel">
+											</label>
 											<textbox sclass="txtGeneral"
 												id="txtBPAaddress" type="text" mold="rounded">
 											</textbox>
@@ -105,40 +109,50 @@
 												value="Correo Electrónico:" sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAemail" type="text" mold="rounded" constraint="/.+@.+\.[a-z]+/: Por favor ingrese un E-Mail válido.">
+												id="txtBPAemail" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
-											<label value="Teléfono:" sclass="formLabel"></label>
+											<label value="Teléfono:"
+												sclass="formLabel">
+											</label>
 											<textbox sclass="txtGeneral"
 												id="txtBPAphone" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
-											<label value="Fax:" sclass="formLabel"></label>
+											<label value="Fax:"
+												sclass="formLabel">
+											</label>
 											<textbox sclass="txtGeneral"
 												id="txtBPAfax" type="text" mold="rounded">
 											</textbox>
 										</row>
 										<row>
-											<label value="Ciudad:" sclass="formLabel"></label>
+											<label value="Ciudad:"
+												sclass="formLabel">
+											</label>
 											<combobox
-												sclass="cmbGeneral" id="cmbBPAcity"
-												mold="rounded" readonly="true">
+												sclass="cmbGeneral" id="cmbBPAcity" mold="rounded"
+												readonly="true" value="--Seleccione--">
 											</combobox>
 										</row>
 										<row>
-											<label value="Estado:" sclass="formLabel"></label>
+											<label value="Estado:"
+												sclass="formLabel">
+											</label>
 											<combobox
-												sclass="cmbGeneral" id="cmbBPAstate"
-												mold="rounded" readonly="true">
+												sclass="cmbGeneral" id="cmbBPAstate" mold="rounded"
+												readonly="true" value="--Seleccione--">
 											</combobox>
 										</row>
 										<row>
-											<label value="País:" sclass="formLabel"></label>
+											<label value="País:"
+												sclass="formLabel">
+											</label>
 											<combobox
-												sclass="cmbGeneral" id="cmbBPAcountry"
-												mold="rounded" readonly="true">
+												sclass="cmbGeneral" id="cmbBPAcountry" mold="rounded"
+												readonly="true" value="--Seleccione--">
 											</combobox>
 										</row>
 										<row>
@@ -165,6 +179,9 @@
 					<space></space>
 				</row>
 				<row>
+					<button id="btnSearch" label="Buscar"
+						mold="trendy">
+					</button>
 					<hbox>
 						<button id="btnSave" label="Guardar"
 							mold="trendy">
