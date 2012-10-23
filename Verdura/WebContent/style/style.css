@@ -21,24 +21,29 @@
 	width: 200px;
 }
 
+/*Tamaño mas comun de los combobox sin botones*/
+.cmbGeneralWithoutButton .z-combobox-rounded-inp{
+	width: 200px;
+}
+
 /*Tamaño mas comun de los combobox*/
-.cmbGeneral .z-combobox-rounded-inp{
+.cmbGeneralButton .z-combobox-rounded-inp{
 	width: 180px;
 }
 
 /*combobox pequeño para rif, types, etc*/
 .cmbShort .z-combobox-rounded-inp{
-	width: 20px;
+	width: 25px;
 }
 
 /*combobox colocado al lado de un cmbShort*/
 .cmbSideShort .z-combobox-rounded-inp{
-	width: 125px;
+	width: 140px;
 }
 
 /*textbox ubicado al lado de algun component pequeño.*/
 .txtSideShort .z-textbox-rounded-inp{
-	width: 145px;
+	width: 140px;
 }
 
 /*Etiquetas label principales de los formularios*/
