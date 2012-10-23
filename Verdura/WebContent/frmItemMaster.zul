@@ -2,8 +2,6 @@
 <zk>
 	<style src="/style/style.css"></style>
 	<window title="Maestro Productos" border="normal">
-		<radiogroup id="status" />
-		<radiogroup id="washable" />
 		<grid>
 			<columns>
 				<column sclass="columnLabel"></column>
@@ -11,17 +9,15 @@
 			</columns>
 			<rows>
 				<row>
-					<label value="Codigo:"></label>
+					<label value="Codigo:" sclass="formLabel"></label>
 					<combobox sclass="cmbGeneral" id="cmbItemCod"
-						mold="rounded" autocomplete="true" autodrop="true"
-						buttonVisible="false">
+						autocomplete="true" autodrop="true" buttonVisible="false">
 					</combobox>
 				</row>
 				<row>
-					<label value="Nombre:"></label>
+					<label value="Nombre:" sclass="formLabel"></label>
 					<combobox sclass="cmbGeneral" id="cmbItemName"
-						mold="rounded" autocomplete="true" autodrop="true"
-						buttonVisible="false">
+						autocomplete="true" autodrop="true" buttonVisible="false">
 					</combobox>
 				</row>
 				<row spans="2">
@@ -41,29 +37,32 @@
 									<rows>
 										<row>
 											<label
-												value="Unidad de medida:">
+												value="Unidad de medida:" sclass="formLabel">
 											</label>
 											<hbox>
 												<combobox
-													id="cmbItemUnitCar" sclass="cmbShort" mold="rounded"
-													readonly="true" value="--">
+													id="cmbItemUnitCar" sclass="cmbShort" readonly="true"
+													value="--">
 												</combobox>
 												<textbox
-													id="txtItemWeightUnit" sclass="txtSideShort"
-													mold="rounded">
+													id="txtItemWeightUnit" sclass="txtSideShort">
 												</textbox>
 											</hbox>
 										</row>
 										<row>
-											<label value="Tipo:"></label>
+											<label value="Tipo:"
+												sclass="formLabel">
+											</label>
 											<combobox id="cmbItemType"
-												sclass="cmbGeneral" mold="rounded" readonly="true"
+												sclass="cmbGeneral" readonly="true"
 												value="--Seleccione--">
 											</combobox>
 										</row>
 										<row>
-											<label value="Lavable:"></label>
-											<hbox>
+											<label value="Lavable:"
+												sclass="formLabel">
+											</label>
+											<radiogroup id="washable">
 												<radio
 													id="radioItemWashable" radiogroup="washable" label="Si">
 												</radio>
@@ -71,7 +70,7 @@
 													id="radioItemNotWashable" radiogroup="washable"
 													label="No">
 												</radio>
-											</hbox>
+											</radiogroup>
 										</row>
 									</rows>
 								</grid>
@@ -84,10 +83,11 @@
 									</columns>
 									<rows>
 										<row>
-											<label value="Costo:">
+											<label value="Costo:"
+												sclass="formLabel">
 											</label>
 											<textbox id="txtItemCost"
-												sclass="txtGeneral" mold="rounded">
+												sclass="txtGeneral">
 											</textbox>
 										</row>
 									</rows>
@@ -101,10 +101,11 @@
 									</columns>
 									<rows>
 										<row>
-											<label value="Precio:">
+											<label value="Precio:"
+												sclass="formLabel">
 											</label>
 											<textbox id="txtItemPrice"
-												sclass="txtGeneral" mold="rounded">
+												sclass="txtGeneral">
 											</textbox>
 										</row>
 									</rows>
@@ -114,23 +115,20 @@
 					</tabbox>
 				</row>
 				<row>
-					<hbox>
+					<radiogroup id="status">
 						<radio id="radioItemActive" radiogroup="status"
 							label="Activo">
 						</radio>
 						<radio id="radioItemInactive"
 							radiogroup="status" label="Inactivo">
 						</radio>
-					</hbox>
+					</radiogroup>
 					<space></space>
 				</row>
 				<row>
 					<hbox>
-						<button id="btnSave" label="Guardar"
-							mold="trendy">
-						</button>
-						<button id="btnCancel" label="Cancelar"
-							mold="trendy">
+						<button id="btnSave" label="Guardar"></button>
+						<button id="btnCancel" label="Cancelar">
 						</button>
 					</hbox>
 					<space></space>
