@@ -14,32 +14,28 @@
 			<rows>
 				<row>
 					<label value="Codigo Cliente:" sclass="formLabel"></label>
-					<combobox id="cmbBPcode" sclass="cmbGeneral"
-						mold="rounded" autocomplete="true" autodrop="true"
-						buttonVisible="false">
+					<combobox id="cmbBPcode"
+						sclass="cmbGeneralWithoutButton" autocomplete="true"
+						autodrop="true" buttonVisible="false">
 					</combobox>
 					<label value="Fecha:" sclass="formLabel"></label>
-					<datebox disabled="true"
-						mold="rounded">
-					</datebox>
+					<datebox disabled="true"></datebox>
 				</row>
 				<row>
 					<label value="Nombre:" sclass="formLabel"></label>
-					<combobox id="cmbBIbpName" sclass="cmbGeneral"
-						mold="rounded" autocomplete="true" autodrop="true"
-						buttonVisible="false">
+					<combobox id="cmbBIbpName"
+						sclass="cmbGeneralWithoutButton" autocomplete="true"
+						autodrop="true" buttonVisible="false">
 					</combobox>
 					<label value="Factura:" sclass="formLabel"></label>
-					<textbox disabled="true" sclass="txtSmall"
-						mold="rounded">
+					<textbox disabled="true" sclass="txtSmall">
 					</textbox>
 				</row>
 				<row>
 					<space></space>
 					<space></space>
 					<label value="Nro Control:" sclass="formLabel"></label>
-					<textbox disabled="true" sclass="txtSmall"
-						mold="rounded">
+					<textbox disabled="true" sclass="txtSmall">
 					</textbox>
 				</row>
 				<row spans="4">
@@ -74,24 +70,24 @@
 									<rows>
 										<row>
 											<combobox inplace="true"
-												mold="rounded" autocomplete="true" autodrop="true"
-												buttonVisible="false" width="85px">
+												autocomplete="true" autodrop="true" buttonVisible="false"
+												width="85px">
 											</combobox>
 											<combobox inplace="true"
-												mold="rounded" autocomplete="true" autodrop="true"
-												buttonVisible="false" width="235px">
+												autocomplete="true" autodrop="true" buttonVisible="false"
+												width="235px">
 											</combobox>
 											<spinner inplace="true"
-												mold="rounded" width="65px">
+												width="65px">
 											</spinner>
 											<intbox inplace="true"
-												mold="rounded" width="135px">
+												width="135px">
 											</intbox>
 											<intbox inplace="true"
-												mold="rounded" readonly="true" width="135px">
+												readonly="true" width="135px">
 											</intbox>
 											<intbox inplace="true"
-												mold="rounded" readonly="true" width="65px">
+												readonly="true" width="65px">
 											</intbox>
 										</row>
 									</rows>
@@ -109,7 +105,7 @@
 												sclass="formLabel">
 											</label>
 											<combobox id="cmbBPAname"
-												sclass="cmbGeneral" mold="rounded" readonly="true"
+												sclass="cmbGeneralButton" readonly="true"
 												value="--Seleccione--">
 											</combobox>
 										</row>
@@ -118,7 +114,7 @@
 												sclass="formLabel">
 											</label>
 											<textbox id="txtBPAaddress"
-												sclass="txtGeneral" mold="rounded" readonly="true">
+												sclass="txtGeneral" readonly="true">
 											</textbox>
 										</row>
 										<row>
@@ -126,7 +122,7 @@
 												sclass="formLabel">
 											</label>
 											<textbox id="txtBPAphone"
-												sclass="txtGeneral" mold="rounded" readonly="true">
+												sclass="txtGeneral" readonly="true">
 											</textbox>
 										</row>
 									</rows>
@@ -137,11 +133,8 @@
 				</row>
 				<row>
 					<hbox>
-						<button id="btnSave" label="Guardar"
-							mold="trendy">
-						</button>
-						<button id="btnCancel" label="Cancelar"
-							mold="trendy">
+						<button id="btnSave" label="Guardar"></button>
+						<button id="btnCancel" label="Cancelar">
 						</button>
 					</hbox>
 					<space></space>

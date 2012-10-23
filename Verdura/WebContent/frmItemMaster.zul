@@ -10,14 +10,16 @@
 			<rows>
 				<row>
 					<label value="Codigo:" sclass="formLabel"></label>
-					<combobox sclass="cmbGeneral" id="cmbItemCod"
-						autocomplete="true" autodrop="true" buttonVisible="false">
+					<combobox sclass="cmbGeneralWithoutButton"
+						id="cmbItemCod" autocomplete="true" autodrop="true"
+						buttonVisible="false">
 					</combobox>
 				</row>
 				<row>
 					<label value="Nombre:" sclass="formLabel"></label>
-					<combobox sclass="cmbGeneral" id="cmbItemName"
-						autocomplete="true" autodrop="true" buttonVisible="false">
+					<combobox sclass="cmbGeneralWithoutButton"
+						id="cmbItemName" autocomplete="true" autodrop="true"
+						buttonVisible="false">
 					</combobox>
 				</row>
 				<row spans="2">
@@ -54,7 +56,7 @@
 												sclass="formLabel">
 											</label>
 											<combobox id="cmbItemType"
-												sclass="cmbGeneral" readonly="true"
+												sclass="cmbGeneralButton" readonly="true"
 												value="--Seleccione--">
 											</combobox>
 										</row>

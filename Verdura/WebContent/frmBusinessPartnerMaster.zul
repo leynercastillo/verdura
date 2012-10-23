@@ -2,7 +2,6 @@
 <zk>
 	<style src="/style/style.css"></style>
 	<window title="Maestro de Socios de negocios" border="normal">
-		<radiogroup id="status" />
 		<grid>
 			<columns>
 				<column sclass="columnLabel"></column>
@@ -11,15 +10,15 @@
 			<rows>
 				<row>
 					<label value="Codigo:" sclass="formLabel"></label>
-					<combobox sclass="cmbGeneral" id="cmbBPcod"
-						mold="rounded" autocomplete="true" autodrop="true"
+					<combobox sclass="cmbGeneralWithoutButton"
+						id="cmbBPcod" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
 				</row>
 				<row>
 					<label value="Nombre:" sclass="formLabel"></label>
-					<combobox sclass="cmbGeneral" id="cmbBPname"
-						mold="rounded" autocomplete="true" autodrop="true"
+					<combobox sclass="cmbGeneralWithoutButton"
+						id="cmbBPname" autocomplete="true" autodrop="true"
 						buttonVisible="false">
 					</combobox>
 				</row>
@@ -27,11 +26,10 @@
 					<label value="Rif:" sclass="formLabel"></label>
 					<hbox>
 						<combobox sclass="cmbShort" id="cmbBPrifType"
-							mold="rounded" readonly="true" value="--">
+							readonly="true" value="--">
 						</combobox>
 						<combobox sclass="cmbSideShort" id="cmbBPrif"
-							mold="rounded" autocomplete="true" autodrop="true"
-							buttonVisible="false">
+							autocomplete="true" autodrop="true" buttonVisible="false">
 						</combobox>
 					</hbox>
 				</row>
@@ -55,7 +53,7 @@
 												value="Persona Contacto:" sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPcontactPerson" mold="rounded">
+												id="txtBPcontactPerson">
 											</textbox>
 										</row>
 										<row>
@@ -63,7 +61,7 @@
 												value="Teléfono Contacto:" sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPcontactPhone" mold="rounded">
+												id="txtBPcontactPhone">
 											</textbox>
 										</row>
 									</rows>
@@ -94,7 +92,7 @@
 												sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAname" mold="rounded">
+												id="txtBPAname">
 											</textbox>
 										</row>
 										<row>
@@ -102,7 +100,7 @@
 												sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAaddress" mold="rounded">
+												id="txtBPAaddress">
 											</textbox>
 										</row>
 										<row>
@@ -110,7 +108,7 @@
 												value="Correo Electrónico:" sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAemail" mold="rounded">
+												id="txtBPAemail">
 											</textbox>
 										</row>
 										<row>
@@ -118,7 +116,7 @@
 												sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAphone" mold="rounded">
+												id="txtBPAphone">
 											</textbox>
 										</row>
 										<row>
@@ -126,7 +124,7 @@
 												sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAfax" mold="rounded">
+												id="txtBPAfax">
 											</textbox>
 										</row>
 										<row>
@@ -134,8 +132,8 @@
 												sclass="formLabel">
 											</label>
 											<combobox
-												sclass="cmbGeneral" id="cmbBPAcity" mold="rounded"
-												readonly="true" value="--Seleccione--">
+												sclass="cmbGeneralButton" id="cmbBPAcity" readonly="true"
+												value="--Seleccione--">
 											</combobox>
 										</row>
 										<row>
@@ -143,8 +141,8 @@
 												sclass="formLabel">
 											</label>
 											<combobox
-												sclass="cmbGeneral" id="cmbBPAstate" mold="rounded"
-												readonly="true" value="--Seleccione--">
+												sclass="cmbGeneralButton" id="cmbBPAstate" readonly="true"
+												value="--Seleccione--">
 											</combobox>
 										</row>
 										<row>
@@ -152,14 +150,14 @@
 												sclass="formLabel">
 											</label>
 											<combobox
-												sclass="cmbGeneral" id="cmbBPAcountry" mold="rounded"
-												readonly="true" value="--Seleccione--">
+												sclass="cmbGeneralButton" id="cmbBPAcountry" readonly="true"
+												value="--Seleccione--">
 											</combobox>
 										</row>
 										<row>
 											<space></space>
 											<button id="btnAddAddress"
-												label="Añadir" mold="trendy">
+												label="Añadir">
 											</button>
 										</row>
 									</rows>
@@ -190,7 +188,7 @@
 												sclass="formLabel">
 											</label>
 											<combobox
-												sclass="cmbGeneral" id="cmbProducts" mold="rounded"
+												sclass="cmbGeneralWithoutButton" id="cmbProducts"
 												autocomplete="true" autodrop="true" buttonVisible="false">
 											</combobox>
 										</row>
@@ -218,17 +216,12 @@
 					<space></space>
 				</row>
 				<row>
-					<button id="btnSearch" label="Buscar"
-						mold="trendy">
-					</button>
-					<hbox>
-						<button id="btnSave" label="Guardar"
-							mold="trendy">
+					<button id="btnSearch" label="Buscar"></button>
+					<radiogroup id="status">
+						<button id="btnSave" label="Guardar"></button>
+						<button id="btnCancel" label="Cancelar">
 						</button>
-						<button id="btnCancel" label="Cancelar"
-							mold="trendy">
-						</button>
-					</hbox>
+					</radiogroup>
 					<space></space>
 				</row>
 			</rows>
