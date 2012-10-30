@@ -11,8 +11,7 @@
 </head>
 <body style="height: auto">
 	<%
-		request.setAttribute(org.zkoss.zk.ui.sys.Attributes.NO_CACHE,
-				Boolean.TRUE);
+		request.setAttribute(org.zkoss.zk.ui.sys.Attributes.NO_CACHE,Boolean.TRUE);
 	%>
 	<jsp:include page="frmItemMaster.zul" />
 </body>
