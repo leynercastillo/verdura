@@ -9,7 +9,7 @@
 		<device-type>ajax</device-type>
 		<timeout-uri>/timeout.zul</timeout-uri><!-- An empty URL can cause the browser to reload the same URL -->
 		<listener>
-		    <listener-class>dao.HibernateListeners</listener-class>
+		    <listener-class>hibernateConnections.HibernateListeners</listener-class>
 		</listener>
 	</device-config>
 	<library-property>
