@@ -1,0 +1,15 @@
+body{
+	height: auto;
+}
+.page{
+	padding: 5px;
+}
+.aside{
+	float: left;
+	width: 250px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+.section-main{
+}
