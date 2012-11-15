@@ -1,0 +1,138 @@
+<?page title="" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<tabbox mold="accordion" width="100%">
+		<tabs>
+			<tab label="Ventas"></tab>
+			<tab label="Compras"></tab>
+			<tab label="Socios de Negocio"></tab>
+			<tab label="Inventario"></tab>
+			<tab label="Usuarios"></tab>
+		</tabs>
+		<tabpanels>
+			<tabpanel>
+				<tree>
+					<treechildren>
+						<treeitem>
+							<treerow>
+								<treecell>
+									<label value="Facturas Clientes">
+									</label>
+								</treecell>
+							</treerow>
+						</treeitem>
+						<treeitem>
+							<treerow>
+								<treecell>
+									<label value="Pedidos Clientes">
+									</label>
+								</treecell>
+							</treerow>
+						</treeitem>
+						<treeitem>
+							<treerow>
+								<treecell>
+									<label
+										value="Informes Clientes">
+									</label>
+								</treecell>
+							</treerow>
+						</treeitem>
+					</treechildren>
+				</tree>
+			</tabpanel>
+			<tabpanel>
+				<tree>
+					<treechildren>
+						<treeitem>
+							<treerow>
+								<treecell>
+									<label
+										value="Facturas Proveedores">
+									</label>
+								</treecell>
+							</treerow>
+						</treeitem>
+						<treeitem>
+							<treerow>
+								<treecell>
+									<label
+										value="Pedidos Proveedores">
+									</label>
+								</treecell>
+							</treerow>
+						</treeitem>
+						<treeitem>
+							<treerow>
+								<treecell>
+									<label
+										value="Informes Compra">
+									</label>
+								</treecell>
+							</treerow>
+						</treeitem>
+					</treechildren>
+				</tree>
+			</tabpanel>
+			<tabpanel>
+				<tree>
+					<treechildren>
+						<treeitem>
+							<treerow>
+								<treecell>
+									<label value="Maestro Socio de negocio"></label>
+								</treecell>
+							</treerow>
+						</treeitem>
+					</treechildren>
+				</tree>
+			</tabpanel>
+			<tabpanel>
+				<tree>
+					<treechildren>
+						<treeitem>
+							<treerow>
+								<treecell>
+									<label value="Maestro Inventario"></label>
+								</treecell>
+							</treerow>
+						</treeitem>
+						<treeitem>
+							<treerow>
+								<treecell>
+									<label value="Informes Inventario"></label>
+								</treecell>
+							</treerow>
+						</treeitem>
+					</treechildren>
+				</tree>
+			</tabpanel>
+			<tabpanel>
+				<tree>
+					<treechildren>
+						<treeitem>
+							<treerow>
+								<treecell>
+									<label value="Maestro Usuarios"></label>
+								</treecell>
+							</treerow>
+						</treeitem>
+						<treeitem>
+							<treerow>
+								<treecell>
+									<label value="Roles y grupos"></label>
+								</treecell>
+							</treerow>
+						</treeitem>
+						<treeitem>
+							<treerow>
+								<treecell>
+									<label value="Control de Acceso"></label>
+								</treecell>
+							</treerow>
+						</treeitem>
+					</treechildren>
+				</tree>
+			</tabpanel>
+		</tabpanels>
+	</tabbox>
+</zk>
