@@ -1,7 +1,9 @@
 <?page title="Maestro Productos" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<style src="/style/style.css"></style>
-	<window title="Maestro Productos" border="normal">
+	<style src="style/styleZK.css"></style>
+	<window title="Maestro Productos" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('controller.FrmItemMasterCtrl')">
 		<grid>
 			<columns>
 				<column sclass="columnLabel"></column>
@@ -117,12 +119,17 @@
 					</tabbox>
 				</row>
 				<row>
-					<radiogroup id="status">
+					<radiogroup id="status"
+						selectedItem="@save(vm.activo)">
 						<radio id="radioItemActive" radiogroup="status"
-							label="Activo">
+							label="Activo"
+							checked="@load(vm.activo ? 'true':'false')"
+							value="true">
 						</radio>
 						<radio id="radioItemInactive"
-							radiogroup="status" label="Inactivo">
+							radiogroup="status" label="Inactivo"
+							checked="@load(vm.activo ? 'false':'true')"
+							value="false">
 						</radio>
 					</radiogroup>
 					<space></space>
@@ -130,7 +137,8 @@
 				<row>
 					<hbox>
 						<button id="btnSave" label="Guardar"></button>
-						<button id="btnCancel" label="Cancelar">
+						<button id="btnCancel" label="Cancelar"
+							onClick="@command('clickTest')">
 						</button>
 					</hbox>
 					<space></space>

@@ -1,6 +1,6 @@
 <?page title="Facturación" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<style src="/style/style.css"></style>
+	<style src="/style/styleZK.css"></style>
 	<window title="Facturación" border="normal">
 		<radiogroup id="status" />
 		<radiogroup id="washable" />
