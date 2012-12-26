@@ -20,7 +20,7 @@
 					<jsp:include page="frmMenu.zul"></jsp:include>
 				</div>
 				<div class="section-main">
-					<jsp:include page="frmItemMaster.zul" />
+					<jsp:include page="index.zul" />
 				</div>
 			</div>
 		</z:window>

@@ -54,6 +54,9 @@
 										<column label="Descripción"
 											width="250px">
 										</column>
+										<column
+											label="Unidad de medida">
+										</column>
 										<column label="Cantidad"
 											width="80px">
 										</column>
@@ -76,6 +79,9 @@
 											<combobox inplace="true"
 												autocomplete="true" autodrop="true" buttonVisible="false"
 												width="235px">
+											</combobox>
+											<combobox inplace="true"
+												autocomplete="true" width="50px">
 											</combobox>
 											<spinner inplace="true"
 												width="65px">

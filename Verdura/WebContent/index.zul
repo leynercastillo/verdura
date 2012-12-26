@@ -1,6 +1,6 @@
-<?page title="Auto Generated index.zul"?>
-<window title="Hello World!!" border="normal" width="200px">
-
-<label value="You are using: ${desktop.webApp.version}"/>
-
-</window>
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('controllers.FrmIndex')">
+		<include src="@load(vm.page)"></include>
+	</window>
+</zk>
