@@ -9,13 +9,6 @@
 			</columns>
 			<rows>
 				<row>
-					<label value="Codigo:" sclass="formLabel"></label>
-					<combobox sclass="cmbGeneralWithoutButton"
-						id="cmbBPcod" autocomplete="true" autodrop="true"
-						buttonVisible="false">
-					</combobox>
-				</row>
-				<row>
 					<label value="Nombre:" sclass="formLabel"></label>
 					<combobox sclass="cmbGeneralWithoutButton"
 						id="cmbBPname" autocomplete="true" autodrop="true"
@@ -32,6 +25,21 @@
 							autocomplete="true" autodrop="true" buttonVisible="false">
 						</combobox>
 					</hbox>
+				</row>
+				<row>
+					<label value="Tipo:" sclass="formLabel"></label>
+					<combobox sclass="cmbGeneralButton" readonly="true"
+						value="@save(vm.seleccione, before = 'save') @load(vm.businessPartner eq null ? vm.seleccione : vm.businessPartner) @validator(vm.noSelect, component = self)"
+						model="@load(vm.listBusinessPartnerType)"
+						selectedItem="@bind(vm.businessPartner)"
+						disabled="@load(vm.disableAll)">
+						<template name="model"
+							var="businessPartnerType">
+							<comboitem
+								label="@load(businessPartnerType.name)">
+							</comboitem>
+						</template>
+					</combobox>
 				</row>
 				<row spans="2">
 					<tabbox>
@@ -206,12 +214,14 @@
 				</row>
 				<row>
 					<hbox>
-						<radio id="radioBPAstatusA" radiogroup="status"
-							label="Activo" sclass="frmLabel">
-						</radio>
-						<radio id="radioBPAstatusI" radiogroup="status"
-							label="Inactivo" sclass="formLabel">
-						</radio>
+						<radiogroup selectedItem="@save()">
+							<radio radiogroup="status" label="Activo"
+								sclass="frmLabel" checked="@load()">
+							</radio>
+							<radio radiogroup="status" label="Inactivo"
+								sclass="formLabel" checked="@load()">
+							</radio>
+						</radiogroup>
 					</hbox>
 					<space></space>
 				</row>
