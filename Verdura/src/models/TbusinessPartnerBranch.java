@@ -1,6 +1,6 @@
 package models;
 
-// Generated 18/01/2013 04:18:26 PM by Hibernate Tools 3.6.0
+// Generated 23/01/2013 04:05:43 PM by Hibernate Tools 3.6.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +24,7 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 	private TbusinessPartner tbusinessPartner;
 	private TbasicData tbasicData;
 	private String name;
-	private String addres;
+	private String address;
 	private String email;
 	private String fax;
 	private String contactPhone;
@@ -38,13 +38,13 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 
 	public TbusinessPartnerBranch(int idBusinessPartnerBranch,
 			TbusinessPartner tbusinessPartner, TbasicData tbasicData,
-			String name, String addres, String email, String fax,
+			String name, String address, String email, String fax,
 			String contactPhone, String contactName, boolean addressDefault) {
 		this.idBusinessPartnerBranch = idBusinessPartnerBranch;
 		this.tbusinessPartner = tbusinessPartner;
 		this.tbasicData = tbasicData;
 		this.name = name;
-		this.addres = addres;
+		this.address = address;
 		this.email = email;
 		this.fax = fax;
 		this.contactPhone = contactPhone;
@@ -54,14 +54,14 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 
 	public TbusinessPartnerBranch(int idBusinessPartnerBranch,
 			TbusinessPartner tbusinessPartner, TbasicData tbasicData,
-			String name, String addres, String email, String fax,
+			String name, String address, String email, String fax,
 			String contactPhone, String contactName, boolean addressDefault,
 			Set<Torder> torders, Set<Tbill> tbills) {
 		this.idBusinessPartnerBranch = idBusinessPartnerBranch;
 		this.tbusinessPartner = tbusinessPartner;
 		this.tbasicData = tbasicData;
 		this.name = name;
-		this.addres = addres;
+		this.address = address;
 		this.email = email;
 		this.fax = fax;
 		this.contactPhone = contactPhone;
@@ -110,13 +110,13 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "addres", nullable = false, length = 200)
-	public String getAddres() {
-		return this.addres;
+	@Column(name = "address", nullable = false, length = 200)
+	public String getAddress() {
+		return this.address;
 	}
 
-	public void setAddres(String addres) {
-		this.addres = addres;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	@Column(name = "email", nullable = false, length = 100)

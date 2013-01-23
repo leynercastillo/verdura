@@ -1,6 +1,6 @@
 package models;
 
-// Generated 18/01/2013 04:18:26 PM by Hibernate Tools 3.6.0
+// Generated 23/01/2013 04:05:43 PM by Hibernate Tools 3.6.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,8 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -95,8 +93,7 @@ public class SecurityUser implements java.io.Serializable {
 		this.status = status;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "group_user", joinColumns = { @JoinColumn(name = "id_suser", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_sgroup", nullable = false, updatable = false) })
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "securityUsers")
 	public Set<SecurityGroup> getSecurityGroups() {
 		return this.securityGroups;
 	}

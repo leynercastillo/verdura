@@ -1,8 +1,13 @@
 package hibernateConnections;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 public class GenericDao<Model> {
 	
@@ -29,38 +34,44 @@ public class GenericDao<Model> {
 		return returnvalue;
 	}
 
-	public void save(Model model){
-		Transaction transaction = currentSession().beginTransaction();
+	public Boolean save(Model model){
+		Transaction transaction = null;
 		try {
-			currentSession().save(model);
+			transaction = currentSession().beginTransaction();
+			currentSession().saveOrUpdate(model);
 			transaction.commit();
-		} catch (Exception e) {
-			transaction.rollback();
+			currentSession().close();
+			return true;
+		} catch (HibernateException e) {
+			try {
+				transaction.rollback();
+				currentSession().close();
+				return false;
+			} catch (RuntimeException e2) {
+				System.out.println("No se pudo guardar ni realizar el rollback: "+e2);
+				return false;
+			}
 		}
-		currentSession().close();
 	}
-	
-	public void update(Model model){
-		Transaction transaction = currentSession().beginTransaction();
+
+	public Boolean delete(Model model){
+		Transaction transaction = null;
 		try {
-			currentSession().update(model);
-			transaction.commit();
-		} catch (Exception e) {
-			transaction.rollback();
-		}
-		
-		currentSession().close();
-	}
-	
-	public void delete(Model model){
-		Transaction transaction = currentSession().beginTransaction();
-		try {
+			transaction = currentSession().beginTransaction();
 			currentSession().delete(model);
 			transaction.commit();
-		} catch (Exception e) {
-			transaction.rollback();
+			currentSession().close();
+			return true;
+		} catch (HibernateException e) {
+			try {
+				transaction.rollback();
+				currentSession().close();
+				return false;
+			} catch (RuntimeException e2) {
+				System.out.println("No se pudo guardar ni realizar el rollback: "+e2);
+				return false;
+			}
 		}
-		currentSession().close();
 	}
 	
 	public Model findById(Long id){
@@ -69,5 +80,18 @@ public class GenericDao<Model> {
 		transaction.commit();		
 		currentSession().close();
 		return model;
+	}
+	
+	public List<Model> list(Class c){
+		Transaction transaction = currentSession().beginTransaction();
+		Criteria criteria = currentSession().createCriteria(c);
+		return criteria.list();
+	}
+	
+	public List<Model> listActive(Class c){
+		Transaction transaction = currentSession().beginTransaction();
+		Criteria criteria = currentSession().createCriteria(c);
+		criteria.add(Restrictions.eq("status", 'A'));
+		return criteria.list();
 	}
 }

@@ -1,6 +1,5 @@
-<?page title="Maestro de Socios de negocios" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<style src="/style/styleZK.css"></style>
+	<style src="multimedia/style/styleZK.css"></style>
 	<window title="Maestro de Socios de negocios" border="normal">
 		<grid>
 			<columns>

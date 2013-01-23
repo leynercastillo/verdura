@@ -12,8 +12,8 @@
 
 //PENDIENTEEEEEEEE
 /*Tamaño para datebox medianos*/
-.dtboxSmall{
-	width: 70px;
+.dtboxSmall .z-datebox-rounded-inp {
+	width: 180px;
 }
 
 /*Tamaño mas comun de los intbox*/

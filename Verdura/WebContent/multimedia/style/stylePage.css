@@ -6,7 +6,8 @@ body{
 }
 .aside{
 	float: left;
-	width: 250px;
+	width: 200px;
+	//width: 180px;
 	margin-right: 5px;
 	margin-bottom: 5px;
 }

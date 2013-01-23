@@ -1,6 +1,6 @@
 package models;
 
-// Generated 18/01/2013 04:18:26 PM by Hibernate Tools 3.6.0
+// Generated 23/01/2013 04:05:43 PM by Hibernate Tools 3.6.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -73,7 +73,7 @@ public class SecurityGroup implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "group_user", joinColumns = { @JoinColumn(name = "id_sgroup", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_suser", nullable = false, updatable = false) })
+	@JoinTable(name = "group_user", joinColumns = { @JoinColumn(name = "id_security_group", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_security_user", nullable = false, updatable = false) })
 	public Set<SecurityUser> getSecurityUsers() {
 		return this.securityUsers;
 	}
@@ -82,8 +82,7 @@ public class SecurityGroup implements java.io.Serializable {
 		this.securityUsers = securityUsers;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "srolegroup", joinColumns = { @JoinColumn(name = "id_sgroup", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_srole", nullable = false, updatable = false) })
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "securityGroups")
 	public Set<SecurityRole> getSecurityRoles() {
 		return this.securityRoles;
 	}
