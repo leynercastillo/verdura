@@ -27,6 +27,22 @@
 						<treechildren>
 							<treeitem>
 								<treerow>
+									<treecell
+										onClick="@command('optionSelected', optionSelected='frmBusinessPartnerMasterFinal.zul')">
+										<label
+											value="Maestro Socio de Negocios">
+										</label>
+									</treecell>
+								</treerow>
+							</treeitem>
+						</treechildren>
+					</tree>
+				</tabpanel>
+				<tabpanel>
+					<tree>
+						<treechildren>
+							<treeitem>
+								<treerow>
 									<treecell>
 										<label
 											value="Maestro Usuarios">
@@ -46,22 +62,6 @@
 									<treecell>
 										<label
 											value="Control de Acceso">
-										</label>
-									</treecell>
-								</treerow>
-							</treeitem>
-						</treechildren>
-					</tree>
-				</tabpanel>
-				<tabpanel>
-					<tree>
-						<treechildren>
-							<treeitem>
-								<treerow>
-									<treecell
-										onClick="@command('optionSelected', optionSelected='frmBusinessPartnerMaster.zul')">
-										<label
-											value="Maestro Socio de Negocios">
 										</label>
 									</treecell>
 								</treerow>

@@ -10,6 +10,7 @@ import java.util.Map;
 import models.TbasicData;
 import models.TbusinessPartner;
 import models.TbusinessPartnerBranch;
+import models.Titem;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.ValidationContext;
@@ -50,6 +51,15 @@ public class FrmBusinessPartnerMaster {
 	private List<TbasicData> listBusinessPartnerType;
 	private List<TbusinessPartner> listBusinessPartner;
 	private List<TbusinessPartnerBranch> listBusinessPartnerBranch;
+	private List<Titem> listItem;
+
+	public List<Titem> getListItem() {
+		return listItem;
+	}
+
+	public void setListItem(List<Titem> listItem) {
+		this.listItem = listItem;
+	}
 
 	public TbasicData getStateSelected() {
 		return stateSelected;
@@ -272,6 +282,29 @@ public class FrmBusinessPartnerMaster {
 	public void add() {
 		if (listBusinessPartnerBranch.isEmpty())
 			businessPartnerBranch.setAddressDefault(true);
+		int i = 0;
+		Boolean found = false;
+		for (TbusinessPartnerBranch bPB : listBusinessPartnerBranch) {
+			if (bPB.getName().compareTo(businessPartnerBranch.getName()) == 0) {
+				businessPartnerBranch.setAddressDefault(bPB.isAddressDefault());
+				listBusinessPartnerBranch.set(i, businessPartnerBranch);
+				found = true;
+				break;
+			}
+			i++;
+		}
+		if (!found)
+			listBusinessPartnerBranch.add(businessPartnerBranch);
+		businessPartnerBranch = new TbusinessPartnerBranch();
+		listCities = new ArrayList<TbasicData>();
+		listStates = new ArrayList<TbasicData>();
+		countrySelected = new TbasicData();
+		stateSelected = new TbasicData();
+		seleccione2 = "--Seleccione--";
+	}
+	
+	@Command
+	public void addItemOffered() {
 		int i = 0;
 		Boolean found = false;
 		for (TbusinessPartnerBranch bPB : listBusinessPartnerBranch) {

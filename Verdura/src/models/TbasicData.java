@@ -1,6 +1,6 @@
 package models;
 
-// Generated 23/01/2013 04:05:43 PM by Hibernate Tools 3.6.0
+// Generated 24/01/2013 03:33:32 PM by Hibernate Tools 3.6.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,11 +41,10 @@ public class TbasicData implements java.io.Serializable {
 	public TbasicData() {
 	}
 
-	public TbasicData(int idBasicData, TdataType tdataType,
-			TbasicData tbasicData, String name, boolean editable, char status) {
+	public TbasicData(int idBasicData, TdataType tdataType, String name,
+			boolean editable, char status) {
 		this.idBasicData = idBasicData;
 		this.tdataType = tdataType;
-		this.tbasicData = tbasicData;
 		this.name = name;
 		this.editable = editable;
 		this.status = status;
@@ -96,7 +95,7 @@ public class TbasicData implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "parent_id_basic", nullable = false)
+	@JoinColumn(name = "parent_id_basic")
 	public TbasicData getTbasicData() {
 		return this.tbasicData;
 	}

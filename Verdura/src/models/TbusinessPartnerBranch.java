@@ -1,19 +1,16 @@
 package models;
 
-// Generated 23/01/2013 04:05:43 PM by Hibernate Tools 3.6.0
+// Generated 24/01/2013 03:33:32 PM by Hibernate Tools 3.6.0
 
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -74,17 +71,7 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 		this.tbills = tbills;
 	}
 
-	/**
-	 * <b>@GeneratedValue</b> es la forma de darle a la base de datos la
-	 * responsabilidad de generar los id(Cuando son autoincrementables
-	 * y son clave primaria).
-	 * <b>@SequenceGenerator</b> es la secuencia generada en la base
-	 * de datos (En este caso postgres) que controla ese autoincremento. 
-	 * @return
-	 */
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="business_partner__branch_seq")
-	@SequenceGenerator(name="business_partner__branch_seq", sequenceName="tbusiness_partner_branch_id_seq")
 	@Column(name = "id_business_partner_branch", unique = true, nullable = false)
 	public int getIdBusinessPartnerBranch() {
 		return this.idBusinessPartnerBranch;
@@ -194,4 +181,5 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 	public void setTbills(Set<Tbill> tbills) {
 		this.tbills = tbills;
 	}
+
 }

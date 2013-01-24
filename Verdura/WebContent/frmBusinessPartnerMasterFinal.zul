@@ -6,9 +6,9 @@
 		closable="true" onClose="@command('close')">
 		<grid>
 			<columns>
-				<column hflex="min"></column>
-				<column hflex="min"></column>
-				<column hflex="min"></column>
+				<column width="200px" align="right"></column>
+				<column width="250px"></column>
+				<column width="60px" align="right"></column>
 				<column></column>
 			</columns>
 			<rows>
@@ -95,15 +95,19 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column hflex="min"></column>
-										<column hflex="min"></column>
+										<column width="220px"
+											align="right">
+										</column>
+										<column width="130px"></column>
 										<column></column>
 									</columns>
 									<rows>
 										<row>
+											<!-- align left para alinear a la izquierda en Google Chrome -->
 											<cell rowspan="10"
-												valign="top">
-												<vbox>
+												valign="top" align="left">
+												<!-- width 100% para anchar header listbox en Google Chrome -->
+												<vbox width="100%">
 													<listbox
 														id="lbxBusinessPartnerBranches"
 														model="@load(vm.listBusinessPartnerBranch)"
@@ -254,21 +258,43 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column sclass="columnLabel"></column>
-										<column sclass="columnLabel"></column>
+										<column width="220px"
+											align="right">
+										</column>
+										<column width="80px"></column>
 										<column></column>
 									</columns>
 									<rows>
 										<row>
+											<!-- align left para alinear a la izquierda en Google Chrome -->
 											<cell rowspan="10"
-												valign="top">
-												<listbox>
-													<listhead>
-														<listheader
-															label="Ofrecidos">
-														</listheader>
-													</listhead>
-												</listbox>
+												valign="top" align="left">
+												<!-- width 100% para anchar header listbox en Google Chrome -->
+												<vbox width="100%">
+													<listbox
+														id="lbxItemOffered"
+														model="@load(vm.listBusinessPartnerBranch)"
+														selectedItem="@bind(vm.businessPartnerBranch)"
+														onSelect="@command('loadPartnerBranchByListBox')">
+														<listhead>
+															<listheader
+																label="Ofrecidos">
+															</listheader>
+														</listhead>
+														<template
+															name="model" var="businessPartnerBranch">
+															<listitem>
+																<listcell
+																	label="@load(businessPartnerBranch.name)"
+																	style="@load(businessPartnerBranch.addressDefault ? 'font-weight:bold;':'')">
+																</listcell>
+															</listitem>
+														</template>
+													</listbox>
+													<button
+														label="Predeterminado">
+													</button>
+												</vbox>
 											</cell>
 										</row>
 										<row>
@@ -276,13 +302,30 @@
 												sclass="formLabel">
 											</label>
 											<combobox
-												sclass="cmbGeneralWithoutButton" id="cmbProducts"
-												autocomplete="true" autodrop="true" buttonVisible="false">
+												sclass="cmbGeneralWithoutButton" autocomplete="true"
+												autodrop="true" buttonVisible="false"
+												value="@save(vm.businessPartner.name, before = '') @load(vm.businessPartner.name) @validator(vm.noEmpty, component = self)">
+											</combobox>
+											<combobox
+												sclass="cmbGeneralWithoutButton"
+												autocomplete="@load(vm.disableAll)" buttonVisible="false"
+												autodrop="@load(vm.disableAll)"
+												value="@save(vm.businessPartner.name, before = 'save') @load(vm.businessPartner.name) @validator(vm.noEmpty, component = self)"
+												model="@load(vm.listBusinessPartner)" maxlength="100"
+												onFocus="@command(vm.disableAll ? 'loadBusinessPartnerByField':'', field='name')"
+												onChange="@command(vm.disableAll ? 'searchBusinessPartner':'', field='name', val=self.value)">
+												<template name="model"
+													var="businessPartner">
+													<comboitem
+														label="@load(businessPartner.name)">
+													</comboitem>
+												</template>
 											</combobox>
 										</row>
 										<row>
 											<space></space>
-											<button label="Añadir">
+											<button label="Añadir" onClick="@command('addItemOffered')"
+												disabled="@load(vm.disableAll)">
 											</button>
 										</row>
 									</rows>

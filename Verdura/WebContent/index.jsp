@@ -8,7 +8,7 @@
 	<title>Mi pagina</title>
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="-1" />
-	<link rel="stylesheet" type="text/css" href="style/stylePage.css">
+	<link rel="stylesheet" type="text/css" href="multimedia/style/stylePage.css">
 	<z:zkhead />
 </head>
 <body>
