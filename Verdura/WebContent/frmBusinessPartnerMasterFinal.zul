@@ -89,6 +89,7 @@
 					<tabbox>
 						<tabs>
 							<tab label="Direcciones"></tab>
+							<tab label="Productos"></tab>
 						</tabs>
 						<tabpanels>
 							<tabpanel>
@@ -117,7 +118,8 @@
 															name="model" var="businessPartnerBranch">
 															<listitem>
 																<listcell
-																	label="@load(businessPartnerBranch.name)" style="@load(businessPartnerBranch.addressDefault ? 'font-weight:bold;':'')">
+																	label="@load(businessPartnerBranch.name)"
+																	style="@load(businessPartnerBranch.addressDefault ? 'font-weight:bold;':'')">
 																</listcell>
 															</listitem>
 														</template>
@@ -245,6 +247,43 @@
 												onClick="@command('add')" disabled="@load(vm.disableAll)">
 											</button>
 											<space></space>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+							<tabpanel>
+								<grid>
+									<columns>
+										<column sclass="columnLabel"></column>
+										<column sclass="columnLabel"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<cell rowspan="10"
+												valign="top">
+												<listbox>
+													<listhead>
+														<listheader
+															label="Ofrecidos">
+														</listheader>
+													</listhead>
+												</listbox>
+											</cell>
+										</row>
+										<row>
+											<label value="Artículo:"
+												sclass="formLabel">
+											</label>
+											<combobox
+												sclass="cmbGeneralWithoutButton" id="cmbProducts"
+												autocomplete="true" autodrop="true" buttonVisible="false">
+											</combobox>
+										</row>
+										<row>
+											<space></space>
+											<button label="Añadir">
+											</button>
 										</row>
 									</rows>
 								</grid>

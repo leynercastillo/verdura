@@ -4,7 +4,7 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Logical" value="Postgres verdura" />
+   <property key="Logical" value="Postgres Verdura" />
    <property key="Connection Type" value="PostgreSQL" />
    <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/verdura" />
    <property key="UID" value="postgres" />
@@ -29,7 +29,7 @@
   </data-source>
  </project-data-sources>
  <source-databases>
-  <database id="DB0" populated="true" UUID="4ca55391-013a-4fed-bbf3-069a964b5ec8" dbcs-ref="DS2" name="PlayPen Database" physicalName="Postgres Connection" sql-exception="ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: Couldn&apos;t connect to database: FATAL: no hay una l�nea en pg_hba.conf para �192.168.1.40�, usuario �postgres�, base de datos �test�, SSL inactivo" >
+  <database id="DB0" populated="true" UUID="4ca55391-013a-4fed-bbf3-069a964b5ec8" dbcs-ref="DS2" name="PlayPen Database" physicalName="Postgres Connection" sql-exception="ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: Couldn&apos;t connect to database: FATAL: no hay una l�nea en pg_hba.conf para �192.168.1.40�, usuario �postgres�, base de datos �test�, SSL inactivo" >
    <catalog id="CAT1" populated="true" UUID="8efb55f9-a1f1-4902-a20d-2a04594b9358" name="verdura" nativeTerm="database" physicalName="verdura" >
    </catalog>
    <relationships>
@@ -75,7 +75,7 @@
   <table id="TAB13" populated="true" UUID="b04a26bb-7f67-49bb-a39c-974185a05337" name="Tbusiness_partner_branch" objectType="TABLE" physicalName="Tbusiness_partner_branch" >
    <remarks></remarks>
    <folder id="FOLTAB131" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL14" populated="true" UUID="377c24ac-da33-45d4-a31a-a517449a8855" autoIncrement="false" autoIncrementSequenceName="Tbusiness_partner_branch_id_seq" defaultValue="" name="id_business_partner_branch" nullable="0" physicalName="id_business_partner_branch" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL14" populated="true" UUID="377c24ac-da33-45d4-a31a-a517449a8855" autoIncrement="true" autoIncrementSequenceName="Tbusiness_partner_branch_id_seq" defaultValue="" name="id_business_partner_branch" nullable="0" physicalName="id_business_partner_branch" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL15" populated="true" UUID="38651d09-174e-4f73-be65-b291fe62a036" autoIncrement="false" autoIncrementSequenceName="Tbusiness_partner_branch_id_business_partner_seq" defaultValue="" name="id_business_partner" nullable="0" physicalName="id_business_partner" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
@@ -239,7 +239,7 @@
   <table id="TAB60" populated="true" UUID="0dcbe05b-5092-4c56-bc22-3c6f4b03bdc8" name="Torder_detail" objectType="TABLE" physicalName="Torder_detail" >
    <remarks></remarks>
    <folder id="FOLTAB601" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL61" populated="true" UUID="318c11b5-2f5b-4f22-ad0f-fec8c391c8df" autoIncrement="false" autoIncrementSequenceName="Torder_detail_id_seq" defaultValue="" name="id_order_detail" nullable="0" physicalName="id_order_detail" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL61" populated="true" UUID="318c11b5-2f5b-4f22-ad0f-fec8c391c8df" autoIncrement="true" autoIncrementSequenceName="Torder_detail_id_seq" defaultValue="" name="id_order_detail" nullable="0" physicalName="id_order_detail" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL62" populated="true" UUID="1e965dca-bebe-4670-95a0-ccd66034854a" autoIncrement="false" autoIncrementSequenceName="Order_idOrderO_seq" defaultValue="" name="id_order" nullable="0" physicalName="id_order" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
