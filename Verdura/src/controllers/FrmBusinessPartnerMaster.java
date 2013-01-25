@@ -32,6 +32,7 @@ import dao.DaoBasicData;
 import dao.DaoBusinessPartner;
 import dao.DaoBusinessPartnerBranch;
 import dao.DaoDataType;
+import dao.DaoItem;
 
 public class FrmBusinessPartnerMaster {
 
@@ -42,6 +43,7 @@ public class FrmBusinessPartnerMaster {
 	private Boolean update;
 	private TbusinessPartner businessPartner;
 	private TbusinessPartnerBranch businessPartnerBranch;
+	private Titem item;
 	private TbasicData stateSelected;
 	private TbasicData countrySelected;
 	private List<TbasicData> listCountries;
@@ -52,6 +54,14 @@ public class FrmBusinessPartnerMaster {
 	private List<TbusinessPartner> listBusinessPartner;
 	private List<TbusinessPartnerBranch> listBusinessPartnerBranch;
 	private List<Titem> listItem;
+
+	public Titem getItem() {
+		return item;
+	}
+
+	public void setItem(Titem item) {
+		this.item = item;
+	}
 
 	public List<Titem> getListItem() {
 		return listItem;
@@ -201,14 +211,17 @@ public class FrmBusinessPartnerMaster {
 	public void restartForm() {
 		businessPartner = new TbusinessPartner();
 		businessPartnerBranch = new TbusinessPartnerBranch();
+		item = new Titem();
 		minCombo = new String("--");
 		seleccione = new String("--Seleccione--");
 		seleccione2 = new String("--Seleccione--");
 		disableAll = new Boolean(false);
 		update = new Boolean(false);
 		businessPartner.setStatus('A');
+		
 		DaoBasicData daoBasicData = new DaoBasicData();
 		listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>();
+		listItem = new ArrayList<Titem>();
 		listBusinessPartnerType = daoBasicData.listByDataType(new DaoDataType()
 				.findByName("BUSINESS PARTNER TYPE"));
 		listRifType = daoBasicData.listByDataType(new DaoDataType()
@@ -302,7 +315,7 @@ public class FrmBusinessPartnerMaster {
 		stateSelected = new TbasicData();
 		seleccione2 = "--Seleccione--";
 	}
-	
+	/*
 	@Command
 	public void addItemOffered() {
 		int i = 0;
@@ -324,7 +337,7 @@ public class FrmBusinessPartnerMaster {
 		countrySelected = new TbasicData();
 		stateSelected = new TbasicData();
 		seleccione2 = "--Seleccione--";
-	}
+	}*/
 
 	@NotifyChange("*")
 	@Command
@@ -382,6 +395,12 @@ public class FrmBusinessPartnerMaster {
 		listBusinessPartner = daoBusinessPartner.listOrderedbyField(field);
 	}
 
+	@NotifyChange("listItem")
+	@Command
+	public void loadItemByField(@BindingParam("field") String field) {
+		listItem = new DaoItem().listOrderedByField(field);
+	}
+
 	@NotifyChange({ "businessPartnerBranch", "listBusinessPartnerBranch" })
 	@Command
 	public void businessPartnerBranchDefault(
@@ -412,6 +431,7 @@ public class FrmBusinessPartnerMaster {
 			businessPartner = listBusinessPartner2.get(0);
 			listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>(
 					businessPartner.getTbusinessPartnerBranches());
+			listItem = new ArrayList<Titem>(businessPartner.getTitems());
 			disableAll = new Boolean(false);
 			update = new Boolean(true);
 			return;
@@ -422,7 +442,6 @@ public class FrmBusinessPartnerMaster {
 			map.put("listBusinessPartner", listBusinessPartner2);
 			Window window = (Window) Executions.createComponents(
 					"frmBusinessPartnerList.zul", null, map);
-			listBusinessPartner = listBusinessPartner2; // NO SE PARA QUE
 		}
 	}
 
