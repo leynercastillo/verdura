@@ -1,36 +1,37 @@
 <zk>
 	<style src="multimedia/style/styleZK.css"></style>
-	<window title="Maestro de Socios de negocios" border="normal">
+	<window border="normal" title="Maestro Socios de Negocios"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('controllers.FrmBusinessPartnerMaster')"
+		closable="true" onClose="@command('close')">
 		<grid>
 			<columns>
-				<column sclass="columnLabel"></column>
+				<column width="120px" align="right"></column>
+				<column width="250px"></column>
+				<column width="50px" align="right"></column>
 				<column></column>
 			</columns>
 			<rows>
 				<row>
 					<label value="Nombre:" sclass="formLabel"></label>
 					<combobox sclass="cmbGeneralWithoutButton"
-						id="cmbBPname" autocomplete="true" autodrop="true"
-						buttonVisible="false">
+						autocomplete="@load(vm.disableAll)" buttonVisible="false"
+						autodrop="@load(vm.disableAll)"
+						value="@save(vm.businessPartner.name, before = 'save') @load(vm.businessPartner.name) @validator(vm.noEmpty, component = self)"
+						model="@load(vm.listBusinessPartner)" maxlength="100"
+						onFocus="@command(vm.disableAll ? 'loadBusinessPartnerByField':'', field='name')"
+						onChange="@command(vm.disableAll ? 'searchBusinessPartner':'', field='name', val=self.value)">
+						<template name="model" var="businessPartner">
+							<comboitem
+								label="@load(businessPartner.name)">
+							</comboitem>
+						</template>
 					</combobox>
-				</row>
-				<row>
-					<label value="Rif:" sclass="formLabel"></label>
-					<hbox>
-						<combobox sclass="cmbShort" id="cmbBPrifType"
-							readonly="true" value="--">
-						</combobox>
-						<combobox sclass="cmbSideShort" id="cmbBPrif"
-							autocomplete="true" autodrop="true" buttonVisible="false">
-						</combobox>
-					</hbox>
-				</row>
-				<row>
 					<label value="Tipo:" sclass="formLabel"></label>
 					<combobox sclass="cmbGeneralButton" readonly="true"
-						value="@save(vm.seleccione, before = 'save') @load(vm.businessPartner eq null ? vm.seleccione : vm.businessPartner) @validator(vm.noSelect, component = self)"
+						value="@save(vm.seleccione, before = 'save') @load(vm.businessPartner.tbasicDataByType eq null ? vm.seleccione : vm.businessPartner.tbasicDataByType.name) @validator(vm.noSelect, component = self)"
 						model="@load(vm.listBusinessPartnerType)"
-						selectedItem="@bind(vm.businessPartner)"
+						selectedItem="@bind(vm.businessPartner.tbasicDataByType)"
 						disabled="@load(vm.disableAll)">
 						<template name="model"
 							var="businessPartnerType">
@@ -40,58 +41,98 @@
 						</template>
 					</combobox>
 				</row>
-				<row spans="2">
+				<row>
+					<label value="Rif:" sclass="formLabel"></label>
+					<hbox>
+						<combobox sclass="cmbShort" readonly="true"
+							value="@save(vm.minCombo, before = 'save') @load(vm.businessPartner.tbasicDataByRifType eq null ? vm.minCombo : vm.businessPartner.tbasicDataByRifType.name) @validator(vm.noDash, component = self)"
+							model="@load(vm.listRifType)"
+							selectedItem="@bind(vm.businessPartner.tbasicDataByRifType)"
+							disabled="@load(vm.disableAll)">
+							<template name="model" var="rifType">
+								<comboitem
+									label="@load(rifType.name)">
+								</comboitem>
+							</template>
+						</combobox>
+						<combobox sclass="cmbSideShort"
+							value="@save(vm.businessPartner.rif, before = 'save') @load(vm.businessPartner.rif) @validator(vm.noRepeatRif, component = self)"
+							buttonVisible="false" autocomplete="@load(vm.disableAll)"
+							autodrop="@load(vm.disableAll)"
+							model="@load(vm.listBusinessPartner)" maxlength="15"
+							onFocus="@command(vm.disableAll ? 'loadBusinessPartnerByField':'', field='rif')"
+							onChange="@command(vm.disableAll ? 'searchBusinessPartner':'', field='rif', val=self.value)"
+							disabled="@load(vm.update)">
+							<template name="model"
+								var="businessPartner">
+								<comboitem
+									label="@load(businessPartner.rif)">
+								</comboitem>
+							</template>
+						</combobox>
+					</hbox>
+					<space></space>
+					<space></space>
+				</row>
+				<row>
+					<label value="Dirección Fiscal:"
+						sclass="formLabel">
+					</label>
+					<textbox sclass="txtGeneral"
+						value="@save(vm.businessPartner.address, before = 'save') @load(vm.businessPartner.address) @validator(vm.noEmpty, component = self)"
+						maxlength="200" disabled="@load(vm.disableAll)">
+					</textbox>
+					<space></space>
+					<space></space>
+				</row>
+				<row spans="4">
 					<tabbox>
 						<tabs>
-							<tab id="tabGeneral" label="General"></tab>
-							<tab id="tabAddress" label="Direcciones"></tab>
-							<tab id="tabProducts" label="Productos"></tab>
+							<tab label="Direcciones"></tab>
+							<tab label="Productos"></tab>
 						</tabs>
 						<tabpanels>
 							<tabpanel>
 								<grid>
 									<columns>
-										<column sclass="columnLabel"></column>
+										<column width="220px"
+											align="right">
+										</column>
+										<column width="130px"></column>
 										<column></column>
 									</columns>
 									<rows>
 										<row>
-											<label
-												value="Persona Contacto:" sclass="formLabel">
-											</label>
-											<textbox sclass="txtGeneral"
-												id="txtBPcontactPerson">
-											</textbox>
-										</row>
-										<row>
-											<label
-												value="Teléfono Contacto:" sclass="formLabel">
-											</label>
-											<textbox sclass="txtGeneral"
-												id="txtBPcontactPhone">
-											</textbox>
-										</row>
-									</rows>
-								</grid>
-							</tabpanel>
-							<tabpanel>
-								<grid>
-									<columns>
-										<column sclass="columnLabel"></column>
-										<column sclass="columnLabel"></column>
-										<column></column>
-									</columns>
-									<rows>
-										<row>
+											<!-- align left para alinear a la izquierda en Google Chrome -->
 											<cell rowspan="10"
-												valign="top">
-												<listbox>
-													<listhead>
-														<listheader
-															label="Sucursal">
-														</listheader>
-													</listhead>
-												</listbox>
+												valign="top" align="left">
+												<!-- width 100% para anchar header listbox en Google Chrome -->
+												<vbox width="100%">
+													<listbox
+														id="lbxBusinessPartnerBranches"
+														model="@load(vm.listBusinessPartnerBranch)"
+														selectedItem="@bind(vm.businessPartnerBranch)"
+														onSelect="@command('loadPartnerBranchByListBox')">
+														<listhead>
+															<listheader
+																label="Sucursal">
+															</listheader>
+														</listhead>
+														<template
+															name="model" var="businessPartnerBranch">
+															<listitem>
+																<listcell
+																	label="@load(businessPartnerBranch.name)"
+																	style="@load(businessPartnerBranch.addressDefault ? 'font-weight:bold;':'')">
+																</listcell>
+															</listitem>
+														</template>
+													</listbox>
+													<button
+														label="Predeterminado" disabled="@load(vm.disableAll)"
+														onClick="@command('businessPartnerBranchDefault', lbx = lbxBusinessPartnerBranches)">
+													</button>
+												</vbox>
 											</cell>
 										</row>
 										<row>
@@ -99,7 +140,8 @@
 												sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAname">
+												value="@save(vm.businessPartnerBranch.name, before = 'add') @load(vm.businessPartnerBranch.name) @validator(vm.noEmpty, component = self)"
+												maxlength="120" disabled="@load(vm.disableAll)">
 											</textbox>
 										</row>
 										<row>
@@ -107,7 +149,26 @@
 												sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAaddress">
+												value="@save(vm.businessPartnerBranch.address, before = 'add') @load(vm.businessPartnerBranch.address) @validator(vm.noEmpty, component = self)"
+												maxlength="200" disabled="@load(vm.disableAll)">
+											</textbox>
+										</row>
+										<row>
+											<label
+												value="Persona contacto:" sclass="formLabel">
+											</label>
+											<textbox sclass="txtGeneral"
+												value="@save(vm.businessPartnerBranch.contactName, before = 'add') @load(vm.businessPartnerBranch.contactName) @validator(vm.noEmpty, component = self)"
+												maxlength="100" disabled="@load(vm.disableAll)">
+											</textbox>
+										</row>
+										<row>
+											<label
+												value="Teléfono contacto:" sclass="formLabel">
+											</label>
+											<textbox sclass="txtGeneral"
+												value="@save(vm.businessPartnerBranch.contactPhone, before = 'add') @load(vm.businessPartnerBranch.contactPhone) @validator(vm.noEmpty, component = self)"
+												maxlength="15" disabled="@load(vm.disableAll)">
 											</textbox>
 										</row>
 										<row>
@@ -115,15 +176,8 @@
 												value="Correo Electrónico:" sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAemail">
-											</textbox>
-										</row>
-										<row>
-											<label value="Teléfono:"
-												sclass="formLabel">
-											</label>
-											<textbox sclass="txtGeneral"
-												id="txtBPAphone">
+												value="@save(vm.businessPartnerBranch.email, before = 'add') @load(vm.businessPartnerBranch.email)"
+												maxlength="100" disabled="@load(vm.disableAll)">
 											</textbox>
 										</row>
 										<row>
@@ -131,16 +185,27 @@
 												sclass="formLabel">
 											</label>
 											<textbox sclass="txtGeneral"
-												id="txtBPAfax">
+												value="@bind(vm.businessPartnerBranch.fax)" maxlength="15"
+												disabled="@load(vm.disableAll)">
 											</textbox>
 										</row>
 										<row>
-											<label value="Ciudad:"
+											<label value="País:"
 												sclass="formLabel">
 											</label>
 											<combobox
-												sclass="cmbGeneralButton" id="cmbBPAcity" readonly="true"
-												value="--Seleccione--">
+												sclass="cmbGeneralButton" readonly="true"
+												value="@save(vm.seleccione2, before = 'add') @load(vm.countrySelected.name eq null ? vm.seleccione2 : vm.countrySelected.name) @validator(vm.noSelect, component = self)"
+												selectedItem="@load(vm.countrySelected eq null ? null : vm.countrySelected) @save(vm.countrySelected)"
+												model="@load(vm.listCountries)"
+												onChange="@command('loadStatesByParent')"
+												disabled="@load(vm.disableAll)">
+												<template name="model"
+													var="country">
+													<comboitem
+														label="@load(country.name)">
+													</comboitem>
+												</template>
 											</combobox>
 										</row>
 										<row>
@@ -148,24 +213,44 @@
 												sclass="formLabel">
 											</label>
 											<combobox
-												sclass="cmbGeneralButton" id="cmbBPAstate" readonly="true"
-												value="--Seleccione--">
+												sclass="cmbGeneralButton" readonly="true"
+												value="@save(vm.seleccione2, before = 'add') @load(vm.stateSelected.name eq null ? vm.seleccione2 : vm.stateSelected.name) @validator(vm.noSelect, component = self)"
+												selectedItem="@load(vm.stateSelected eq null ? null : vm.stateSelected) @save(vm.stateSelected)"
+												model="@load(vm.listStates)"
+												onChange="@command('loadCitiesByParent')"
+												disabled="@load(vm.disableAll)">
+												<template name="model"
+													var="state">
+													<comboitem
+														label="@load(state.name)">
+													</comboitem>
+												</template>
 											</combobox>
 										</row>
 										<row>
-											<label value="País:"
+											<label value="Ciudad:"
 												sclass="formLabel">
 											</label>
 											<combobox
-												sclass="cmbGeneralButton" id="cmbBPAcountry" readonly="true"
-												value="--Seleccione--">
+												sclass="cmbGeneralButton" readonly="true"
+												value="@save(vm.seleccione2, before = 'add') @load(vm.businessPartnerBranch.tbasicData.name eq null ? vm.seleccione2 : vm.businessPartnerBranch.tbasicData.name) @validator(vm.noSelect, component = self)"
+												selectedItem="@bind(vm.businessPartnerBranch.tbasicData)"
+												model="@load(vm.listCities)"
+												disabled="@load(vm.disableAll)">
+												<template name="model"
+													var="city">
+													<comboitem
+														label="@load(city.name)">
+													</comboitem>
+												</template>
 											</combobox>
 										</row>
 										<row>
 											<space></space>
-											<button id="btnAddAddress"
-												label="Añadir">
+											<button label="Añadir"
+												onClick="@command('add')" disabled="@load(vm.disableAll)">
 											</button>
+											<space></space>
 										</row>
 									</rows>
 								</grid>
@@ -173,20 +258,37 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column sclass="columnLabel"></column>
-										<column sclass="columnLabel"></column>
+										<column width="220px"
+											align="right">
+										</column>
+										<column width="130px"></column>
 										<column></column>
 									</columns>
 									<rows>
 										<row>
+											<!-- align left para alinear a la izquierda en Google Chrome -->
 											<cell rowspan="10"
-												valign="top">
-												<listbox>
+												valign="top" align="left">
+												<!-- width 100% para anchar header listbox en Google Chrome -->
+												<listbox
+													id="lbxItemOffered"
+													model="@load(vm.listBusinessPartnerBranch)"
+													selectedItem="@bind(vm.businessPartnerBranch)"
+													onSelect="@command('loadPartnerBranchByListBox')">
 													<listhead>
 														<listheader
 															label="Ofrecidos">
 														</listheader>
 													</listhead>
+													<template
+														name="model" var="businessPartnerBranch">
+														<listitem>
+															<listcell
+																label="@load(businessPartnerBranch.name)"
+																style="@load(businessPartnerBranch.addressDefault ? 'font-weight:bold;':'')">
+															</listcell>
+														</listitem>
+													</template>
 												</listbox>
 											</cell>
 										</row>
@@ -195,14 +297,25 @@
 												sclass="formLabel">
 											</label>
 											<combobox
-												sclass="cmbGeneralWithoutButton" id="cmbProducts"
-												autocomplete="true" autodrop="true" buttonVisible="false">
+												sclass="cmbGeneralWithoutButton" autocomplete="true"
+												autodrop="true" buttonVisible="false"
+												value="@save(vm.item.name) @load(vm.item.name)"
+												onFocus="@command(vm.disableAll ? 'loadItemByField':'', field='name')"
+												selectedItem="@save(vm.item)"
+												disabled="@command(vm.disableAll)" maxlength="100">
+												<template name="model"
+													var="item">
+													<comboitem
+														label="@load(item.name)">
+													</comboitem>
+												</template>
 											</combobox>
 										</row>
 										<row>
 											<space></space>
 											<button label="Añadir"
-												id="btnAddProducts">
+												onClick="@command('addItemOffered')"
+												disabled="@load(vm.disableAll)">
 											</button>
 										</row>
 									</rows>
@@ -212,25 +325,35 @@
 					</tabbox>
 				</row>
 				<row>
-					<hbox>
-						<radiogroup selectedItem="@save()">
-							<radio radiogroup="status" label="Activo"
-								sclass="frmLabel" checked="@load()">
-							</radio>
-							<radio radiogroup="status" label="Inactivo"
-								sclass="formLabel" checked="@load()">
-							</radio>
-						</radiogroup>
-					</hbox>
+					<radiogroup id="status"
+						selectedItem="@save(vm.businessPartner.status)">
+						<radio label="Activo" value="A"
+							checked="@load(vm.businessPartner.status eq 'A' ? 'true':'false')"
+							sclass="frmLabel" disabled="@load(vm.disableAll)">
+						</radio>
+					</radiogroup>
+					<radio label="Inactivo" value="I"
+						checked="@load(vm.businessPartner.status eq 'I' ? 'true':'false')"
+						sclass="formLabel" disabled="@load(vm.disableAll)"
+						radiogroup="status">
+					</radio>
+					<space></space>
 					<space></space>
 				</row>
 				<row>
-					<button id="btnSearch" label="Buscar"></button>
-					<radiogroup id="status">
-						<button id="btnSave" label="Guardar"></button>
-						<button id="btnCancel" label="Cancelar">
+					<button label="Buscar"
+						onClick="@command('search')">
+					</button>
+					<hbox>
+						<button label="Guardar"
+							onClick="@command('save', lbx = lbxBusinessPartnerBranches)"
+							disabled="@load(vm.disableAll)">
 						</button>
-					</radiogroup>
+						<button label="Cancelar"
+							onClick="@command('restartForm')">
+						</button>
+					</hbox>
+					<space></space>
 					<space></space>
 				</row>
 			</rows>
