@@ -28,7 +28,7 @@
 							<treeitem>
 								<treerow>
 									<treecell
-										onClick="@command('optionSelected', optionSelected='frmBusinessPartnerMasterFinal.zul')">
+										onClick="@command('optionSelected', optionSelected='frmBusinessPartnerMaster.zul')">
 										<label
 											value="Maestro Socio de Negocios">
 										</label>
