@@ -1,27 +1,43 @@
 <?page title="Maestro Productos" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<style src="style/styleZK.css"></style>
+	<style src="multimedia/style/styleZK.css"></style>
 	<window title="Maestro Productos" border="normal"
 		apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('controller.FrmItemMasterCtrl')">
+		viewModel="@id('vm') @init('controllers.FrmMenu')">
 		<grid>
 			<columns>
-				<column sclass="columnLabel"></column>
+				<column width="90px" align="right"></column>
 				<column></column>
 			</columns>
 			<rows>
 				<row>
 					<label value="Codigo:" sclass="formLabel"></label>
 					<combobox sclass="cmbGeneralWithoutButton"
-						id="cmbItemCod" autocomplete="true" autodrop="true"
-						buttonVisible="false">
+						autocomplete="@load(vm.disableAll)" buttonVisible="false"
+						autodrop="@load(vm.disableAll)"
+						value="@save(vm.item.code, before = 'save') @load(vm.item.code) @validator(vm.noRepeatCode, component = self)"
+						model="@load(vm.listItem)" maxlength="15"
+						onFocus="@command(vm.disableAll ? 'loadItemByField':'', field='code')"
+						onChange="@command(vm.disableAll ? 'searchItem':'', field='code', val=self.value)">
+						<template name="model" var="item">
+							<comboitem label="@load(item.code)">
+							</comboitem>
+						</template>
 					</combobox>
 				</row>
 				<row>
 					<label value="Nombre:" sclass="formLabel"></label>
 					<combobox sclass="cmbGeneralWithoutButton"
-						id="cmbItemName" autocomplete="true" autodrop="true"
-						buttonVisible="false">
+						autocomplete="@load(vm.disableAll)" buttonVisible="false"
+						autodrop="@load(vm.disableAll)"
+						value="@save(vm.item.name, before = 'save') @load(vm.item.name) @validator(vm.noEmpty, component = self)"
+						model="@load(vm.listItem)" maxlength="100"
+						onFocus="@command(vm.disableAll ? 'loadItemByField':'', field='name')"
+						onChange="@command(vm.disableAll ? 'searchItem':'', field='name', val=self.value)">
+						<template name="model" var="item">
+							<comboitem label="@load(item.name)">
+							</comboitem>
+						</template>
 					</combobox>
 				</row>
 				<row spans="2">
@@ -35,7 +51,9 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column sclass="columnLabel"></column>
+										<column width="130px"
+											align="right">
+										</column>
 										<column></column>
 									</columns>
 									<rows>
@@ -45,34 +63,58 @@
 											</label>
 											<hbox>
 												<combobox
-													id="cmbItemUnitCar" sclass="cmbShort" readonly="true"
-													value="--">
+													sclass="cmbShort" readonly="true"
+													value="@save(vm.minCombo, before = 'save') @load(vm.item.tbasicDataByUnitCar eq null ? vm.minCombo : vm.item.tbasicDataByUnitCar.name) @validator(vm.noDash, component = self)"
+													model="@load(vm.listUnitCar)"
+													selectedItem="@bind(vm.item.tbasicDataByUnitCar)"
+													disabled="@load(vm.disableAll)">
+													<template
+														name="model" var="unitCar">
+														<comboitem
+															label="@load(unitCar.name)">
+														</comboitem>
+													</template>
 												</combobox>
-												<textbox
-													id="txtItemWeightUnit" sclass="txtSideShort">
-												</textbox>
+												<!-- Cambiar a spinner (Ojo hoja de estilo) -->
+												<intbox
+													sclass="intSideShort"
+													value="@save(vm.item.weightUnit, before = 'save') @load(vm.item.weightUnit) @validator(vm.noEmpty, component = self)"
+													maxlength="9" disabled="@load(vm.disableAll)">
+												</intbox>
 											</hbox>
 										</row>
 										<row>
 											<label value="Tipo:"
 												sclass="formLabel">
 											</label>
-											<combobox id="cmbItemType"
+											<combobox
 												sclass="cmbGeneralButton" readonly="true"
-												value="--Seleccione--">
+												value="@save(vm.seleccione, before = 'save') @load(vm.item.tbasicDataByType eq null ? vm.seleccione : vm.item.tbasicDataByType.name) @validator(vm.noSelect, component = self)"
+												model="@load(vm.listItemType)"
+												selectedItem="@bind(vm.item.tbasicDataByType)"
+												disabled="@load(vm.disableAll)">
+												<template name="model"
+													var="itemType">
+													<comboitem
+														label="@load(itemType.name)">
+													</comboitem>
+												</template>
 											</combobox>
 										</row>
 										<row>
 											<label value="Lavable:"
 												sclass="formLabel">
 											</label>
-											<radiogroup id="washable">
-												<radio
-													id="radioItemWashable" radiogroup="washable" label="Si">
+											<radiogroup
+												selectedItem="@save(vm.item.washable)">
+												<radio label="Si"
+													value="true" checked="@load(vm.item.washable)"
+													sclass="formLabel" disabled="@load(vm.disableAll)">
 												</radio>
-												<radio
-													id="radioItemNotWashable" radiogroup="washable"
-													label="No">
+												<radio label="No"
+													value="false"
+													checked="@load(vm.item.washable ? 'false':'true')"
+													sclass="formLabel" disabled="@load(vm.disableAll)">
 												</radio>
 											</radiogroup>
 										</row>
@@ -82,7 +124,9 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column sclass="columnLabel"></column>
+										<column width="130px"
+											align="right">
+										</column>
 										<column></column>
 									</columns>
 									<rows>
@@ -90,9 +134,10 @@
 											<label value="Costo:"
 												sclass="formLabel">
 											</label>
-											<textbox id="txtItemCost"
-												sclass="txtGeneral">
-											</textbox>
+											<intbox sclass="intGeneral"
+												value="@save(vm.item.cost, before = 'save') @load(vm.item.cost) @validator(vm.noEmpty, component = self)"
+												maxlength="9" disabled="@load(vm.disableAll)">
+											</intbox>
 										</row>
 									</rows>
 								</grid>
@@ -100,7 +145,9 @@
 							<tabpanel>
 								<grid>
 									<columns>
-										<column sclass="columnLabel"></column>
+										<column width="130px"
+											align="right">
+										</column>
 										<column></column>
 									</columns>
 									<rows>
@@ -108,9 +155,10 @@
 											<label value="Precio:"
 												sclass="formLabel">
 											</label>
-											<textbox id="txtItemPrice"
-												sclass="txtGeneral">
-											</textbox>
+											<intbox sclass="intGeneral"
+												value="@save(vm.item.price, before = 'save') @load(vm.item.price) @validator(vm.noEmpty, component = self)"
+												maxlength="9" disabled="@load(vm.disableAll)">
+											</intbox>
 										</row>
 									</rows>
 								</grid>
@@ -120,28 +168,24 @@
 				</row>
 				<row>
 					<radiogroup id="status"
-						selectedItem="@save(vm.activo)">
-						<radio id="radioItemActive" radiogroup="status"
-							label="Activo"
-							checked="@load(vm.activo ? 'true':'false')"
-							value="true">
-						</radio>
-						<radio id="radioItemInactive"
-							radiogroup="status" label="Inactivo"
-							checked="@load(vm.activo ? 'false':'true')"
-							value="false">
+						selectedItem="@save(vm.item.status)">
+						<radio label="Activo"
+							checked="@load(vm.item.status eq 'A' ? 'true':'false')"
+							sclass="frmLabel" disabled="@load(vm.disableAll)">
 						</radio>
 					</radiogroup>
+					<radio radiogroup="status" label="Inactivo"
+						checked="@load(vm.item.status eq 'I' ? 'true':'false')"
+						sclass="formLabel" disabled="@load(vm.disableAll)">
+					</radio>
 					<space></space>
 				</row>
 				<row>
+					<button label="Buscar"></button>
 					<hbox>
-						<button id="btnSave" label="Guardar"></button>
-						<button id="btnCancel" label="Cancelar"
-							onClick="@command('clickTest')">
-						</button>
+						<button label="Guardar" onClick="@command('save')"></button>
+						<button label="Cancelar" onClick="@command('restarForm')"></button>
 					</hbox>
-					<space></space>
 				</row>
 			</rows>
 		</grid>
