@@ -7,11 +7,14 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -21,179 +24,173 @@ import javax.persistence.Table;
 @Table(name = "titem")
 public class Titem implements java.io.Serializable {
 
-	private int idItem;
-	private TbasicData tbasicDataByUnitCar;
-	private TbasicData tbasicDataByType;
-	private String code;
-	private String name;
-	private boolean washable;
-	private float cost;
-	private float price;
-	private int weightUnit;
-	private char status;
-	private Set<TorderDetail> torderDetails = new HashSet<TorderDetail>(0);
-	private Set<TbusinessPartner> tbusinessPartners = new HashSet<TbusinessPartner>(
-			0);
-	private Set<TbillDetail> tbillDetails = new HashSet<TbillDetail>(0);
+    private static final long serialVersionUID = 3288817021625297727L;
+    private int idItem;
+    private TbasicData tbasicDataByUnitCar;
+    private TbasicData tbasicDataByType;
+    private String code;
+    private String name;
+    private boolean washable;
+    private float cost;
+    private float price;
+    private int weightUnit;
+    private char status;
+    private Set<TorderDetail> torderDetails = new HashSet<TorderDetail>(0);
+    private Set<TbusinessPartner> tbusinessPartners = new HashSet<TbusinessPartner>(0);
+    private Set<TbillDetail> tbillDetails = new HashSet<TbillDetail>(0);
 
-	public Titem() {
-	}
+    public Titem() {
+    }
 
-	public Titem(int idItem, TbasicData tbasicDataByUnitCar,
-			TbasicData tbasicDataByType, String code, String name,
-			boolean washable, float cost, float price, int weightUnit,
-			char status) {
-		this.idItem = idItem;
-		this.tbasicDataByUnitCar = tbasicDataByUnitCar;
-		this.tbasicDataByType = tbasicDataByType;
-		this.code = code;
-		this.name = name;
-		this.washable = washable;
-		this.cost = cost;
-		this.price = price;
-		this.weightUnit = weightUnit;
-		this.status = status;
-	}
+    public Titem(int idItem, TbasicData tbasicDataByUnitCar, TbasicData tbasicDataByType, String code, String name, boolean washable, float cost, float price, int weightUnit, char status) {
+	this.idItem = idItem;
+	this.tbasicDataByUnitCar = tbasicDataByUnitCar;
+	this.tbasicDataByType = tbasicDataByType;
+	this.code = code;
+	this.name = name;
+	this.washable = washable;
+	this.cost = cost;
+	this.price = price;
+	this.weightUnit = weightUnit;
+	this.status = status;
+    }
 
-	public Titem(int idItem, TbasicData tbasicDataByUnitCar,
-			TbasicData tbasicDataByType, String code, String name,
-			boolean washable, float cost, float price, int weightUnit,
-			char status, Set<TorderDetail> torderDetails,
-			Set<TbusinessPartner> tbusinessPartners,
-			Set<TbillDetail> tbillDetails) {
-		this.idItem = idItem;
-		this.tbasicDataByUnitCar = tbasicDataByUnitCar;
-		this.tbasicDataByType = tbasicDataByType;
-		this.code = code;
-		this.name = name;
-		this.washable = washable;
-		this.cost = cost;
-		this.price = price;
-		this.weightUnit = weightUnit;
-		this.status = status;
-		this.torderDetails = torderDetails;
-		this.tbusinessPartners = tbusinessPartners;
-		this.tbillDetails = tbillDetails;
-	}
+    public Titem(int idItem, TbasicData tbasicDataByUnitCar, TbasicData tbasicDataByType, String code, String name, boolean washable, float cost, float price, int weightUnit, char status, Set<TorderDetail> torderDetails, Set<TbusinessPartner> tbusinessPartners, Set<TbillDetail> tbillDetails) {
+	this.idItem = idItem;
+	this.tbasicDataByUnitCar = tbasicDataByUnitCar;
+	this.tbasicDataByType = tbasicDataByType;
+	this.code = code;
+	this.name = name;
+	this.washable = washable;
+	this.cost = cost;
+	this.price = price;
+	this.weightUnit = weightUnit;
+	this.status = status;
+	this.torderDetails = torderDetails;
+	this.tbusinessPartners = tbusinessPartners;
+	this.tbillDetails = tbillDetails;
+    }
 
-	@Id
-	@Column(name = "id_item", unique = true, nullable = false)
-	public int getIdItem() {
-		return this.idItem;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "titem_id_seq")
+    @SequenceGenerator(name = "titem_id_seq", sequenceName = "titem_id_seq")
+    @Column(name = "id_item", unique = true, nullable = false)
+    public int getIdItem() {
+	return this.idItem;
+    }
 
-	public void setIdItem(int idItem) {
-		this.idItem = idItem;
-	}
+    public void setIdItem(int idItem) {
+	this.idItem = idItem;
+    }
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "unit_car", nullable = false)
-	public TbasicData getTbasicDataByUnitCar() {
-		return this.tbasicDataByUnitCar;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "unit_car", nullable = false)
+    public TbasicData getTbasicDataByUnitCar() {
+	return this.tbasicDataByUnitCar;
+    }
 
-	public void setTbasicDataByUnitCar(TbasicData tbasicDataByUnitCar) {
-		this.tbasicDataByUnitCar = tbasicDataByUnitCar;
-	}
+    public void setTbasicDataByUnitCar(TbasicData tbasicDataByUnitCar) {
+	this.tbasicDataByUnitCar = tbasicDataByUnitCar;
+    }
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "type", nullable = false)
-	public TbasicData getTbasicDataByType() {
-		return this.tbasicDataByType;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type", nullable = false)
+    public TbasicData getTbasicDataByType() {
+	return this.tbasicDataByType;
+    }
 
-	public void setTbasicDataByType(TbasicData tbasicDataByType) {
-		this.tbasicDataByType = tbasicDataByType;
-	}
+    public void setTbasicDataByType(TbasicData tbasicDataByType) {
+	this.tbasicDataByType = tbasicDataByType;
+    }
 
-	@Column(name = "code", nullable = false, length = 15)
-	public String getCode() {
-		return this.code;
-	}
+    @Column(name = "code", nullable = false, length = 15)
+    public String getCode() {
+	return this.code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+	this.code = code;
+    }
 
-	@Column(name = "name", nullable = false, length = 100)
-	public String getName() {
-		return this.name;
-	}
+    @Column(name = "name", nullable = false, length = 100)
+    public String getName() {
+	return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	@Column(name = "washable", nullable = false)
-	public boolean isWashable() {
-		return this.washable;
-	}
+    @Column(name = "washable", nullable = false)
+    public boolean isWashable() {
+	return this.washable;
+    }
 
-	public void setWashable(boolean washable) {
-		this.washable = washable;
-	}
+    public void setWashable(boolean washable) {
+	this.washable = washable;
+    }
 
-	@Column(name = "cost", nullable = false, precision = 8, scale = 8)
-	public float getCost() {
-		return this.cost;
-	}
+    @Column(name = "cost", nullable = false, precision = 8, scale = 8)
+    public float getCost() {
+	return this.cost;
+    }
 
-	public void setCost(float cost) {
-		this.cost = cost;
-	}
+    public void setCost(float cost) {
+	this.cost = cost;
+    }
 
-	@Column(name = "price", nullable = false, precision = 8, scale = 8)
-	public float getPrice() {
-		return this.price;
-	}
+    @Column(name = "price", nullable = false, precision = 8, scale = 8)
+    public float getPrice() {
+	return this.price;
+    }
 
-	public void setPrice(float price) {
-		this.price = price;
-	}
+    public void setPrice(float price) {
+	this.price = price;
+    }
 
-	@Column(name = "weight_unit", nullable = false)
-	public int getWeightUnit() {
-		return this.weightUnit;
-	}
+    @Column(name = "weight_unit", nullable = false)
+    public int getWeightUnit() {
+	return this.weightUnit;
+    }
 
-	public void setWeightUnit(int weightUnit) {
-		this.weightUnit = weightUnit;
-	}
+    public void setWeightUnit(int weightUnit) {
+	this.weightUnit = weightUnit;
+    }
 
-	@Column(name = "status", nullable = false, length = 1)
-	public char getStatus() {
-		return this.status;
-	}
+    @Column(name = "status", nullable = false, length = 1)
+    public char getStatus() {
+	return this.status;
+    }
 
-	public void setStatus(char status) {
-		this.status = status;
-	}
+    public void setStatus(char status) {
+	this.status = status;
+    }
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "titem")
-	public Set<TorderDetail> getTorderDetails() {
-		return this.torderDetails;
-	}
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "titem")
+    public Set<TorderDetail> getTorderDetails() {
+	return this.torderDetails;
+    }
 
-	public void setTorderDetails(Set<TorderDetail> torderDetails) {
-		this.torderDetails = torderDetails;
-	}
+    public void setTorderDetails(Set<TorderDetail> torderDetails) {
+	this.torderDetails = torderDetails;
+    }
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "titems")
-	public Set<TbusinessPartner> getTbusinessPartners() {
-		return this.tbusinessPartners;
-	}
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "titems")
+    public Set<TbusinessPartner> getTbusinessPartners() {
+	return this.tbusinessPartners;
+    }
 
-	public void setTbusinessPartners(Set<TbusinessPartner> tbusinessPartners) {
-		this.tbusinessPartners = tbusinessPartners;
-	}
+    public void setTbusinessPartners(Set<TbusinessPartner> tbusinessPartners) {
+	this.tbusinessPartners = tbusinessPartners;
+    }
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "titem")
-	public Set<TbillDetail> getTbillDetails() {
-		return this.tbillDetails;
-	}
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "titem")
+    public Set<TbillDetail> getTbillDetails() {
+	return this.tbillDetails;
+    }
 
-	public void setTbillDetails(Set<TbillDetail> tbillDetails) {
-		this.tbillDetails = tbillDetails;
-	}
+    public void setTbillDetails(Set<TbillDetail> tbillDetails) {
+	this.tbillDetails = tbillDetails;
+    }
 
 }

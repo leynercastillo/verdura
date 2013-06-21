@@ -1,0 +1,198 @@
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" border="normal"
+		closable="true" onClose="@command('close')"
+		viewModel="@id('vm') @init('controllers.articulos.FrmItemMaster')">
+		<style src="resource/style/styleZK.css"></style>
+		<caption label="Maestro Productos" zclass="formTitle"></caption>
+		<grid>
+			<columns>
+				<column align="right" width="15%"></column>
+				<column width="20%"></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<label sclass="formLabel" value="Codigo:"></label>
+					<combobox autocomplete="@load(vm.disableAll)"
+						autodrop="@load(vm.disableAll)" buttonVisible="false" hflex="1"
+						maxlength="15" model="@load(vm.listItemCode)"
+						onChange="@command(vm.disableAll ? 'loadItem':'', field='code', val=self.value)"
+						onFocus="@command(vm.disableAll ? 'searchItemByField':'', field='code')"
+						value="@save(vm.item.code, before = 'save') @load(vm.item.code) @validator(vm.noRepeatCode, component = self)">
+					</combobox>
+				</row>
+				<row>
+					<label sclass="formLabel" value="Descripcion:"></label>
+					<combobox autocomplete="@load(vm.disableAll)"
+						autodrop="@load(vm.disableAll)" buttonVisible="false" hflex="1"
+						maxlength="100" model="@load(vm.listItemName)"
+						onChange="@command(vm.disableAll ? 'loadItem':'', field='name', val=self.value)"
+						onFocus="@command(vm.disableAll ? 'searchItemByField':'', field='name')"
+						value="@save(vm.item.name, before = 'save') @load(vm.item.name) @validator(vm.noEmpty, component = self)">
+					</combobox>
+				</row>
+				<row spans="3">
+					<tabbox>
+						<tabs>
+							<tab id="tabGeneral" label="General"></tab>
+							<tab id="tabSales" label="Ventas"></tab>
+							<tab id="tabBuys" label="Compras"></tab>
+						</tabs>
+						<tabpanels>
+							<tabpanel>
+								<grid>
+									<columns>
+										<column width="15%"
+											align="right">
+										</column>
+										<column width="20%"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<label
+												value="Unidad de medida:" sclass="formLabel">
+											</label>
+											<div width="100%">
+												<combobox
+													disabled="@load(vm.disableAll)"
+													model="@load(vm.listUnitCar)" readonly="true"
+													selectedItem="@bind(vm.item.tbasicDataByUnitCar)"
+													style="float: left"
+													value="@save(vm.minCombo, before = 'save') @load(vm.item.tbasicDataByUnitCar eq null ? vm.minCombo : vm.item.tbasicDataByUnitCar.name) @validator(vm.noDash, component = self)"
+													width="25%">
+													<template
+														name="model" var="unitCar">
+														<comboitem
+															label="@load(unitCar.name)">
+														</comboitem>
+													</template>
+												</combobox>
+												<spinner
+													constraint="min 0" disabled="@load(vm.disableAll)"
+													maxlength="9" style="padding-left: 4%"
+													value="@save(vm.item.weightUnit, before = 'save') @load(vm.item.weightUnit) @validator(vm.noEmpty, component = self)"
+													width="70%">
+												</spinner>
+											</div>
+											<space></space>
+										</row>
+										<row>
+											<label value="Tipo:"
+												sclass="formLabel">
+											</label>
+											<combobox
+												disabled="@load(vm.disableAll)" hflex="1"
+												model="@load(vm.listItemType)" readonly="true"
+												selectedItem="@bind(vm.item.tbasicDataByType)"
+												value="@save(vm.seleccione, before = 'save') @load(vm.item.tbasicDataByType eq null ? vm.seleccione : vm.item.tbasicDataByType.name) @validator(vm.noSelect, component = self)">
+												<template name="model"
+													var="itemType">
+													<comboitem
+														label="@load(itemType.name)">
+													</comboitem>
+												</template>
+											</combobox>
+										</row>
+										<row>
+											<label value="Lavable:"
+												sclass="formLabel">
+											</label>
+											<radiogroup
+												selectedItem="@save(vm.item.washable)">
+												<radio label="Si"
+													value="true" checked="@load(vm.item.washable)"
+													sclass="formLabel" disabled="@load(vm.disableAll)">
+												</radio>
+												<space></space>
+												<radio label="No"
+													value="false"
+													checked="@load(vm.item.washable ? 'false':'true')"
+													sclass="formLabel" disabled="@load(vm.disableAll)">
+												</radio>
+											</radiogroup>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+							<tabpanel>
+								<grid>
+									<columns>
+										<column align="right"
+											width="15%">
+										</column>
+										<column width="20%"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<label sclass="formLabel"
+												value="Costo:">
+											</label>
+											<doublebox
+												disabled="@load(vm.disableAll)" hflex="1" maxlength="9"
+												value="@save(vm.item.cost, before = 'save') @load(vm.item.cost) @validator(vm.noEmptyInt, component = self, tab = tabSales)">
+											</doublebox>
+											<space></space>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+							<tabpanel>
+								<grid>
+									<columns>
+										<column align="right"
+											width="15%">
+										</column>
+										<column width="20%"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<label value="Precio:"
+												sclass="formLabel">
+											</label>
+											<doublebox
+												disabled="@load(vm.disableAll)" hflex="1" maxlength="9"
+												value="@save(vm.item.price, before = 'save') @load(vm.item.price) @validator(vm.noEmptyInt, component = self, tab = tabBuys)">
+											</doublebox>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+						</tabpanels>
+					</tabbox>
+				</row>
+				<row>
+					<radiogroup id="status"
+						selectedItem="@save(vm.item.status)">
+						<radio
+							checked="@load(vm.item.status eq 'A' ? 'true':'false')"
+							disabled="@load(vm.disableAll)" label="Activo" value="A">
+						</radio>
+					</radiogroup>
+					<radio
+						checked="@load(vm.item.status eq 'I' ? 'true':'false')"
+						disabled="@load(vm.disableAll)" label="Inactivo"
+						radiogroup="status" value="I">
+					</radio>
+					<space></space>
+				</row>
+				<row>
+					<button label="Buscar"
+						onClick="@command('search')">
+					</button>
+					<hbox>
+						<button disabled="@load(vm.disableAll)"
+							label="Guardar" onClick="@command('save')">
+						</button>
+						<button label="Cancelar"
+							onClick="@command('restartForm')">
+						</button>
+					</hbox>
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>

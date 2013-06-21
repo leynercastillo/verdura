@@ -7,10 +7,13 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -20,77 +23,78 @@ import javax.persistence.Table;
 @Table(name = "security_role")
 public class SecurityRole implements java.io.Serializable {
 
-	private int idSecurityRole;
-	private String name;
-	private String description;
-	private short status;
-	private Set<SecurityGroup> securityGroups = new HashSet<SecurityGroup>(0);
+    private static final long serialVersionUID = 7255085850655394686L;
+    private int idSecurityRole;
+    private String name;
+    private String description;
+    private short status;
+    private Set<SecurityGroup> securityGroups = new HashSet<SecurityGroup>(0);
 
-	public SecurityRole() {
-	}
+    public SecurityRole() {
+    }
 
-	public SecurityRole(int idSecurityRole, String name, String description,
-			short status) {
-		this.idSecurityRole = idSecurityRole;
-		this.name = name;
-		this.description = description;
-		this.status = status;
-	}
+    public SecurityRole(int idSecurityRole, String name, String description, short status) {
+	this.idSecurityRole = idSecurityRole;
+	this.name = name;
+	this.description = description;
+	this.status = status;
+    }
 
-	public SecurityRole(int idSecurityRole, String name, String description,
-			short status, Set<SecurityGroup> securityGroups) {
-		this.idSecurityRole = idSecurityRole;
-		this.name = name;
-		this.description = description;
-		this.status = status;
-		this.securityGroups = securityGroups;
-	}
+    public SecurityRole(int idSecurityRole, String name, String description, short status, Set<SecurityGroup> securityGroups) {
+	this.idSecurityRole = idSecurityRole;
+	this.name = name;
+	this.description = description;
+	this.status = status;
+	this.securityGroups = securityGroups;
+    }
 
-	@Id
-	@Column(name = "id_security_role", unique = true, nullable = false)
-	public int getIdSecurityRole() {
-		return this.idSecurityRole;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "security_role_id_seq")
+    @SequenceGenerator(name = "security_role_id_seq", sequenceName = "security_role_id_seq")
+    @Column(name = "id_security_role", unique = true, nullable = false)
+    public int getIdSecurityRole() {
+	return this.idSecurityRole;
+    }
 
-	public void setIdSecurityRole(int idSecurityRole) {
-		this.idSecurityRole = idSecurityRole;
-	}
+    public void setIdSecurityRole(int idSecurityRole) {
+	this.idSecurityRole = idSecurityRole;
+    }
 
-	@Column(name = "name", nullable = false, length = 40)
-	public String getName() {
-		return this.name;
-	}
+    @Column(name = "name", nullable = false, length = 40)
+    public String getName() {
+	return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	@Column(name = "description", nullable = false, length = 150)
-	public String getDescription() {
-		return this.description;
-	}
+    @Column(name = "description", nullable = false, length = 150)
+    public String getDescription() {
+	return this.description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+	this.description = description;
+    }
 
-	@Column(name = "status", nullable = false)
-	public short getStatus() {
-		return this.status;
-	}
+    @Column(name = "status", nullable = false)
+    public short getStatus() {
+	return this.status;
+    }
 
-	public void setStatus(short status) {
-		this.status = status;
-	}
+    public void setStatus(short status) {
+	this.status = status;
+    }
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "role_group", joinColumns = { @JoinColumn(name = "id_security_role", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_security_group", nullable = false, updatable = false) })
-	public Set<SecurityGroup> getSecurityGroups() {
-		return this.securityGroups;
-	}
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "role_group", joinColumns = { @JoinColumn(name = "id_security_role", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_security_group", nullable = false, updatable = false) })
+    public Set<SecurityGroup> getSecurityGroups() {
+	return this.securityGroups;
+    }
 
-	public void setSecurityGroups(Set<SecurityGroup> securityGroups) {
-		this.securityGroups = securityGroups;
-	}
+    public void setSecurityGroups(Set<SecurityGroup> securityGroups) {
+	this.securityGroups = securityGroups;
+    }
 
 }

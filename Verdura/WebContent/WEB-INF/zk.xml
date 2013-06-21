@@ -1,39 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-	Created by ZK Studio
--->
+<!-- Created by ZK Studio -->
 
 <zk>
 	<device-config>
 		<device-type>ajax</device-type>
-		<timeout-uri>/timeout.zul</timeout-uri><!-- An empty URL can cause the browser to reload the same URL -->
-		<listener>
-		    <listener-class>hibernateConnections.HibernateListeners</listener-class>
-		</listener>
+		<session-timeout>9000</session-timeout>
+		<timeout-uri></timeout-uri><!-- An empty URL can cause the browser to reload 
+			the same URL -->
 	</device-config>
 	<library-property>
 		<name>org.zkoss.zul.Button.mold</name>
-	    <value>trendy</value>
+		<value>trendy</value>
 	</library-property>
 	<library-property>
-	    <name>org.zkoss.zul.Textbox.mold</name>
-	    <value>rounded</value>
+		<name>org.zkoss.zul.Textbox.mold</name>
+		<value>rounded</value>
 	</library-property>
 	<library-property>
-	    <name>org.zkoss.zul.Combobox.mold</name>
-	    <value>rounded</value>
+		<name>org.zkoss.zul.Combobox.mold</name>
+		<value>rounded</value>
 	</library-property>
 	<library-property>
-	    <name>org.zkoss.zul.Spinner.mold</name>
-	    <value>rounded</value>
+		<name>org.zkoss.zul.Spinner.mold</name>
+		<value>rounded</value>
 	</library-property>
 	<library-property>
-	    <name>org.zkoss.zul.Datebox.mold</name>
-	    <value>rounded</value>
+		<name>org.zkoss.zul.Datebox.mold</name>
+		<value>rounded</value>
 	</library-property>
 	<library-property>
-	    <name>org.zkoss.zul.Intbox.mold</name>
-	    <value>rounded</value>
+		<name>org.zkoss.zul.Intbox.mold</name>
+		<value>rounded</value>
+	</library-property>
+	<library-property>
+		<name>org.zkoss.zul.Doublebox.mold</name>
+		<value>rounded</value>
+	</library-property>
+	<library-property>
+		<name>org.zkoss.zul.Doublespinner.mold</name>
+		<value>rounded</value>
 	</library-property>
 </zk>

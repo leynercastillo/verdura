@@ -1,0 +1,57 @@
+@CHARSET "ISO-8859-1";
+/*===================Etiquetas label principales de los formularios===================*/
+.formLabel {
+	font-weight: bold;
+}
+
+.formTitle {
+	font-weight: bold;
+	font-size: large;
+	color: #18184C;
+}
+/*====================================================================================*/
+
+/*================Alinear texto a la derecha dentro de un toolbar=====================*/
+.alignRight .z-toolbar-start,.z-toolbar-panel .z-toolbar-panel-start .z-toolbar-panel-cnt
+	{
+	float: right;
+}
+/*====================================================================================*/
+
+/*====== Cambiar color letra de algunos componentes cuando estan desactivados=========*/
+.z-spinner-disd,.z-spinner-disd *,.z-doublespinner-disd,.z-doublespinner-disd *,.z-timebox-disd,.z-timebox-disd *,.z-datebox-disd,.z-datebox-disd *,.z-bandbox-disd,.z-bandbox-disd *,.z-comboitem-disd,.z-comboitem-disd *,.z-combobox-disd,.z-combobox-disd *,.z-textbox-disd,.z-decimalbox-disd,.z-intbox-disd,.z-longbox-disd,.z-doublebox-disd,.z-textbox-disd *,.z-decimalbox-disd *,.z-intbox-disd *,.z-longbox-disd *,.z-doublebox-disd *
+	{
+	color: black !important;
+}
+
+.z-textbox-disd,.z-decimalbox-disd,.z-intbox-disd,.z-longbox-disd,.z-doublebox-disd,.z-spinner-rounded-disd,.z-doublespinner-rounded-disd,.z-timebox-rounded-disd,.z-datebox-rounded-disd,.z-bandbox-rounded-disd,.z-combobox-rounded-disd,.z-spinner-disd,.z-doublespinner-disd,.z-timebox-disd,.z-datebox-disd,.z-bandbox-disd,.z-comboitem-disd,.z-combobox-disd
+	{
+	opacity: .8;
+	-moz-opacity: .8;
+	filter: alpha(opacity =   80);
+}
+/*====================================================================================*/
+
+/*======================Eliminar los borders a los grid===============================*/
+div.z-grid{
+	border: none;
+}
+/*======================Eliminar los colores a los grid===============================*/
+
+/*====================================================================================*/
+tr.z-grid-odd td.z-row-inner, tr.z-grid-odd .z-cell, tr.z-grid-odd{
+	background: white;
+}
+/*====================================================================================*/
+
+/*===================Eliminar el efecto hover sobre los grid==========================*/
+tr.z-row-over td.z-row-inner, tr.z-row-over .z-cell {
+    background-image: none;
+    /*border-bottom: 1px solid white;
+    border-top: 1px solid white;*/
+}
+tr.z-row td.z-row-inner, tr.z-row-over .z-cell, tr.z-row .z-cell {
+    background-image: none;
+    border:none;
+}
+/*====================================================================================*/

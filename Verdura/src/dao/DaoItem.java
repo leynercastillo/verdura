@@ -3,36 +3,53 @@ package dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import models.TbasicData;
-import models.TbusinessPartner;
+import dao.generic.GenericDao;
+
 import models.Titem;
-import hibernateConnections.GenericDao;
 
+@Repository
 public class DaoItem extends GenericDao<Titem> {
 
-	public List<Titem> listOrderedByField(String field) {
-		Transaction transaction = currentSession().beginTransaction();
-		Criteria criteria = currentSession().createCriteria(Titem.class);
-		criteria.addOrder(Order.asc(field));
-		return criteria.list();
-	}
+    @Autowired
+    public DaoItem(SessionFactory sessionFactory) {
+	super(sessionFactory);
+    }
 
-	public List<Titem> findByString(String field, String value) {
-		Transaction transaction = currentSession().beginTransaction();
-		Criteria criteria = currentSession().createCriteria(Titem.class);
-		criteria.add(Restrictions.eq(field, value));
-		return criteria.list();
-	}
+    public List<Titem> listOrderedByField(String field) {
+	getCurrentSession().beginTransaction();
+	Criteria criteria = getCurrentSession().createCriteria(Titem.class);
+	criteria.addOrder(Order.asc(field));
+	return criteria.list();
+    }
 
-	public Titem findByCode(String code) {
-		Transaction transaction = currentSession().beginTransaction();
-		Criteria criteria = currentSession().createCriteria(TbusinessPartner.class);
-		criteria.add(Restrictions.eq("code", code));
-		Object bp = criteria.uniqueResult();
-		return bp != null ? (Titem)bp : null;
-	}
+    public List<Titem> findByString(String field, String value) {
+	getCurrentSession().beginTransaction();
+	Criteria criteria = getCurrentSession().createCriteria(Titem.class);
+	criteria.add(Restrictions.eq(field, value));
+	return criteria.list();
+    }
+
+    public Titem findByCode(String code) {
+	getCurrentSession().beginTransaction();
+	Criteria criteria = getCurrentSession().createCriteria(Titem.class);
+	criteria.add(Restrictions.eq("code", code));
+	Object bp = criteria.uniqueResult();
+	return bp != null ? (Titem) bp : null;
+    }
+
+    public List<String> listStringByFields(String field) {
+	getCurrentSession().beginTransaction();
+	Criteria criteria = getCurrentSession().createCriteria(Titem.class);
+	criteria.setProjection(Projections.distinct(Projections.property(field)));
+	criteria.addOrder(Order.asc(field));
+	List<String> list = criteria.list();
+	return list;
+    }
 }

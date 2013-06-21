@@ -4,8 +4,8 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Logical" value="Postgres Verdura" />
    <property key="Connection Type" value="PostgreSQL" />
+   <property key="Logical" value="PlayPen Database" />
    <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/verdura" />
    <property key="UID" value="postgres" />
    <property key="PWD" value="leyner.18654277" />
@@ -29,7 +29,7 @@
   </data-source>
  </project-data-sources>
  <source-databases>
-  <database id="DB0" populated="true" UUID="4ca55391-013a-4fed-bbf3-069a964b5ec8" dbcs-ref="DS2" name="PlayPen Database" physicalName="Postgres Connection" sql-exception="ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: Couldn&apos;t connect to database: FATAL: no hay una l�nea en pg_hba.conf para �192.168.1.40�, usuario �postgres�, base de datos �test�, SSL inactivo" >
+  <database id="DB0" populated="true" UUID="4ca55391-013a-4fed-bbf3-069a964b5ec8" dbcs-ref="DS2" name="PlayPen Database" physicalName="Postgres Connection" sql-exception="ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: ca.sqlpower.sqlobject.SQLObjectException: Couldn&apos;t connect to database: FATAL: no hay una l�nea en pg_hba.conf para �192.168.1.40�, usuario �postgres�, base de datos �test�, SSL inactivo" >
    <catalog id="CAT1" populated="true" UUID="8efb55f9-a1f1-4902-a20d-2a04594b9358" name="verdura" nativeTerm="database" physicalName="verdura" >
    </catalog>
    <relationships>
@@ -87,10 +87,10 @@
     <column id="COL17" populated="true" UUID="81be41bf-1158-4d54-aee9-96b03a3cdb4f" autoIncrement="false" autoIncrementSequenceName="Tbusiness_partner_branch_address_seq" defaultValue="" name="address" nullable="0" physicalName="address" precision="200" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL18" populated="true" UUID="34e0e80c-ff0e-4202-8a31-cefbc0752b89" autoIncrement="false" autoIncrementSequenceName="Tbusiness_partner_branch_email_seq" defaultValue="" name="email" nullable="0" physicalName="email" precision="100" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL18" populated="true" UUID="34e0e80c-ff0e-4202-8a31-cefbc0752b89" autoIncrement="false" autoIncrementSequenceName="Tbusiness_partner_branch_email_seq" defaultValue="" name="email" nullable="1" physicalName="email" precision="100" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL19" populated="true" UUID="18786fbc-092f-4556-91b5-baf288930f7a" autoIncrement="false" autoIncrementSequenceName="Tbusiness_partner_branch_fax_seq" defaultValue="" name="fax" nullable="0" physicalName="fax" precision="15" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL19" populated="true" UUID="18786fbc-092f-4556-91b5-baf288930f7a" autoIncrement="false" autoIncrementSequenceName="Tbusiness_partner_branch_fax_seq" defaultValue="" name="fax" nullable="1" physicalName="fax" precision="15" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL20" populated="true" UUID="171ba62e-e9c0-4e9d-8c23-c8e7df9b395c" autoIncrement="false" autoIncrementSequenceName="Tbusiness_partner_branch_contact_phone_seq" defaultValue="" name="contact_phone" nullable="0" physicalName="contact_phone" precision="15" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -619,7 +619,7 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">

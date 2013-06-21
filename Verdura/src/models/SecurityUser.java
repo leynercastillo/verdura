@@ -7,8 +7,11 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -18,88 +21,89 @@ import javax.persistence.Table;
 @Table(name = "security_user")
 public class SecurityUser implements java.io.Serializable {
 
-	private int idSecurityUser;
-	private String name;
-	private String email;
-	private String password;
-	private short status;
-	private Set<SecurityGroup> securityGroups = new HashSet<SecurityGroup>(0);
+    private static final long serialVersionUID = 3470279921868749800L;
+    private int idSecurityUser;
+    private String name;
+    private String email;
+    private String password;
+    private short status;
+    private Set<SecurityGroup> securityGroups = new HashSet<SecurityGroup>(0);
 
-	public SecurityUser() {
-	}
+    public SecurityUser() {
+    }
 
-	public SecurityUser(int idSecurityUser, String name, String email,
-			String password, short status) {
-		this.idSecurityUser = idSecurityUser;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.status = status;
-	}
+    public SecurityUser(int idSecurityUser, String name, String email, String password, short status) {
+	this.idSecurityUser = idSecurityUser;
+	this.name = name;
+	this.email = email;
+	this.password = password;
+	this.status = status;
+    }
 
-	public SecurityUser(int idSecurityUser, String name, String email,
-			String password, short status, Set<SecurityGroup> securityGroups) {
-		this.idSecurityUser = idSecurityUser;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.status = status;
-		this.securityGroups = securityGroups;
-	}
+    public SecurityUser(int idSecurityUser, String name, String email, String password, short status, Set<SecurityGroup> securityGroups) {
+	this.idSecurityUser = idSecurityUser;
+	this.name = name;
+	this.email = email;
+	this.password = password;
+	this.status = status;
+	this.securityGroups = securityGroups;
+    }
 
-	@Id
-	@Column(name = "id_security_user", unique = true, nullable = false)
-	public int getIdSecurityUser() {
-		return this.idSecurityUser;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "security_user_id_seq")
+    @SequenceGenerator(name = "security_user_id_seq", sequenceName = "security_user_id_seq")
+    @Column(name = "id_security_user", unique = true, nullable = false)
+    public int getIdSecurityUser() {
+	return this.idSecurityUser;
+    }
 
-	public void setIdSecurityUser(int idSecurityUser) {
-		this.idSecurityUser = idSecurityUser;
-	}
+    public void setIdSecurityUser(int idSecurityUser) {
+	this.idSecurityUser = idSecurityUser;
+    }
 
-	@Column(name = "name", nullable = false, length = 40)
-	public String getName() {
-		return this.name;
-	}
+    @Column(name = "name", nullable = false, length = 40)
+    public String getName() {
+	return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	@Column(name = "email", nullable = false, length = 100)
-	public String getEmail() {
-		return this.email;
-	}
+    @Column(name = "email", nullable = false, length = 100)
+    public String getEmail() {
+	return this.email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setEmail(String email) {
+	this.email = email;
+    }
 
-	@Column(name = "password", nullable = false, length = 50)
-	public String getPassword() {
-		return this.password;
-	}
+    @Column(name = "password", nullable = false, length = 50)
+    public String getPassword() {
+	return this.password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+	this.password = password;
+    }
 
-	@Column(name = "status", nullable = false)
-	public short getStatus() {
-		return this.status;
-	}
+    @Column(name = "status", nullable = false)
+    public short getStatus() {
+	return this.status;
+    }
 
-	public void setStatus(short status) {
-		this.status = status;
-	}
+    public void setStatus(short status) {
+	this.status = status;
+    }
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "securityUsers")
-	public Set<SecurityGroup> getSecurityGroups() {
-		return this.securityGroups;
-	}
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "securityUsers")
+    public Set<SecurityGroup> getSecurityGroups() {
+	return this.securityGroups;
+    }
 
-	public void setSecurityGroups(Set<SecurityGroup> securityGroups) {
-		this.securityGroups = securityGroups;
-	}
+    public void setSecurityGroups(Set<SecurityGroup> securityGroups) {
+	this.securityGroups = securityGroups;
+    }
 
 }
