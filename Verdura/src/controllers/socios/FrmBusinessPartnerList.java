@@ -19,49 +19,49 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Window;
 
 public class FrmBusinessPartnerList {
-	@Wire("#window")
-	private Window window;
-	
-	private List<TbusinessPartner> listBusinessPartner;
-	private TbusinessPartner selectedBusinessPartner;
+    @Wire("#window")
+    private Window window;
 
-	public TbusinessPartner getSelectedBusinessPartner() {
-		return selectedBusinessPartner;
-	}
+    private List<TbusinessPartner> listBusinessPartner;
+    private TbusinessPartner selectedBusinessPartner;
 
-	public void setSelectedBusinessPartner(TbusinessPartner selectedBusinessPartner) {
-		this.selectedBusinessPartner = selectedBusinessPartner;
-	}
+    public TbusinessPartner getSelectedBusinessPartner() {
+	return selectedBusinessPartner;
+    }
 
-	public List<TbusinessPartner> getListBusinessPartner() {
-		return listBusinessPartner;
-	}
+    public void setSelectedBusinessPartner(TbusinessPartner selectedBusinessPartner) {
+	this.selectedBusinessPartner = selectedBusinessPartner;
+    }
 
-	public void setListBusinessPartner(List<TbusinessPartner> listBusinessPartner) {
-		this.listBusinessPartner = listBusinessPartner;
-	}
+    public List<TbusinessPartner> getListBusinessPartner() {
+	return listBusinessPartner;
+    }
 
-	@Init
-	public void init(@ExecutionArgParam("listBusinessPartner") List<TbusinessPartner> listBusinessPartner, @ContextParam(ContextType.VIEW) Component view){
-		this.listBusinessPartner = listBusinessPartner;
-		Selectors.wireComponents(view, this, false);
-	}
-	
-	@Command
-	public void closeWindow(){
-		window.detach();
-	}
+    public void setListBusinessPartner(List<TbusinessPartner> listBusinessPartner) {
+	this.listBusinessPartner = listBusinessPartner;
+    }
 
-	public String fullRif(String rifType, String rif){
-		return rifType+"-"+rif;
-	}
-	
-	@NotifyChange("selectedBusinessPartner")
-	@Command
-	public void sendBusinessPartner(){
-		Map map = new HashMap();
-		map.put("businessPartner", selectedBusinessPartner);
-		window.detach();
-		BindUtils.postGlobalCommand(null, null, "selectedBusinessPartner", map);
-	}
+    @Init
+    public void init(@ExecutionArgParam("listBusinessPartner") List<TbusinessPartner> listBusinessPartner, @ContextParam(ContextType.VIEW) Component view) {
+	this.listBusinessPartner = listBusinessPartner;
+	Selectors.wireComponents(view, this, false);
+    }
+
+    @Command
+    public void closeWindow() {
+	window.detach();
+    }
+
+    public String fullRif(String rifType, String rif) {
+	return rifType + "-" + rif;
+    }
+
+    @NotifyChange("selectedBusinessPartner")
+    @Command
+    public void sendBusinessPartner() {
+	Map<String, Object> map = new HashMap<String, Object>();
+	map.put("businessPartner", selectedBusinessPartner);
+	window.detach();
+	BindUtils.postGlobalCommand(null, null, "selectedBusinessPartner", map);
+    }
 }

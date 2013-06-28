@@ -11,7 +11,7 @@
 			<columns>
 				<column align="right" width="15%"></column>
 				<column width="20%"></column>
-				<column align="right" width="8%"></column>
+				<column align="right" width="10%"></column>
 				<column></column>
 			</columns>
 			<rows>
@@ -19,10 +19,15 @@
 					<label sclass="formLabel" value="Nombre:"></label>
 					<combobox autocomplete="@load(vm.disableAll)"
 						autodrop="@load(vm.disableAll)" buttonVisible="false" hflex="1"
-						maxlength="100" model="@load(vm.listBusinessPartnerName)"
-						onChange="@command(vm.disableAll ? 'loadBusinessPartner':'', field='name', val=self.value)"
-						onFocus="@command(vm.disableAll ? 'searchBusinessPartnerByField':'', field='name')"
+						maxlength="100" model="@load(vm.listBusinessPartner)"
+						onChange="@command(vm.disableAll ? 'searchBusinessPartner':'', field='name', val=self.value)"
+						onFocus="@command(vm.disableAll ? 'loadBusinessPartnerByField':'', field='name')"
 						value="@save(vm.businessPartner.name, before = 'save') @load(vm.businessPartner.name) @validator(vm.noEmpty, component = self)">
+						<template name="model" var="businessPartner">
+							<comboitem
+								label="@load(businessPartner.name)">
+							</comboitem>
+						</template>
 					</combobox>
 					<label sclass="formLabel" value="Tipo:"></label>
 					<combobox disabled="@load(vm.disableAll)"
@@ -44,8 +49,9 @@
 						<combobox disabled="@load(vm.disableAll)"
 							model="@load(vm.listRifType)" readonly="true"
 							selectedItem="@bind(vm.businessPartner.tbasicDataByRifType)"
+							style="float: left"
 							value="@save(vm.minCombo, before = 'save') @load(vm.businessPartner.tbasicDataByRifType eq null ? vm.minCombo : vm.businessPartner.tbasicDataByRifType.name) @validator(vm.noDash, component = self)"
-							width="25%">
+							width="22%">
 							<template name="model" var="rifType">
 								<comboitem
 									label="@load(rifType.name)">
@@ -55,11 +61,18 @@
 						<combobox autocomplete="@load(vm.disableAll)"
 							autodrop="@load(vm.disableAll)" buttonVisible="false"
 							disabled="@load(vm.update)" maxlength="15"
-							model="@load(vm.listBusinessPartnerRif)"
-							onChange="@command(vm.disableAll ? 'loadBusinessPartner':'', field='rif', val=self.value)"
-							onFocus="@command(vm.disableAll ? 'searchBusinessPartnerByField':'', field='rif')"
+							model="@load(vm.listBusinessPartner)"
+							onChange="@command(vm.disableAll ? 'searchBusinessPartner':'', field='rif', val=self.value)"
+							onFocus="@command(vm.disableAll ? 'loadBusinessPartnerByField':'', field='rif')"
+							style="padding-left: 3%"
 							value="@save(vm.businessPartner.rif, before = 'save') @load(vm.businessPartner.rif) @validator(vm.noRepeatRif, component = self)"
-							width="73%">
+							width="75%">
+							<template name="model"
+								var="businessPartner">
+								<comboitem
+									label="@load(businessPartner.rif)">
+								</comboitem>
+							</template>
 						</combobox>
 					</div>
 					<space></space>
@@ -90,7 +103,7 @@
 											width="20%">
 										</column>
 										<column width="15%"></column>
-										<column width="21%"></column>
+										<column width="20%"></column>
 										<column></column>
 									</columns>
 									<rows>
@@ -133,9 +146,8 @@
 											</label>
 											<textbox
 												disabled="@load(vm.disableAll)" hflex="1" maxlength="120"
-												value="@save(vm.businessPartnerBranch.name, before = 'addBranch') @load(vm.businessPartnerBranch.name) @validator(vm.noEmpty, component = self)">
+												value="@save(vm.businessPartnerBranch.name, before = 'add') @load(vm.businessPartnerBranch.name) @validator(vm.noEmpty, component = self)">
 											</textbox>
-											<space></space>
 										</row>
 										<row>
 											<label sclass="formLabel"
@@ -143,9 +155,8 @@
 											</label>
 											<textbox
 												disabled="@load(vm.disableAll)" hflex="1" maxlength="200"
-												value="@save(vm.businessPartnerBranch.address, before = 'addBranch') @load(vm.businessPartnerBranch.address) @validator(vm.noEmpty, component = self)">
+												value="@save(vm.businessPartnerBranch.address, before = 'add') @load(vm.businessPartnerBranch.address) @validator(vm.noEmpty, component = self)">
 											</textbox>
-											<space></space>
 										</row>
 										<row>
 											<label sclass="formLabel"
@@ -153,19 +164,17 @@
 											</label>
 											<textbox
 												disabled="@load(vm.disableAll)" hflex="1" maxlength="100"
-												value="@save(vm.businessPartnerBranch.contactName, before = 'addBranch') @load(vm.businessPartnerBranch.contactName) @validator(vm.noEmpty, component = self)">
+												value="@save(vm.businessPartnerBranch.contactName, before = 'add') @load(vm.businessPartnerBranch.contactName) @validator(vm.noEmpty, component = self)">
 											</textbox>
-											<space></space>
 										</row>
 										<row>
 											<label sclass="formLabel"
 												value="Teléfono contacto:">
 											</label>
-											<textbox hflex="1"
-												disabled="@load(vm.disableAll)" maxlength="15"
-												value="@save(vm.businessPartnerBranch.contactPhone, before = 'addBranch') @load(vm.businessPartnerBranch.contactPhone) @validator(vm.noEmpty, component = self)">
+											<textbox
+												disabled="@load(vm.disableAll)" hflex="1" maxlength="15"
+												value="@save(vm.businessPartnerBranch.contactPhone, before = 'add') @load(vm.businessPartnerBranch.contactPhone) @validator(vm.noEmpty, component = self)">
 											</textbox>
-											<space></space>
 										</row>
 										<row>
 											<label sclass="formLabel"
@@ -173,9 +182,8 @@
 											</label>
 											<textbox
 												disabled="@load(vm.disableAll)" hflex="1" maxlength="100"
-												value="@save(vm.businessPartnerBranch.email, before = 'addBranch') @load(vm.businessPartnerBranch.email)">
+												value="@save(vm.businessPartnerBranch.email, before = 'add') @load(vm.businessPartnerBranch.email)">
 											</textbox>
-											<space></space>
 										</row>
 										<row>
 											<label sclass="formLabel"
@@ -185,7 +193,6 @@
 												disabled="@load(vm.disableAll)" hflex="1" maxlength="15"
 												value="@bind(vm.businessPartnerBranch.fax)">
 											</textbox>
-											<space></space>
 										</row>
 										<row>
 											<label sclass="formLabel"
@@ -195,8 +202,8 @@
 												disabled="@load(vm.disableAll)" hflex="1"
 												model="@load(vm.listCountries)"
 												onChange="@command('loadStatesByParent')" readonly="true"
-												selectedItem="@load(vm.countrySelected) @save(vm.countrySelected)"
-												value="@save(vm.seleccione2, before = 'addBranch') @load(vm.countrySelected.name eq null ? vm.seleccione2 : vm.countrySelected.name) @validator(vm.noSelect, component = self)">
+												selectedItem="@load(vm.countrySelected eq null ? null : vm.countrySelected) @save(vm.countrySelected)"
+												value="@save(vm.seleccione2, before = 'add') @load(vm.countrySelected.name eq null ? vm.seleccione2 : vm.countrySelected.name) @validator(vm.noSelect, component = self)">
 												<template name="model"
 													var="country">
 													<comboitem
@@ -204,7 +211,6 @@
 													</comboitem>
 												</template>
 											</combobox>
-											<space></space>
 										</row>
 										<row>
 											<label sclass="formLabel"
@@ -215,7 +221,7 @@
 												model="@load(vm.listStates)"
 												onChange="@command('loadCitiesByParent')" readonly="true"
 												selectedItem="@load(vm.stateSelected eq null ? null : vm.stateSelected) @save(vm.stateSelected)"
-												value="@save(vm.seleccione2, before = 'addBranch') @load(vm.stateSelected.name eq null ? vm.seleccione2 : vm.stateSelected.name) @validator(vm.noSelect, component = self)">
+												value="@save(vm.seleccione2, before = 'add') @load(vm.stateSelected.name eq null ? vm.seleccione2 : vm.stateSelected.name) @validator(vm.noSelect, component = self)">
 												<template name="model"
 													var="state">
 													<comboitem
@@ -223,7 +229,6 @@
 													</comboitem>
 												</template>
 											</combobox>
-											<space></space>
 										</row>
 										<row>
 											<label sclass="formLabel"
@@ -233,7 +238,7 @@
 												disabled="@load(vm.disableAll)" hflex="1"
 												model="@load(vm.listCities)" readonly="true"
 												selectedItem="@bind(vm.businessPartnerBranch.tbasicData)"
-												value="@save(vm.seleccione2, before = 'addBranch') @load(vm.businessPartnerBranch.tbasicData.name eq null ? vm.seleccione2 : vm.businessPartnerBranch.tbasicData.name) @validator(vm.noSelect, component = self)">
+												value="@save(vm.seleccione2, before = 'add') @load(vm.businessPartnerBranch.tbasicData.name eq null ? vm.seleccione2 : vm.businessPartnerBranch.tbasicData.name) @validator(vm.noSelect, component = self)">
 												<template name="model"
 													var="city">
 													<comboitem
@@ -241,24 +246,22 @@
 													</comboitem>
 												</template>
 											</combobox>
-											<space></space>
 										</row>
 										<row>
 											<space></space>
 											<space></space>
 											<hbox>
 												<button
-													disabled="@load(vm.disableAll)"
 													image="resource/images/icons/add.png" label="Añadir"
-													onClick="@command('addBranch')">
+													onClick="@command('add')"
+													disabled="@load(vm.disableAll)">
 												</button>
 												<button
-													disabled="@load(vm.disableAll ? 'true': vm.disableDelAddress)"
 													image="resource/images/icons/minus.png" label="Eliminar"
-													onClick="@command('deleteBranch')">
+													onClick="@command('delete')"
+													disabled="@load(vm.disableAll)">
 												</button>
 											</hbox>
-											<space></space>
 										</row>
 									</rows>
 								</grid>
@@ -270,7 +273,7 @@
 											width="20%">
 										</column>
 										<column width="15%"></column>
-										<column width="21%"></column>
+										<column width="20%"></column>
 										<column></column>
 									</columns>
 									<rows>
@@ -281,19 +284,20 @@
 												<!-- width 100% para anchar header listbox en Google Chrome -->
 												<listbox
 													id="lbxItemOffered"
-													model="@load(vm.businessPartner.titems)"
-													onSelect="@command('loadItemByListBox')"
-													selectedItem="@bind(vm.item)">
+													model="@load(vm.listBusinessPartnerBranch)"
+													onSelect="@command('loadPartnerBranchByListBox')"
+													selectedItem="@bind(vm.businessPartnerBranch)">
 													<listhead>
 														<listheader
 															label="Ofrecidos">
 														</listheader>
 													</listhead>
 													<template
-														name="model" var="item">
+														name="model" var="businessPartnerBranch">
 														<listitem>
 															<listcell
-																label="@load(item.name)">
+																label="@load(businessPartnerBranch.name)"
+																style="@load(businessPartnerBranch.addressDefault ? 'font-weight:bold;':'')">
 															</listcell>
 														</listitem>
 													</template>
@@ -308,25 +312,18 @@
 												autocomplete="true" autodrop="true" buttonVisible="false"
 												disabled="@load(vm.disableAll)" hflex="1" maxlength="100"
 												model="@load(vm.listItem)"
-												onFocus="@command(vm.disableAll ? '':'searchItemByField', field='name')"
-												onChange="@command(vm.disableAll ? '':'loadItemByField', input=self)"
-												value="@save(vm.item.name, before = 'addItem') @load(vm.item eq null ? '' : vm.item.name) @validator(vm.noEmpty, component = self)">
+												onFocus="@command(vm.disableAll ? '':'loadItemByField', field='name')"
+												selectedItem="@save(vm.item) @load(vm.item)"
+												value="@save(vm.item.name, before = 'addItemOffered') @load(vm.item.name)">
 											</combobox>
 										</row>
 										<row>
 											<space></space>
-											<hbox>
-												<button
-													disabled="@load(vm.disableAll)"
-													image="resource/images/icons/add.png" label="Añadir"
-													onClick="@command('addItem')">
-												</button>
-												<button
-													disabled="@load(vm.disableAll ? 'true': vm.disableDelItem)"
-													image="resource/images/icons/minus.png" label="Eliminar"
-													onClick="@command('deleteItem')">
-												</button>
-											</hbox>
+											<button
+												disabled="@load(vm.disableAll)"
+												image="resource/images/icons/add.png" label="Añadir"
+												onClick="@command('addItemOffered')">
+											</button>
 										</row>
 									</rows>
 								</grid>
@@ -339,31 +336,28 @@
 						selectedItem="@save(vm.businessPartner.status)">
 						<radio
 							checked="@load(vm.businessPartner.status eq 'A' ? 'true':'false')"
-							disabled="@load(vm.disableAll)" label="Activo" sclass="frmLabel"
-							value="A">
+							disabled="@load(vm.disableAll)" label="Activo" value="A">
 						</radio>
 					</radiogroup>
 					<radio
 						checked="@load(vm.businessPartner.status eq 'I' ? 'true':'false')"
 						disabled="@load(vm.disableAll)" label="Inactivo"
-						radiogroup="status" sclass="formLabel" value="I">
+						radiogroup="status" value="I">
 					</radio>
 					<space></space>
 					<space></space>
 				</row>
 				<row>
-					<div style="float: right">
-						<button image="resource/images/icons/search.png"
-							label="Buscar" onClick="@command('search')">
-						</button>
-					</div>
+					<button label="Buscar"
+						onClick="@command('search')">
+					</button>
 					<hbox>
 						<button disabled="@load(vm.disableAll)"
-							image="resource/images/icons/save.png" label="Guardar"
+							label="Guardar"
 							onClick="@command('save', lbx = lbxBusinessPartnerBranches)">
 						</button>
-						<button image="resource/images/icons/cancel.png"
-							label="Cancelar" onClick="@command('restartForm')">
+						<button label="Cancelar"
+							onClick="@command('restartForm')">
 						</button>
 					</hbox>
 					<space></space>

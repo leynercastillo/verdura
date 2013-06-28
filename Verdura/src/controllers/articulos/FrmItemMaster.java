@@ -14,6 +14,7 @@ import org.zkoss.bind.ValidationContext;
 import org.zkoss.bind.Validator;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.bind.validator.AbstractValidator;
@@ -213,7 +214,7 @@ public class FrmItemMaster {
     @NotifyChange({ "item", "disableAll", "update", "listItem" })
     @Command
     public void loadItem(@BindingParam("field") String field, @BindingParam("val") String value) {
-	List<Titem> listItemAux = daoItem.findByString(field, value);
+	List<Titem> listItemAux = daoItem.listByString(field, value);
 	int listSize = listItemAux.size();
 	if (listSize == 1) {
 	    item = new Titem();
@@ -226,7 +227,7 @@ public class FrmItemMaster {
 	} else {
 	    Map<String, Object> map = new HashMap<String, Object>();
 	    map.put("listItem", listItemAux);
-	    Executions.createComponents("frmItemList.zul", null, map);
+	    Executions.createComponents("system/articulos/frmItemList.zul", null, map);
 	}
     }
 
@@ -252,6 +253,16 @@ public class FrmItemMaster {
 	restartForm();
 	disableAll = new Boolean(true);
 	disableBeforeSearch = new Boolean(false);
+
+    }
+
+    @NotifyChange({ "item", "disableAll", "update" })
+    @GlobalCommand
+    public void selectedItem(@BindingParam("item") Titem selectedItem) {
+	item = new Titem();
+	item = selectedItem;
+	disableAll = new Boolean(false);
+	update = new Boolean(true);
     }
 
     @Command

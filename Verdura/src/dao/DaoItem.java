@@ -29,7 +29,7 @@ public class DaoItem extends GenericDao<Titem> {
 	return criteria.list();
     }
 
-    public List<Titem> findByString(String field, String value) {
+    public List<Titem> listByString(String field, String value) {
 	getCurrentSession().beginTransaction();
 	Criteria criteria = getCurrentSession().createCriteria(Titem.class);
 	criteria.add(Restrictions.eq(field, value));

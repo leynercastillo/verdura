@@ -1,0 +1,36 @@
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" border="normal"
+		height="60%" id="window" mode="modal"
+		viewModel="@id('vm') @init('controllers.socios.FrmBusinessPartnerList')"
+		width="70%">
+		<style src="resource/style/styleZK.css"></style>
+		<caption label="Socios de negocio" zclass="formTitle"></caption>
+		<listbox model="@load(vm.listBusinessPartner)"
+			onSelect="@command('sendBusinessPartner')"
+			selectedItem="@bind(vm.selectedBusinessPartner)">
+			<listhead>
+				<listheader label="Rif" width="15%"></listheader>
+				<listheader label="Cliente" width="30%"></listheader>
+				<listheader label="Tipo Cliente" width="20%"></listheader>
+				<listheader label="Direccion" width="35%"></listheader>
+			</listhead>
+			<template name="model" var="bp">
+				<listitem>
+					<listcell
+						label="@load(vm.fullRif(bp.tbasicDataByRifType.name, bp.rif))">
+					</listcell>
+					<listcell label="@load(bp.name)"></listcell>
+					<listcell label="@load(bp.tbasicDataByType.name)">
+					</listcell>
+					<listcell label="@load(bp.address)"></listcell>
+				</listitem>
+			</template>
+		</listbox>
+		<space></space>
+		<div align="right">
+			<button label="Cancel" onClick="@command('closeWindow')">
+			</button>
+		</div>
+	</window>
+</zk>
