@@ -194,8 +194,8 @@
 											<combobox
 												disabled="@load(vm.disableAll)" hflex="1"
 												model="@load(vm.listCountries)"
-												onChange="@command('loadStatesByParent')" readonly="true"
-												selectedItem="@load(vm.countrySelected) @save(vm.countrySelected)"
+												onChange="@command('loadStatesByParent', country = self.selectedItem.value)"
+												readonly="true" selectedItem="@load(vm.countrySelected)"
 												value="@save(vm.seleccione2, before = 'addBranch') @load(vm.countrySelected.name eq null ? vm.seleccione2 : vm.countrySelected.name) @validator(vm.noSelect, component = self)">
 												<template name="model"
 													var="country">

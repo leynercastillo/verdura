@@ -54,14 +54,14 @@
 											<label
 												value="Unidad de medida:" sclass="formLabel">
 											</label>
-											<div width="100%">
+											<div>
 												<combobox
 													disabled="@load(vm.disableAll)"
 													model="@load(vm.listUnitCar)" readonly="true"
 													selectedItem="@bind(vm.item.tbasicDataByUnitCar)"
 													style="float: left"
 													value="@save(vm.minCombo, before = 'save') @load(vm.item.tbasicDataByUnitCar eq null ? vm.minCombo : vm.item.tbasicDataByUnitCar.name) @validator(vm.noDash, component = self)"
-													width="25%">
+													width="50%">
 													<template
 														name="model" var="unitCar">
 														<comboitem
@@ -69,12 +69,12 @@
 														</comboitem>
 													</template>
 												</combobox>
-												<spinner
-													constraint="min 0" disabled="@load(vm.disableAll)"
-													maxlength="9" style="padding-left: 4%"
+												<doublebox
+													disabled="@load(vm.disableAll)" maxlength="9"
+													style="padding-left: 1%"
 													value="@save(vm.item.weightUnit, before = 'save') @load(vm.item.weightUnit) @validator(vm.noEmpty, component = self)"
-													width="70%">
-												</spinner>
+													width="48%">
+												</doublebox>
 											</div>
 											<space></space>
 										</row>

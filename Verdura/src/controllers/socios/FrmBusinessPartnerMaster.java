@@ -252,39 +252,6 @@ public class FrmBusinessPartnerMaster {
 	this.disableAll = disableAll;
     }
 
-    @Init
-    public void init() {
-	restartForm();
-    }
-
-    @NotifyChange("*")
-    @Command
-    public void restartForm() {
-	businessPartner = new TbusinessPartner();
-	businessPartnerBranch = new TbusinessPartnerBranch();
-	item = new Titem();
-	minCombo = new String("--");
-	seleccione = new String("--Seleccione--");
-	seleccione2 = new String("--Seleccione--");
-	disableAll = new Boolean(false);
-	disableDelAddress = new Boolean(true);
-	disableDelItem = new Boolean(true);
-	update = new Boolean(false);
-	businessPartner.setStatus('A');
-	listBusinessPartnerName = new ListModelList<String>();
-	listBusinessPartnerRif = new ListModelList<String>();
-	listItem = new ListModelList<String>();
-	listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>();
-	listItemByBusinessPartner = new ArrayList<Titem>();
-	listBusinessPartnerBranchForDelete = new ArrayList<TbusinessPartnerBranch>();
-	listItemByBusinessPartnerForDelete = new ArrayList<Titem>();
-	listBusinessPartnerType = daoBasicData.listByDataType(daoDataType.findByName("BUSINESS PARTNER TYPE"));
-	listRifType = daoBasicData.listByDataType(daoDataType.findByName("RIF TYPE"));
-	listCountries = daoBasicData.listByDataType(daoDataType.findByName("COUNTRY"));
-	stateSelected = new TbasicData();
-	countrySelected = new TbasicData();
-    }
-
     public Validator getNoEmpty() {
 	return new ValidateZK().getNoEmpty();
     }
@@ -319,9 +286,45 @@ public class FrmBusinessPartnerMaster {
 	};
     }
 
-    @NotifyChange({ "listStates" })
+    @Init
+    public void init() {
+	restartForm();
+    }
+
+    @NotifyChange("*")
     @Command
-    public void loadStatesByParent() {
+    public void restartForm() {
+	businessPartner = new TbusinessPartner();
+	businessPartnerBranch = new TbusinessPartnerBranch();
+	item = new Titem();
+	minCombo = new String("--");
+	seleccione = new String("--Seleccione--");
+	seleccione2 = new String("--Seleccione--");
+	disableAll = new Boolean(false);
+	disableDelAddress = new Boolean(true);
+	disableDelItem = new Boolean(true);
+	update = new Boolean(false);
+	businessPartner.setStatus('A');
+	listBusinessPartnerName = new ListModelList<String>();
+	listBusinessPartnerRif = new ListModelList<String>();
+	listItem = new ListModelList<String>();
+	listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>();
+	listItemByBusinessPartner = new ArrayList<Titem>();
+	listBusinessPartnerBranchForDelete = new ArrayList<TbusinessPartnerBranch>();
+	listItemByBusinessPartnerForDelete = new ArrayList<Titem>();
+	listBusinessPartnerType = daoBasicData.listByDataType(daoDataType.findByName("BUSINESS PARTNER TYPE"));
+	listRifType = daoBasicData.listByDataType(daoDataType.findByName("RIF TYPE"));
+	listCountries = daoBasicData.listByDataType(daoDataType.findByName("COUNTRY"));
+	listStates = new ArrayList<TbasicData>();
+	listCities = new ArrayList<TbasicData>();
+	stateSelected = new TbasicData();
+	countrySelected = new TbasicData();
+    }
+
+    @NotifyChange({ "listStates", "listCities", "stateSelected" })
+    @Command
+    public void loadStatesByParent(@BindingParam("country") Object country) {
+	countrySelected = (TbasicData) country;
 	listStates = daoBasicData.listByParent(countrySelected);
 	listCities = new ArrayList<TbasicData>();
 	stateSelected = new TbasicData();
@@ -436,7 +439,7 @@ public class FrmBusinessPartnerMaster {
     public void loadPartnerBranchByListBox() {
 	TbasicData citySelected = businessPartnerBranch.getTbasicData();
 	countrySelected = citySelected.getTbasicData().getTbasicData();
-	loadStatesByParent();
+	loadStatesByParent(countrySelected);
 	stateSelected = citySelected.getTbasicData();
 	loadCitiesByParent();
 	businessPartnerBranch.setTbasicData(citySelected);

@@ -33,7 +33,7 @@ public class Titem implements java.io.Serializable {
     private boolean washable;
     private float cost;
     private float price;
-    private int weightUnit;
+    private float weightUnit;
     private char status;
     private Set<TorderDetail> torderDetails = new HashSet<TorderDetail>(0);
     private Set<TbusinessPartner> tbusinessPartners = new HashSet<TbusinessPartner>(0);
@@ -42,7 +42,7 @@ public class Titem implements java.io.Serializable {
     public Titem() {
     }
 
-    public Titem(int idItem, TbasicData tbasicDataByUnitCar, TbasicData tbasicDataByType, String code, String name, boolean washable, float cost, float price, int weightUnit, char status) {
+    public Titem(int idItem, TbasicData tbasicDataByUnitCar, TbasicData tbasicDataByType, String code, String name, boolean washable, float cost, float price, float weightUnit, char status) {
 	this.idItem = idItem;
 	this.tbasicDataByUnitCar = tbasicDataByUnitCar;
 	this.tbasicDataByType = tbasicDataByType;
@@ -55,7 +55,7 @@ public class Titem implements java.io.Serializable {
 	this.status = status;
     }
 
-    public Titem(int idItem, TbasicData tbasicDataByUnitCar, TbasicData tbasicDataByType, String code, String name, boolean washable, float cost, float price, int weightUnit, char status, Set<TorderDetail> torderDetails, Set<TbusinessPartner> tbusinessPartners, Set<TbillDetail> tbillDetails) {
+    public Titem(int idItem, TbasicData tbasicDataByUnitCar, TbasicData tbasicDataByType, String code, String name, boolean washable, float cost, float price, float weightUnit, char status, Set<TorderDetail> torderDetails, Set<TbusinessPartner> tbusinessPartners, Set<TbillDetail> tbillDetails) {
 	this.idItem = idItem;
 	this.tbasicDataByUnitCar = tbasicDataByUnitCar;
 	this.tbasicDataByType = tbasicDataByType;
@@ -149,11 +149,11 @@ public class Titem implements java.io.Serializable {
     }
 
     @Column(name = "weight_unit", nullable = false)
-    public int getWeightUnit() {
+    public float getWeightUnit() {
 	return this.weightUnit;
     }
 
-    public void setWeightUnit(int weightUnit) {
+    public void setWeightUnit(float weightUnit) {
 	this.weightUnit = weightUnit;
     }
 

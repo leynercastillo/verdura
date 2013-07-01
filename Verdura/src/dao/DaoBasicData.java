@@ -32,6 +32,7 @@ public class DaoBasicData extends GenericDao<TbasicData> {
 	getCurrentSession().beginTransaction();
 	Criteria criteria = getCurrentSession().createCriteria(TbasicData.class);
 	criteria.add(Restrictions.eq("tbasicData", parent));
-	return criteria.list();
+	List<TbasicData> list = criteria.list();
+	return list;
     }
 }
