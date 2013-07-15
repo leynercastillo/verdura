@@ -73,8 +73,6 @@ public class FrmBusinessPartnerMaster {
     private ListModel<String> listItem;
     private List<TbusinessPartnerBranch> listBusinessPartnerBranch;
     private List<TbusinessPartnerBranch> listBusinessPartnerBranchForDelete;
-    private List<Titem> listItemByBusinessPartner;
-    private List<Titem> listItemByBusinessPartnerForDelete;
 
     public ListModel<String> getListItem() {
 	return listItem;
@@ -98,14 +96,6 @@ public class FrmBusinessPartnerMaster {
 
     public void setItem(Titem item) {
 	this.item = item;
-    }
-
-    public List<Titem> getListItemByBusinessPartner() {
-	return listItemByBusinessPartner;
-    }
-
-    public void setListItemByBusinessPartner(List<Titem> listItemByBusinessPartner) {
-	this.listItemByBusinessPartner = listItemByBusinessPartner;
     }
 
     public ListModel<String> getListBusinessPartnerRif() {
@@ -309,9 +299,7 @@ public class FrmBusinessPartnerMaster {
 	listBusinessPartnerRif = new ListModelList<String>();
 	listItem = new ListModelList<String>();
 	listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>();
-	listItemByBusinessPartner = new ArrayList<Titem>();
 	listBusinessPartnerBranchForDelete = new ArrayList<TbusinessPartnerBranch>();
-	listItemByBusinessPartnerForDelete = new ArrayList<Titem>();
 	listBusinessPartnerType = daoBasicData.listByDataType(daoDataType.findByName("BUSINESS PARTNER TYPE"));
 	listRifType = daoBasicData.listByDataType(daoDataType.findByName("RIF TYPE"));
 	listCountries = daoBasicData.listByDataType(daoDataType.findByName("COUNTRY"));
@@ -528,7 +516,6 @@ public class FrmBusinessPartnerMaster {
 	    businessPartner = new TbusinessPartner();
 	    businessPartner = listBusinessPartner2.get(0);
 	    listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>(businessPartner.getTbusinessPartnerBranches());
-	    listItemByBusinessPartner = new ArrayList<Titem>(businessPartner.getTitems());
 	    disableAll = new Boolean(false);
 	    update = new Boolean(true);
 	    return;
@@ -547,12 +534,11 @@ public class FrmBusinessPartnerMaster {
 	this.businessPartner = new TbusinessPartner();
 	this.businessPartner = businessPartner;
 	listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>(this.businessPartner.getTbusinessPartnerBranches());
-	listItemByBusinessPartner = new ArrayList<Titem>(this.businessPartner.getTitems());
 	disableAll = new Boolean(false);
 	update = new Boolean(true);
     }
 
-    @NotifyChange({ "listItemByBusinessPartner", "item", "disableDelItem" })
+    @NotifyChange({ "item", "disableDelItem" })
     @Command
     public void addItem() {
 	Boolean found = false;
@@ -564,6 +550,7 @@ public class FrmBusinessPartnerMaster {
 	}
 	if (!found) {
 	    businessPartner.getTitems().add(item);
+	    System.out.println(item.getIdItem());
 	    BindUtils.postNotifyChange(null, null, businessPartner, "titems");
 	} else
 	    Clients.showNotification("Ya se encuentra en la lista", "info", null, "middle_center", 2000);
@@ -572,19 +559,11 @@ public class FrmBusinessPartnerMaster {
     }
 
     @Command
-    /*
-     * Cuando se modifica un "listbox" que en el "model" posee una variable tipo "List", debe de notificarse primero ese
-     * "List" antes que cualquier variable dentro del @notifychange. Ver
-     * http://books.zkoss.org/wiki/ZK_Developer%27s_Reference
-     * /MVVM/Data_Binding/Collection_and_Selection#Choose_a_Component.27s_Model_Type La seccion:
-     * "Choose a Component's Model Type"
-     */
-    @NotifyChange({ "listItemByBusinessPartner", "item", "disableDelItem" })
+    @NotifyChange({ "item", "disableDelItem" })
     public void deleteItem() {
 	for (Iterator<Titem> iterator = businessPartner.getTitems().iterator(); iterator.hasNext();) {
 	    Titem itemAux = iterator.next();
 	    if (itemAux.getIdItem() == item.getIdItem()) {
-		listItemByBusinessPartnerForDelete.add(item);
 		item = new Titem();
 		iterator.remove();
 		BindUtils.postNotifyChange(null, null, businessPartner, "titems");
