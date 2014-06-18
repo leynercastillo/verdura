@@ -1,0 +1,1 @@
+- Corregir el buscar por rif. Debe dar error si se registra un mismo cliente como proveedor y cliente. OJO

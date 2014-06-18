@@ -5,6 +5,7 @@
 			<tabs>
 				<tab label="Inventario"></tab>
 				<tab label="Socios de negocio"></tab>
+				<tab label="Pedidos"></tab>
 				<tab label="Usuarios"></tab>
 			</tabs>
 			<tabpanels>
@@ -13,9 +14,8 @@
 						<treechildren>
 							<treeitem>
 								<treerow>
-									<treecell
+									<treecell label="Articulos"
 										onClick="@command('optionSelected', optionSelected='system/articulos/frmItemMaster.zul')">
-										<label value="Articulos"></label>
 									</treecell>
 								</treerow>
 							</treeitem>
@@ -27,11 +27,21 @@
 						<treechildren>
 							<treeitem>
 								<treerow>
-									<treecell
+									<treecell label="Socios de Negocios"
 										onClick="@command('optionSelected', optionSelected='system/socios/frmBusinessPartnerMaster.zul')">
-										<label
-											value="Socios de Negocios">
-										</label>
+									</treecell>
+								</treerow>
+							</treeitem>
+						</treechildren>
+					</tree>
+				</tabpanel>
+				<tabpanel>
+					<tree>
+						<treechildren>
+							<treeitem>
+								<treerow>
+									<treecell label="Pedidos"
+										onClick="@command('optionSelected', optionSelected='system/pedidos/frmOrders.zul')">
 									</treecell>
 								</treerow>
 							</treeitem>

@@ -36,8 +36,8 @@
 					<tabbox>
 						<tabs>
 							<tab id="tabGeneral" label="General"></tab>
-							<tab id="tabSales" label="Ventas"></tab>
-							<tab id="tabBuys" label="Compras"></tab>
+							<tab id="tabBuys" label="Entradas"></tab>
+							<tab id="tabSales" label="Salidas"></tab>
 						</tabs>
 						<tabpanels>
 							<tabpanel>
@@ -51,42 +51,14 @@
 									</columns>
 									<rows>
 										<row>
-											<label
-												value="Unidad de medida:" sclass="formLabel">
-											</label>
-											<div>
-												<combobox
-													disabled="@load(vm.disableAll)"
-													model="@load(vm.listUnitCar)" readonly="true"
-													selectedItem="@bind(vm.item.tbasicDataByUnitCar)"
-													style="float: left"
-													value="@save(vm.minCombo, before = 'save') @load(vm.item.tbasicDataByUnitCar eq null ? vm.minCombo : vm.item.tbasicDataByUnitCar.name) @validator(vm.noDash, component = self)"
-													width="50%">
-													<template
-														name="model" var="unitCar">
-														<comboitem
-															label="@load(unitCar.name)">
-														</comboitem>
-													</template>
-												</combobox>
-												<doublebox
-													disabled="@load(vm.disableAll)" maxlength="9"
-													style="padding-left: 1%"
-													value="@save(vm.item.weightUnit, before = 'save') @load(vm.item.weightUnit) @validator(vm.noEmpty, component = self)"
-													width="48%">
-												</doublebox>
-											</div>
-											<space></space>
-										</row>
-										<row>
 											<label value="Tipo:"
 												sclass="formLabel">
 											</label>
 											<combobox
 												disabled="@load(vm.disableAll)" hflex="1"
 												model="@load(vm.listItemType)" readonly="true"
-												selectedItem="@bind(vm.item.tbasicDataByType)"
-												value="@save(vm.seleccione, before = 'save') @load(vm.item.tbasicDataByType eq null ? vm.seleccione : vm.item.tbasicDataByType.name) @validator(vm.noSelect, component = self)">
+												selectedItem="@bind(vm.item.tbasicData)"
+												value="@save(vm.seleccione, before = 'save') @load(vm.item.tbasicData eq null ? vm.seleccione : vm.item.tbasicData.name) @validator(vm.noSelect, component = self)">
 												<template name="model"
 													var="itemType">
 													<comboitem
@@ -96,8 +68,8 @@
 											</combobox>
 										</row>
 										<row>
-											<label value="Lavable:"
-												sclass="formLabel">
+											<label sclass="formLabel"
+												value="Lavable:">
 											</label>
 											<radiogroup
 												selectedItem="@save(vm.item.washable)">
@@ -128,13 +100,62 @@
 									<rows>
 										<row>
 											<label sclass="formLabel"
-												value="Costo:">
+												value="Unidad entrada:">
 											</label>
-											<doublebox
-												disabled="@load(vm.disableAll)" hflex="1" maxlength="9"
-												value="@save(vm.item.cost, before = 'save') @load(vm.item.cost) @validator(vm.noEmptyInt, component = self, tab = tabSales)">
-											</doublebox>
-											<space></space>
+											<combobox
+												disabled="@load(vm.disableAll)" hflex="1"
+												model="@load(vm.listMeasureUnit)" readonly="true"
+												selectedItem="@bind(vm.selectedInputMeasureUnit)"
+												value="@save(vm.selectedInputMeasureUnit.name, before = 'addInputUnitMeasure') @load(vm.selectedInputMeasureUnit.name eq null ? vm.seleccione : vm.selectedInputMeasureUnit.name) @validator(vm.noAddedInput, component = self)">
+												<template name="model"
+													var="measureUnit">
+													<comboitem
+														label="@load(measureUnit.name)">
+													</comboitem>
+												</template>
+											</combobox>
+											<button
+												image="resource/images/icons/add.png"
+												onClick="@command('addInputUnitMeasure')">
+											</button>
+										</row>
+										<row>
+											<cell colspan="2">
+												<listbox
+													model="@load(vm.listInputMeasureUnit)">
+													<listhead>
+														<listheader
+															hflex="2" label="Articulo">
+														</listheader>
+														<listheader
+															hflex="1" label="Kgs">
+														</listheader>
+														<listheader
+															hflex="1" label="Accion">
+														</listheader>
+													</listhead>
+													<template
+														name="model" var="measureUnit">
+														<listitem>
+															<listcell
+																label="@load(measureUnit.tbasicData.name)">
+															</listcell>
+															<listcell>
+																<spinner
+																	hflex="1"
+																	value="@load(measureUnit.weightUnit) @save(measureUnit.weightUnit)">
+																</spinner>
+															</listcell>
+															<listcell>
+																<button
+																	image="resource/images/icons/minus.png"
+																	onClick="@command('deleteInputUnitMeasure', measureUnit = measureUnit)">
+																</button>
+															</listcell>
+														</listitem>
+													</template>
+												</listbox>
+											</cell>
 										</row>
 									</rows>
 								</grid>
@@ -150,13 +171,63 @@
 									</columns>
 									<rows>
 										<row>
-											<label value="Precio:"
-												sclass="formLabel">
+											<label sclass="formLabel"
+												value="Unidad salida:">
 											</label>
-											<doublebox
-												disabled="@load(vm.disableAll)" hflex="1" maxlength="9"
-												value="@save(vm.item.price, before = 'save') @load(vm.item.price) @validator(vm.noEmptyInt, component = self, tab = tabBuys)">
-											</doublebox>
+											<combobox
+												disabled="@load(vm.disableAll)" hflex="1"
+												model="@load(vm.listMeasureUnit)" readonly="true"
+												selectedItem="@bind(vm.selectedOutputMeasureUnit)"
+												value="@save(vm.selectedOutputMeasureUnit.name, before = 'addOutputUnitMeasure') @load(vm.selectedOutputMeasureUnit.name eq null ? vm.seleccione : vm.selectedOutputMeasureUnit.name) @validator(vm.noAddedOutput, component = self)">
+												<template name="model"
+													var="measureUnit">
+													<comboitem
+														label="@load(measureUnit.name)">
+													</comboitem>
+												</template>
+											</combobox>
+											<button
+												image="resource/images/icons/add.png"
+												onClick="@command('addOutputUnitMeasure')">
+											</button>
+										</row>
+										<row>
+											<cell colspan="2">
+												<listbox
+													model="@load(vm.listOutputMeasureUnit)">
+													<listhead>
+														<listheader
+															hflex="2" label="Articulo">
+														</listheader>
+														<listheader
+															hflex="1" label="Kgs">
+														</listheader>
+														<listheader
+															hflex="1" label="Accion">
+														</listheader>
+													</listhead>
+													<template
+														name="model" var="measureUnit">
+														<listitem>
+															<listcell
+																label="@load(measureUnit.tbasicData.name)">
+															</listcell>
+															<listcell>
+																<spinner
+																	hflex="1"
+																	value="@load(measureUnit.weightUnit) @save(measureUnit.weightUnit)">
+																</spinner>
+															</listcell>
+															<listcell>
+																<button
+																	image="resource/images/icons/minus.png"
+																	onClick="@command('deleteOutputUnitMeasure', measureUnit = measureUnit)">
+																</button>
+															</listcell>
+														</listitem>
+													</template>
+												</listbox>
+											</cell>
 										</row>
 									</rows>
 								</grid>
