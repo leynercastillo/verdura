@@ -1,6 +1,6 @@
 package models;
 
-// Generated 12/06/2014 09:35:54 PM by Hibernate Tools 4.0.0
+// Generated 14/07/2014 10:49:25 PM by Hibernate Tools 4.0.0
 
 import java.util.Date;
 import java.util.HashSet;
@@ -83,7 +83,7 @@ public class Tbill implements java.io.Serializable {
 		this.status = status;
 		this.tbillDetails = tbillDetails;
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "tbill_id_seq")
     @SequenceGenerator(name = "tbill_id_seq", sequenceName = "tbill_id_seq")

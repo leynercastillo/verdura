@@ -1,6 +1,6 @@
 package models;
 
-// Generated 12/06/2014 09:35:54 PM by Hibernate Tools 4.0.0
+// Generated 14/07/2014 10:49:25 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,6 +33,7 @@ public class TbasicData implements java.io.Serializable {
 	private boolean editable;
 	private char status;
 	private Set<ToutputMeasureUnit> toutputMeasureUnits = new HashSet<ToutputMeasureUnit>(0);
+	private Set<TbusinesPartnerItem> tbusinesPartnerItems = new HashSet<TbusinesPartnerItem>(0);
 	private Set<TbasicData> tbasicDatas = new HashSet<TbasicData>(0);
 	private Set<TinputMeasureUnit> tinputMeasureUnits = new HashSet<TinputMeasureUnit>(0);
 	private Set<Titem> titems = new HashSet<Titem>(0);
@@ -53,7 +54,7 @@ public class TbasicData implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public TbasicData(int idBasicData, TdataType tdataType, TbasicData tbasicData, String name, String description, boolean editable, char status, Set<ToutputMeasureUnit> toutputMeasureUnits, Set<TbasicData> tbasicDatas, Set<TinputMeasureUnit> tinputMeasureUnits, Set<Titem> titems, Set<TbusinessPartnerBranch> tbusinessPartnerBranches, Set<TorderDetail> torderDetails, Set<Tbill> tbills, Set<TbusinessPartner> tbusinessPartnersForRifType, Set<TbusinessPartner> tbusinessPartnersForType) {
+	public TbasicData(int idBasicData, TdataType tdataType, TbasicData tbasicData, String name, String description, boolean editable, char status, Set<ToutputMeasureUnit> toutputMeasureUnits, Set<TbusinesPartnerItem> tbusinesPartnerItems, Set<TbasicData> tbasicDatas, Set<TinputMeasureUnit> tinputMeasureUnits, Set<Titem> titems, Set<TbusinessPartnerBranch> tbusinessPartnerBranches, Set<TorderDetail> torderDetails, Set<Tbill> tbills, Set<TbusinessPartner> tbusinessPartnersForRifType, Set<TbusinessPartner> tbusinessPartnersForType) {
 		this.idBasicData = idBasicData;
 		this.tdataType = tdataType;
 		this.tbasicData = tbasicData;
@@ -62,6 +63,7 @@ public class TbasicData implements java.io.Serializable {
 		this.editable = editable;
 		this.status = status;
 		this.toutputMeasureUnits = toutputMeasureUnits;
+		this.tbusinesPartnerItems = tbusinesPartnerItems;
 		this.tbasicDatas = tbasicDatas;
 		this.tinputMeasureUnits = tinputMeasureUnits;
 		this.titems = titems;
@@ -147,6 +149,15 @@ public class TbasicData implements java.io.Serializable {
 
 	public void setToutputMeasureUnits(Set<ToutputMeasureUnit> toutputMeasureUnits) {
 		this.toutputMeasureUnits = toutputMeasureUnits;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")
+	public Set<TbusinesPartnerItem> getTbusinesPartnerItems() {
+		return this.tbusinesPartnerItems;
+	}
+
+	public void setTbusinesPartnerItems(Set<TbusinesPartnerItem> tbusinesPartnerItems) {
+		this.tbusinesPartnerItems = tbusinesPartnerItems;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")

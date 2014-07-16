@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import models.TbasicData;
+import models.TbusinesPartnerItem;
 import models.TbusinessPartner;
 import models.TbusinessPartnerBranch;
 import models.Titem;
@@ -52,7 +53,6 @@ public class FrmBusinessPartnerMaster {
 	private String seleccione2;
 	private Boolean disableAll;
 	private Boolean disableDelAddress;
-	private Boolean disableDelItem;
 	private Boolean update;
 	private TbusinessPartner businessPartner;
 	private TbusinessPartnerBranch businessPartnerBranch;
@@ -76,14 +76,6 @@ public class FrmBusinessPartnerMaster {
 
 	public void setListItem(ListModel<Object> listItem) {
 		this.listItem = listItem;
-	}
-
-	public Boolean getDisableDelItem() {
-		return disableDelItem;
-	}
-
-	public void setDisableDelItem(Boolean disableDelItem) {
-		this.disableDelItem = disableDelItem;
 	}
 
 	public Titem getItem() {
@@ -288,7 +280,6 @@ public class FrmBusinessPartnerMaster {
 		seleccione2 = new String("--Seleccione--");
 		disableAll = false;
 		disableDelAddress = true;
-		disableDelItem = true;
 		update = false;
 		businessPartner.setStatus('A');
 		listBusinessPartnerName = new ListModelList<Object>();
@@ -436,12 +427,6 @@ public class FrmBusinessPartnerMaster {
 		disableDelAddress = false;
 	}
 
-	@NotifyChange({ "disableDelItem" })
-	@Command
-	public void loadItemByListBox() {
-		disableDelItem = false;
-	}
-
 	@NotifyChange("listItem")
 	@Command
 	public void searchItemByField(@BindingParam("field") String field) {
@@ -548,39 +533,39 @@ public class FrmBusinessPartnerMaster {
 		update = true;
 	}
 
-	@NotifyChange({ "item", "disableDelItem" })
+	@NotifyChange({ "item" })
 	@Command
 	public void addItem() {
+		// Update references
+		item = serviceItem.findByCode(item.getCode());
 		Boolean found = false;
-		for (Titem itemAux : businessPartner.getTitems()) {
-			if (itemAux.getIdItem() == item.getIdItem()) {
+		for (TbusinesPartnerItem auxBusinessPartnerItem : businessPartner.getTbusinesPartnerItems()) {
+			if (auxBusinessPartnerItem.getTitem().getIdItem() == item.getIdItem()) {
 				found = true;
 				break;
 			}
 		}
 		if (!found) {
-			businessPartner.getTitems().add(item);
-			System.out.println(item.getIdItem());
-			BindUtils.postNotifyChange(null, null, businessPartner, "titems");
+			TbusinesPartnerItem businessPartnerItem = new TbusinesPartnerItem();
+			businessPartnerItem.setTitem(item);
+			businessPartnerItem.setPrice(0);
+			businessPartner.getTbusinesPartnerItems().add(businessPartnerItem);
+			BindUtils.postNotifyChange(null, null, businessPartner, "tbusinesPartnerItems");
 		} else
 			Clients.showNotification("Ya se encuentra en la lista", "info", null, "middle_center", 2000);
 		item = new Titem();
-		disableDelItem = true;
 	}
 
 	@Command
-	@NotifyChange({ "item", "disableDelItem" })
-	public void deleteItem() {
-		for (Iterator<Titem> iterator = businessPartner.getTitems().iterator(); iterator.hasNext();) {
-			Titem itemAux = iterator.next();
-			if (itemAux.getIdItem() == item.getIdItem()) {
-				item = new Titem();
+	public void deleteItem(@BindingParam("bpItem")TbusinesPartnerItem businesPartnerItem) {
+		for (Iterator<TbusinesPartnerItem> iterator = businessPartner.getTbusinesPartnerItems().iterator(); iterator.hasNext();) {
+			TbusinesPartnerItem auxBusinessPartnerItem = iterator.next();
+			if (auxBusinessPartnerItem.equals(businesPartnerItem)) {
 				iterator.remove();
-				BindUtils.postNotifyChange(null, null, businessPartner, "titems");
+				BindUtils.postNotifyChange(null, null, businessPartner, "tbusinesPartnerItems");
 				break;
 			}
 		}
-		disableDelItem = true;
 	}
 
 	@Command

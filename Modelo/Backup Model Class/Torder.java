@@ -1,6 +1,6 @@
 package models;
 
-// Generated 12/06/2014 12:11:57 AM by Hibernate Tools 4.0.0
+// Generated 12/06/2014 09:35:54 PM by Hibernate Tools 4.0.0
 
 import java.util.Date;
 import java.util.HashSet;
@@ -82,7 +82,7 @@ public class Torder implements java.io.Serializable {
 	}
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "torder_id_seq")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "torder_id_seq")
     @SequenceGenerator(name = "torder_id_seq", sequenceName = "torder_id_seq")
 	@Column(name = "id_order", unique = true, nullable = false)
 	public int getIdOrder() {

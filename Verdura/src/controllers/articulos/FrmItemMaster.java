@@ -226,6 +226,9 @@ public class FrmItemMaster {
 			public void validate(ValidationContext ctx) {
 				InputElement inputElement = (InputElement) ctx.getBindContext().getValidatorArg("component");
 				String string = inputElement.getText();
+				if (listOutputMeasureUnit.size() == 1) {
+					throw new WrongValueException(inputElement, "Se puede añadir maximo una unidad de salida.");
+				}
 				if (string.isEmpty() || string.equals("--Seleccione--")) {
 					throw new WrongValueException(inputElement, "Seleccione una opcion valida.");
 				}
@@ -275,13 +278,14 @@ public class FrmItemMaster {
 		listItemCode = new ListModelList<Object>();
 		listItemName = new ListModelList<Object>();
 		listMeasureUnit = serviceBasicData.listMeasureUnit();
-		listInputMeasureUnit = new ArrayList<TinputMeasureUnit>();
 		selectedInputMeasureUnit = new TbasicData();
 		listOutputMeasureUnit = new ArrayList<ToutputMeasureUnit>();
 		selectedOutputMeasureUnit = new TbasicData();
 		listItemType = serviceBasicData.listItemType();
 		listDeleteInputMeasureUnit = new ArrayList<TinputMeasureUnit>();
 		listDeleteOutputMeasureUnit = new ArrayList<ToutputMeasureUnit>();
+		// Default measureUnit
+		listInputMeasureUnit = new ArrayList<TinputMeasureUnit>(defaultMeasuresUnit());
 	}
 
 	@NotifyChange({ "listItemCode", "listItemName" })
@@ -432,5 +436,21 @@ public class FrmItemMaster {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", "");
 		BindUtils.postGlobalCommand(null, null, "selectedPage", map);
+	}
+	
+	public List<TinputMeasureUnit> defaultMeasuresUnit() {
+		List<TbasicData> auxListMeasureUnits = serviceBasicData.listMeasureUnit();
+		List<TinputMeasureUnit> listMeasureUnits = new ArrayList<TinputMeasureUnit>();
+		for (TbasicData measureUnit : auxListMeasureUnits) {
+			if (measureUnit.getName().equals("KG") || measureUnit.getName().equals("CESTA")) {
+				TinputMeasureUnit inpuMeasureUnit = new TinputMeasureUnit();
+				inpuMeasureUnit.setStatus('A');
+				inpuMeasureUnit.setTbasicData(measureUnit);
+				inpuMeasureUnit.setWeightUnit(0);
+				inpuMeasureUnit.setTitem(item);
+				listMeasureUnits.add(inpuMeasureUnit);
+			}
+		}
+		return listMeasureUnits;
 	}
 }

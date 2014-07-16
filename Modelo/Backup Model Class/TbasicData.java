@@ -1,6 +1,6 @@
 package models;
 
-// Generated 12/06/2014 09:03:18 AM by Hibernate Tools 4.0.0
+// Generated 10/07/2014 10:58:58 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Table(name = "tbasic_data", schema = "public")
 public class TbasicData implements java.io.Serializable {
 
-    private static final long serialVersionUID = -3154517256350853336L;
+	private static final long serialVersionUID = -2448051825994937962L;
 	private int idBasicData;
 	private TdataType tdataType;
 	private TbasicData tbasicData;
@@ -32,12 +32,14 @@ public class TbasicData implements java.io.Serializable {
 	private String description;
 	private boolean editable;
 	private char status;
+	private Set<ToutputMeasureUnit> toutputMeasureUnits = new HashSet<ToutputMeasureUnit>(0);
+	private Set<TbusinesPartnerItem> tbusinesPartnerItems = new HashSet<TbusinesPartnerItem>(0);
 	private Set<TbasicData> tbasicDatas = new HashSet<TbasicData>(0);
-	private Set<Titem> titemsForType = new HashSet<Titem>(0);
+	private Set<TinputMeasureUnit> tinputMeasureUnits = new HashSet<TinputMeasureUnit>(0);
+	private Set<Titem> titems = new HashSet<Titem>(0);
 	private Set<TbusinessPartnerBranch> tbusinessPartnerBranches = new HashSet<TbusinessPartnerBranch>(0);
 	private Set<TorderDetail> torderDetails = new HashSet<TorderDetail>(0);
 	private Set<Tbill> tbills = new HashSet<Tbill>(0);
-	private Set<Titem> titemsForUnitCar = new HashSet<Titem>(0);
 	private Set<TbusinessPartner> tbusinessPartnersForRifType = new HashSet<TbusinessPartner>(0);
 	private Set<TbusinessPartner> tbusinessPartnersForType = new HashSet<TbusinessPartner>(0);
 
@@ -52,7 +54,7 @@ public class TbasicData implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public TbasicData(int idBasicData, TdataType tdataType, TbasicData tbasicData, String name, String description, boolean editable, char status, Set<TbasicData> tbasicDatas, Set<Titem> titemsForType, Set<TbusinessPartnerBranch> tbusinessPartnerBranches, Set<TorderDetail> torderDetails, Set<Tbill> tbills, Set<Titem> titemsForUnitCar, Set<TbusinessPartner> tbusinessPartnersForRifType, Set<TbusinessPartner> tbusinessPartnersForType) {
+	public TbasicData(int idBasicData, TdataType tdataType, TbasicData tbasicData, String name, String description, boolean editable, char status, Set<ToutputMeasureUnit> toutputMeasureUnits, Set<TbusinesPartnerItem> tbusinesPartnerItems, Set<TbasicData> tbasicDatas, Set<TinputMeasureUnit> tinputMeasureUnits, Set<Titem> titems, Set<TbusinessPartnerBranch> tbusinessPartnerBranches, Set<TorderDetail> torderDetails, Set<Tbill> tbills, Set<TbusinessPartner> tbusinessPartnersForRifType, Set<TbusinessPartner> tbusinessPartnersForType) {
 		this.idBasicData = idBasicData;
 		this.tdataType = tdataType;
 		this.tbasicData = tbasicData;
@@ -60,18 +62,20 @@ public class TbasicData implements java.io.Serializable {
 		this.description = description;
 		this.editable = editable;
 		this.status = status;
+		this.toutputMeasureUnits = toutputMeasureUnits;
+		this.tbusinesPartnerItems = tbusinesPartnerItems;
 		this.tbasicDatas = tbasicDatas;
-		this.titemsForType = titemsForType;
+		this.tinputMeasureUnits = tinputMeasureUnits;
+		this.titems = titems;
 		this.tbusinessPartnerBranches = tbusinessPartnerBranches;
 		this.torderDetails = torderDetails;
 		this.tbills = tbills;
-		this.titemsForUnitCar = titemsForUnitCar;
 		this.tbusinessPartnersForRifType = tbusinessPartnersForRifType;
 		this.tbusinessPartnersForType = tbusinessPartnersForType;
 	}
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "tbasic_data_id_seq")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "tbasic_data_id_seq")
     @SequenceGenerator(name = "tbasic_data_id_seq", sequenceName = "tbasic_data_id_seq")
 	@Column(name = "id_basic_data", unique = true, nullable = false)
 	public int getIdBasicData() {
@@ -139,6 +143,24 @@ public class TbasicData implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")
+	public Set<ToutputMeasureUnit> getToutputMeasureUnits() {
+		return this.toutputMeasureUnits;
+	}
+
+	public void setToutputMeasureUnits(Set<ToutputMeasureUnit> toutputMeasureUnits) {
+		this.toutputMeasureUnits = toutputMeasureUnits;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")
+	public Set<TbusinesPartnerItem> getTbusinesPartnerItems() {
+		return this.tbusinesPartnerItems;
+	}
+
+	public void setTbusinesPartnerItems(Set<TbusinesPartnerItem> tbusinesPartnerItems) {
+		this.tbusinesPartnerItems = tbusinesPartnerItems;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")
 	public Set<TbasicData> getTbasicDatas() {
 		return this.tbasicDatas;
 	}
@@ -147,13 +169,22 @@ public class TbasicData implements java.io.Serializable {
 		this.tbasicDatas = tbasicDatas;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicDataByType")
-	public Set<Titem> getTitemsForType() {
-		return this.titemsForType;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")
+	public Set<TinputMeasureUnit> getTinputMeasureUnits() {
+		return this.tinputMeasureUnits;
 	}
 
-	public void setTitemsForType(Set<Titem> titemsForType) {
-		this.titemsForType = titemsForType;
+	public void setTinputMeasureUnits(Set<TinputMeasureUnit> tinputMeasureUnits) {
+		this.tinputMeasureUnits = tinputMeasureUnits;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")
+	public Set<Titem> getTitems() {
+		return this.titems;
+	}
+
+	public void setTitems(Set<Titem> titems) {
+		this.titems = titems;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")
@@ -181,15 +212,6 @@ public class TbasicData implements java.io.Serializable {
 
 	public void setTbills(Set<Tbill> tbills) {
 		this.tbills = tbills;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicDataByUnitCar")
-	public Set<Titem> getTitemsForUnitCar() {
-		return this.titemsForUnitCar;
-	}
-
-	public void setTitemsForUnitCar(Set<Titem> titemsForUnitCar) {
-		this.titemsForUnitCar = titemsForUnitCar;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicDataByRifType")

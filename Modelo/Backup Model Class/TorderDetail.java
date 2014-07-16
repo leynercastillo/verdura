@@ -1,6 +1,6 @@
 package models;
 
-// Generated 12/06/2014 09:03:18 AM by Hibernate Tools 4.0.0
+// Generated 12/06/2014 09:35:54 PM by Hibernate Tools 4.0.0
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,11 +20,11 @@ import javax.persistence.Table;
 @Table(name = "torder_detail", schema = "public")
 public class TorderDetail implements java.io.Serializable {
 
-	private static final long serialVersionUID = -8852047133094353830L;
+	private static final long serialVersionUID = 4711521974692825121L;
 	private int idOrderDetail;
 	private Torder torder;
-	private TbasicData tbasicData;
 	private Titem titem;
+	private TbasicData tbasicData;
 	private String itemName;
 	private float quantity;
 	private char status;
@@ -32,11 +32,11 @@ public class TorderDetail implements java.io.Serializable {
 	public TorderDetail() {
 	}
 
-	public TorderDetail(int idOrderDetail, Torder torder, TbasicData tbasicData, Titem titem, String itemName, float quantity, char status) {
+	public TorderDetail(int idOrderDetail, Torder torder, Titem titem, TbasicData tbasicData, String itemName, float quantity, char status) {
 		this.idOrderDetail = idOrderDetail;
 		this.torder = torder;
-		this.tbasicData = tbasicData;
 		this.titem = titem;
+		this.tbasicData = tbasicData;
 		this.itemName = itemName;
 		this.quantity = quantity;
 		this.status = status;
@@ -44,7 +44,7 @@ public class TorderDetail implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "torder_detail_id_seq")
-	@SequenceGenerator(name = "torder_detail_id_seq", sequenceName = "torder_detail_id_seq")
+    @SequenceGenerator(name = "torder_detail_id_seq", sequenceName = "torder_detail_id_seq")
 	@Column(name = "id_order_detail", unique = true, nullable = false)
 	public int getIdOrderDetail() {
 		return this.idOrderDetail;
@@ -65,16 +65,6 @@ public class TorderDetail implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "unit_measure", nullable = false)
-	public TbasicData getTbasicData() {
-		return this.tbasicData;
-	}
-
-	public void setTbasicData(TbasicData tbasicData) {
-		this.tbasicData = tbasicData;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_item", nullable = false)
 	public Titem getTitem() {
 		return this.titem;
@@ -82,6 +72,16 @@ public class TorderDetail implements java.io.Serializable {
 
 	public void setTitem(Titem titem) {
 		this.titem = titem;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "measure_unit", nullable = false)
+	public TbasicData getTbasicData() {
+		return this.tbasicData;
+	}
+
+	public void setTbasicData(TbasicData tbasicData) {
+		this.tbasicData = tbasicData;
 	}
 
 	@Column(name = "item_name", nullable = false, length = 100)

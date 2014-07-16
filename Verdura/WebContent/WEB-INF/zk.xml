@@ -10,6 +10,10 @@
 			the same URL -->
 	</device-config>
 	<library-property>
+		<name>org.zkoss.web.preferred.locale</name>
+		<value>es</value>
+	</library-property>
+	<library-property>
 		<name>org.zkoss.zul.Button.mold</name>
 		<value>trendy</value>
 	</library-property>

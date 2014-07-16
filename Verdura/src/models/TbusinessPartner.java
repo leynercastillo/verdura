@@ -1,6 +1,6 @@
 package models;
 
-// Generated 12/06/2014 09:35:54 PM by Hibernate Tools 4.0.0
+// Generated 14/07/2014 10:49:25 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,8 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -35,7 +33,7 @@ public class TbusinessPartner implements java.io.Serializable {
 	private String address;
 	private char status;
 	private Set<TbusinessPartnerBranch> tbusinessPartnerBranches = new HashSet<TbusinessPartnerBranch>(0);
-	private Set<Titem> titems = new HashSet<Titem>(0);
+	private Set<TbusinesPartnerItem> tbusinesPartnerItems = new HashSet<TbusinesPartnerItem>(0);
 
 	public TbusinessPartner() {
 	}
@@ -49,7 +47,7 @@ public class TbusinessPartner implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public TbusinessPartner(int idBusinessPartner, TbasicData tbasicDataByRifType, TbasicData tbasicDataByType, String name, String rif, String address, char status, Set<TbusinessPartnerBranch> tbusinessPartnerBranches, Set<Titem> titems) {
+	public TbusinessPartner(int idBusinessPartner, TbasicData tbasicDataByRifType, TbasicData tbasicDataByType, String name, String rif, String address, char status, Set<TbusinessPartnerBranch> tbusinessPartnerBranches, Set<TbusinesPartnerItem> tbusinesPartnerItems) {
 		this.idBusinessPartner = idBusinessPartner;
 		this.tbasicDataByRifType = tbasicDataByRifType;
 		this.tbasicDataByType = tbasicDataByType;
@@ -58,7 +56,7 @@ public class TbusinessPartner implements java.io.Serializable {
 		this.address = address;
 		this.status = status;
 		this.tbusinessPartnerBranches = tbusinessPartnerBranches;
-		this.titems = titems;
+		this.tbusinesPartnerItems = tbusinesPartnerItems;
 	}
 
 	@Id
@@ -138,14 +136,13 @@ public class TbusinessPartner implements java.io.Serializable {
 		this.tbusinessPartnerBranches = tbusinessPartnerBranches;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "tbusines_partner_item", schema = "public", joinColumns = { @JoinColumn(name = "id_business_partner", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_item", nullable = false, updatable = false) })
-	public Set<Titem> getTitems() {
-		return this.titems;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbusinessPartner")
+	public Set<TbusinesPartnerItem> getTbusinesPartnerItems() {
+		return this.tbusinesPartnerItems;
 	}
 
-	public void setTitems(Set<Titem> titems) {
-		this.titems = titems;
+	public void setTbusinesPartnerItems(Set<TbusinesPartnerItem> tbusinesPartnerItems) {
+		this.tbusinesPartnerItems = tbusinesPartnerItems;
 	}
 
 }

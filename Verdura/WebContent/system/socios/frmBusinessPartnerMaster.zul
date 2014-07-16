@@ -275,32 +275,6 @@
 									</columns>
 									<rows>
 										<row>
-											<!-- align left para alinear a la izquierda en Google Chrome -->
-											<cell align="left"
-												rowspan="10" valign="top">
-												<!-- width 100% para anchar header listbox en Google Chrome -->
-												<listbox
-													id="lbxItemOffered"
-													model="@load(vm.businessPartner.titems)"
-													onSelect="@command('loadItemByListBox')"
-													selectedItem="@bind(vm.item)">
-													<listhead>
-														<listheader
-															label="Ofrecidos">
-														</listheader>
-													</listhead>
-													<template
-														name="model" var="item">
-														<listitem>
-															<listcell
-																label="@load(item.name)">
-															</listcell>
-														</listitem>
-													</template>
-												</listbox>
-											</cell>
-										</row>
-										<row>
 											<label sclass="formLabel"
 												value="Artículo:">
 											</label>
@@ -312,21 +286,71 @@
 												onChange="@command(vm.disableAll ? '':'loadItemByField', input=self)"
 												value="@save(vm.item.name, before = 'addItem') @load(vm.item eq null ? '' : vm.item.name) @validator(vm.noEmpty, component = self)">
 											</combobox>
+											<button
+												disabled="@load(vm.disableAll)"
+												image="resource/images/icons/add.png" label="Añadir"
+												onClick="@command('addItem')">
+											</button>
 										</row>
 										<row>
-											<space></space>
-											<hbox>
-												<button
-													disabled="@load(vm.disableAll)"
-													image="resource/images/icons/add.png" label="Añadir"
-													onClick="@command('addItem')">
-												</button>
-												<button
-													disabled="@load(vm.disableAll ? 'true': vm.disableDelItem)"
-													image="resource/images/icons/minus.png" label="Eliminar"
-													onClick="@command('deleteItem')">
-												</button>
-											</hbox>
+											<!-- align left para alinear a la izquierda en Google Chrome -->
+											<cell align="left"
+												colspan="3">
+												<!-- width 100% para anchar header listbox en Google Chrome -->
+												<listbox
+													id="lbxItemOffered"
+													model="@load(vm.businessPartner.tbusinesPartnerItems)">
+													<listhead>
+														<listheader
+															hflex="2" label="Ofrecidos">
+														</listheader>
+														<listheader
+															hflex="2" label="Unidad de medida">
+														</listheader>
+														<listheader
+															hflex="1" label="Precio">
+														</listheader>
+														<listheader
+															hflex="1" label="Accion">
+														</listheader>
+													</listhead>
+													<template
+														name="model" var="businesPartnerItem">
+														<listitem>
+															<listcell
+																label="@load(businesPartnerItem.titem.name)">
+															</listcell>
+															<listcell>
+																<combobox
+																	hflex="1"
+																	model="@load(businesPartnerItem.titem.tinputMeasureUnits)"
+																	readonly="true"
+																	selectedItem="@bind(businesPartnerItem.tbasicData)"
+																	value="@save(vm.seleccione, before = 'save') @load(businesPartnerItem.tbasicData.name eq null ? vm.seleccione : businesPartnerItem.tbasicData.name) @validator(vm.noSelect, component = self)">
+																	<template
+																		name="model" var="measureUnits">
+																		<comboitem
+																			label="@load(measureUnits.tbasicData.name)">
+																		</comboitem>
+																	</template>
+																</combobox>
+															</listcell>
+															<listcell>
+																<doublespinner constraint="min 0" format="#,##0.00"
+																	hflex="1" step="0.5" style="text-align: right" value="@load(businesPartnerItem.price)">
+																</doublespinner>
+															</listcell>
+															<listcell>
+																<button
+																	image="resource/images/icons/minus.png"
+																	label="Eliminar"
+																	onClick="@command('deleteItem', bpItem = businesPartnerItem)">
+																</button>
+															</listcell>
+														</listitem>
+													</template>
+												</listbox>
+											</cell>
 										</row>
 									</rows>
 								</grid>
