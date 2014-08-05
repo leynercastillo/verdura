@@ -31,8 +31,23 @@ public class ServiceBasicData {
 	}
 
 	@Transactional(readOnly = true)
+	public TbasicData findSuplier() {
+		return daoBasicData.findTypeByString("PROVEEDOR", "name", serviceDataType.getBusinessPartnerType());
+	}
+
+	@Transactional(readOnly = true)
+	public TbasicData findCustomer() {
+		return daoBasicData.findTypeByString("CLIENTE", "name", serviceDataType.getBusinessPartnerType());
+	}
+
+	@Transactional(readOnly = true)
 	public List<TbasicData> listMeasureUnit() {
 		return daoBasicData.listByDataType(serviceDataType.getUnitMeasure());
+	}
+
+	@Transactional(readOnly = true)
+	public List<TbasicData> listMeasureUnitForOrders() {
+		return daoBasicData.listByDataType(serviceDataType.getUnitMeasureForOrders());
 	}
 
 	@Transactional(readOnly = true)

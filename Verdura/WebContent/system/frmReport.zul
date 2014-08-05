@@ -1,0 +1,10 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" border="normal"
+		closable="true" height="90%" id="winReport" mode="modal"
+		onClose="@command('close')" title="@load(vm.reportTitle)"
+		viewModel="@id('vm') @init('controllers.FrmReport')" width="80%"
+		sizable="true">
+		<iframe height="100%" id="report" src="@load(vm.report)"
+			style="background-color:transparent" width="100%" />
+	</window>
+</zk>

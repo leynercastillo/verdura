@@ -91,6 +91,14 @@ public class DaoBusinessPartner {
 		return criteria.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<TbusinessPartner> listByStringAndTypeBusinessPartner(String field, String value, TbasicData type) {
+		Criteria criteria = getCurrentSession().createCriteria(TbusinessPartner.class);
+		criteria.add(Restrictions.eq(field, value));
+		criteria.add(Restrictions.eq("tbasicDataByType", type));
+		return criteria.list();
+	}
+
 	public TbusinessPartner findByRif(String value, TbasicData type) {
 		Criteria criteria = getCurrentSession().createCriteria(TbusinessPartner.class);
 		criteria.add(Restrictions.eq("rif", value));
@@ -106,6 +114,14 @@ public class DaoBusinessPartner {
 		return bp != null ? (TbusinessPartner) bp : null;
 	}
 
+	public TbusinessPartner findTypeBusinessPartnerByString(String value, String field, TbasicData type) {
+		Criteria criteria = getCurrentSession().createCriteria(TbusinessPartner.class);
+		criteria.add(Restrictions.eq(field, value));
+		criteria.add(Restrictions.eq("tbasicDataByType", type));
+		Object bp = criteria.uniqueResult();
+		return bp != null ? (TbusinessPartner) bp : null;
+	}
+
 	@SuppressWarnings("unchecked")
 	/**
 	 * @param field
@@ -114,6 +130,21 @@ public class DaoBusinessPartner {
 	 */
 	public List<String> listStringByField(String field) {
 		Criteria criteria = getCurrentSession().createCriteria(TbusinessPartner.class);
+		criteria.setProjection(Projections.distinct(Projections.property(field)));
+		criteria.addOrder(Order.asc(field));
+		List<String> list = criteria.list();
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	/**
+	 * @param field
+	 *            database field to search.
+	 * @return List of String that result. It is empty if find nothing.
+	 */
+	public List<String> listStringByFieldAndType(String field, TbasicData type) {
+		Criteria criteria = getCurrentSession().createCriteria(TbusinessPartner.class);
+		criteria.add(Restrictions.eq("tbasicDataByType", type));
 		criteria.setProjection(Projections.distinct(Projections.property(field)));
 		criteria.addOrder(Order.asc(field));
 		List<String> list = criteria.list();

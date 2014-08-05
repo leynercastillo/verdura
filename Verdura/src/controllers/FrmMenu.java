@@ -14,7 +14,7 @@ public class FrmMenu {
 	@Command
 	public void optionSelected(@BindingParam("optionSelected") String optionSelected){
 		if (!optionSelected.isEmpty()){
-			Map map = new HashMap();
+			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("page", optionSelected);
 			BindUtils.postGlobalCommand(null, null, "selectedPage", map);
 		}

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="order" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="76e06260-0bbe-4351-a007-7eafacdaed61">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="IMAGES_DIR" class="java.lang.String"/>
+	<parameter name="ORDER_NUMBER" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+	o.id_order_number,
+	o.rif,
+	o.bp_name,
+	o.bp_branch_address,
+	o.order_date,
+	od.item_name,
+	b.name,
+	od.quantity
+FROM
+	torder o INNER JOIN torder_detail od ON od.id_order = o.id_order
+	INNER JOIN tbasic_data b ON b.id_basic_data = od.measure_unit
+WHERE
+	o.id_order_number = $P{ORDER_NUMBER}]]>
+	</queryString>
+	<field name="id_order_number" class="java.lang.Integer"/>
+	<field name="rif" class="java.lang.String"/>
+	<field name="bp_name" class="java.lang.String"/>
+	<field name="bp_branch_address" class="java.lang.String"/>
+	<field name="order_date" class="java.sql.Timestamp"/>
+	<field name="item_name" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Float"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="88" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="175" height="68" uuid="94be074d-7dc8-40ee-9e84-b898eb3e6b8f"/>
+				<imageExpression><![CDATA[$P{IMAGES_DIR}+"logo_fynca.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="394" y="53" width="78" height="15" uuid="4ce35f9b-b456-4627-930a-7d9df3cfe0cd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="472" y="53" width="100" height="15" uuid="7f23fbf1-fa13-4c8c-8f81-92dc9cdd5f15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{order_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="94">
+			<textField>
+				<reportElement x="43" y="25" width="100" height="20" uuid="4c9baf43-0b76-423a-8414-e47f8957e4b6"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{rif}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="208" y="25" width="364" height="20" uuid="0bf6843f-6c05-4618-b03b-8115164a93b9"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{bp_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="45" width="415" height="20" uuid="5797e904-dd9b-47d1-a1a7-c0458a833292"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{bp_branch_address}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="161" y="0" width="250" height="25" uuid="7e279d1b-0b2d-4eba-90e1-2e8238ebd41c"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PEDIDO DEL CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="25" width="43" height="20" uuid="10bdcb0c-551f-466c-976f-e0f6f35736c7"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RIF:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="157" height="20" uuid="ae257799-3bc9-415f-bb7d-adc58c1edc24"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCION DE DESPACHO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="143" y="25" width="65" height="20" uuid="c73dc6b0-6a72-4bed-8111-8409c1506da6"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="74" width="341" height="20" uuid="f421f8e7-c5c2-473a-9c0d-d663d6905a5d"/>
+				<box leftPadding="5" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ARTICULO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="473" y="74" width="100" height="20" uuid="69c1833b-6c07-4269-abbd-57a75449196f"/>
+				<box leftPadding="5" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="341" y="74" width="132" height="20" uuid="d5b09b79-ad22-4251-9ef3-c0a45ef48bf7"/>
+				<box leftPadding="5" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIDAD]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="340" height="20" uuid="40ac34a0-4721-4fd8-b3e7-3ef53d109868"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="472" y="0" width="100" height="20" uuid="19a11b22-c66f-4265-bf51-5607ca130e5f"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="0" width="132" height="20" uuid="cdf9744a-2bff-4199-b0f4-59c67f2c8998"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="15" uuid="965112e6-5616-407f-a1b4-a9c99eee3181"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[FRESCO Y NATURAL C.A. - RIF. J-29462831-1
+
+ ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="572" height="15" uuid="47702947-28ff-45a5-a354-7156b1748858"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[AV. 6, EDIF KARUAY, PISO 6, APTO 6-B, URB. RESIDENCIAS LA CASCADA, VALERA EDO RUJILLO]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

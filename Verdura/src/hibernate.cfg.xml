@@ -13,9 +13,9 @@
         <property name="hibernate.c3p0.timeout">100</property>
         <property name="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.password">leyner.18654277</property>
+        <property name="hibernate.connection.password">iec02100202</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/verdura</property>
-        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.username">technoempire</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.search.autoregister_listeners">false</property>
         <mapping class="models.SecurityUser" />
@@ -31,6 +31,7 @@
         <mapping class="models.SecurityGroup" />
         <mapping class="models.Titem" />
         <mapping class="models.TbillDetail" />
+        <mapping class="models.TorderNumber" />
         <mapping class="models.SecurityRole" />
         <mapping class="models.TbasicData" />
     </session-factory>

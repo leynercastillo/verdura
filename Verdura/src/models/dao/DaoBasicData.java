@@ -82,6 +82,15 @@ public class DaoBasicData {
 		Object obj = criteria.uniqueResult();
 		return obj == null ? null : (TbasicData) obj;
 	}
+	
+	public TbasicData findTypeByString(String value, String field, TdataType type) {
+		Session session = getCurrentSession();
+		Criteria criteria = session.createCriteria(TbasicData.class);
+		criteria.add(Restrictions.eq(field, value));
+		criteria.add(Restrictions.eq("tdataType", type));
+		Object obj = criteria.uniqueResult();
+		return obj == null ? null : (TbasicData) obj;
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<TbasicData> listByDataType(TdataType dataType) {

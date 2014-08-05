@@ -1,6 +1,6 @@
 package models;
 
-// Generated 12/06/2014 09:35:54 PM by Hibernate Tools 4.0.0
+// Generated 14/07/2014 10:49:25 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -34,7 +33,7 @@ public class Titem implements java.io.Serializable {
 	private char status;
 	private Set<TorderDetail> torderDetails = new HashSet<TorderDetail>(0);
 	private Set<ToutputMeasureUnit> toutputMeasureUnits = new HashSet<ToutputMeasureUnit>(0);
-	private Set<TbusinessPartner> tbusinessPartners = new HashSet<TbusinessPartner>(0);
+	private Set<TbusinesPartnerItem> tbusinesPartnerItems = new HashSet<TbusinesPartnerItem>(0);
 	private Set<TinputMeasureUnit> tinputMeasureUnits = new HashSet<TinputMeasureUnit>(0);
 	private Set<TbillDetail> tbillDetails = new HashSet<TbillDetail>(0);
 
@@ -50,7 +49,7 @@ public class Titem implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public Titem(int idItem, TbasicData tbasicData, String code, String name, boolean washable, char status, Set<TorderDetail> torderDetails, Set<ToutputMeasureUnit> toutputMeasureUnits, Set<TbusinessPartner> tbusinessPartners, Set<TinputMeasureUnit> tinputMeasureUnits, Set<TbillDetail> tbillDetails) {
+	public Titem(int idItem, TbasicData tbasicData, String code, String name, boolean washable, char status, Set<TorderDetail> torderDetails, Set<ToutputMeasureUnit> toutputMeasureUnits, Set<TbusinesPartnerItem> tbusinesPartnerItems, Set<TinputMeasureUnit> tinputMeasureUnits, Set<TbillDetail> tbillDetails) {
 		this.idItem = idItem;
 		this.tbasicData = tbasicData;
 		this.code = code;
@@ -59,7 +58,7 @@ public class Titem implements java.io.Serializable {
 		this.status = status;
 		this.torderDetails = torderDetails;
 		this.toutputMeasureUnits = toutputMeasureUnits;
-		this.tbusinessPartners = tbusinessPartners;
+		this.tbusinesPartnerItems = tbusinesPartnerItems;
 		this.tinputMeasureUnits = tinputMeasureUnits;
 		this.tbillDetails = tbillDetails;
 	}
@@ -140,13 +139,13 @@ public class Titem implements java.io.Serializable {
 		this.toutputMeasureUnits = toutputMeasureUnits;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "titems")
-	public Set<TbusinessPartner> getTbusinessPartners() {
-		return this.tbusinessPartners;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "titem")
+	public Set<TbusinesPartnerItem> getTbusinesPartnerItems() {
+		return this.tbusinesPartnerItems;
 	}
 
-	public void setTbusinessPartners(Set<TbusinessPartner> tbusinessPartners) {
-		this.tbusinessPartners = tbusinessPartners;
+	public void setTbusinesPartnerItems(Set<TbusinesPartnerItem> tbusinesPartnerItems) {
+		this.tbusinesPartnerItems = tbusinesPartnerItems;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "titem")

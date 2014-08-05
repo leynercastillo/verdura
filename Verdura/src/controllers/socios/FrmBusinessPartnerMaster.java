@@ -1,5 +1,6 @@
 package controllers.socios;
 
+import general.BusinessPartnerItemCustom;
 import general.SimpleListModelCustom;
 import general.ValidateZK;
 
@@ -17,6 +18,7 @@ import models.Titem;
 import models.service.ServiceBasicData;
 import models.service.ServiceBusinessPartner;
 import models.service.ServiceBusinessPartnerBranch;
+import models.service.ServiceBusinessPartnerItem;
 import models.service.ServiceItem;
 
 import org.zkoss.bind.BindUtils;
@@ -47,6 +49,8 @@ public class FrmBusinessPartnerMaster {
 	private ServiceBusinessPartnerBranch serviceBusinessPartnerBranch;
 	@WireVariable
 	private ServiceItem serviceItem;
+	@WireVariable
+	private ServiceBusinessPartnerItem serviceBusinessPartnerItem;
 
 	private String minCombo;
 	private String seleccione;
@@ -69,6 +73,16 @@ public class FrmBusinessPartnerMaster {
 	private ListModel<Object> listItem;
 	private List<TbusinessPartnerBranch> listBusinessPartnerBranch;
 	private List<TbusinessPartnerBranch> listBusinessPartnerBranchForDelete;
+	private List<BusinessPartnerItemCustom> listBusinessPartnerItem;
+	private List<BusinessPartnerItemCustom> listBusinessPartnerItemForDelete;
+
+	public List<BusinessPartnerItemCustom> getListBusinessPartnerItem() {
+		return listBusinessPartnerItem;
+	}
+
+	public void setListBusinessPartnerItem(List<BusinessPartnerItemCustom> listBusinessPartnerItem) {
+		this.listBusinessPartnerItem = listBusinessPartnerItem;
+	}
 
 	public ListModel<Object> getListItem() {
 		return listItem;
@@ -294,13 +308,14 @@ public class FrmBusinessPartnerMaster {
 		listCities = new ArrayList<TbasicData>();
 		stateSelected = new TbasicData();
 		countrySelected = new TbasicData();
+		listBusinessPartnerItem = new ArrayList<BusinessPartnerItemCustom>();
+		listBusinessPartnerItemForDelete = new ArrayList<BusinessPartnerItemCustom>();
 	}
 
 	@NotifyChange({ "listStates", "listCities", "stateSelected" })
 	@Command
 	public void loadStatesByParent(@BindingParam("country") Object country) {
 		countrySelected = (TbasicData) country;
-		// listStates = daoBasicData.listByParent(countrySelected);
 		listStates = serviceBasicData.listStatesByCountry(countrySelected);
 		listCities = new ArrayList<TbasicData>();
 		stateSelected = new TbasicData();
@@ -310,7 +325,6 @@ public class FrmBusinessPartnerMaster {
 	@NotifyChange("listCities")
 	@Command
 	public void loadCitiesByParent() {
-		// listCities = daoBasicData.listByParent(stateSelected);
 		listCities = serviceBasicData.listCitiesByCountry(stateSelected);
 		businessPartnerBranch.setTbasicData(new TbasicData());
 	}
@@ -404,6 +418,30 @@ public class FrmBusinessPartnerMaster {
 						return;
 					}
 				} else if (!serviceBusinessPartnerBranch.save(businessPB)) {
+					Clients.showNotification("No se pudo guardar dirección socio", "error", null, "middle_center", 2000);
+					return;
+				}
+			}
+			for (BusinessPartnerItemCustom businessPartnerItem : listBusinessPartnerItem) {
+				TbusinesPartnerItem tbusinesPartnerItem = new TbusinesPartnerItem();
+				tbusinesPartnerItem.setId(businessPartnerItem.getId());
+				tbusinesPartnerItem.setPrice(businessPartnerItem.getPrice());
+				tbusinesPartnerItem.setTbasicData(businessPartnerItem.getTbasicData());
+				tbusinesPartnerItem.setTbusinessPartner(businessPartner);
+				tbusinesPartnerItem.setTitem(businessPartnerItem.getTitem());
+				if (!serviceBusinessPartnerItem.save(tbusinesPartnerItem)) {
+					Clients.showNotification("No se pudo guardar dirección socio", "error", null, "middle_center", 2000);
+					return;
+				}	
+			}
+			for (BusinessPartnerItemCustom businessPartnerItem : listBusinessPartnerItemForDelete) {
+				TbusinesPartnerItem tbusinessPartnerItem = new TbusinesPartnerItem();
+				tbusinessPartnerItem.setId(businessPartnerItem.getId());
+				tbusinessPartnerItem.setPrice(businessPartnerItem.getPrice());
+				tbusinessPartnerItem.setTbasicData(businessPartnerItem.getTbasicData());
+				tbusinessPartnerItem.setTbusinessPartner(businessPartnerItem.getTbusinessPartner());
+				tbusinessPartnerItem.setTitem(businessPartnerItem.getTitem());
+				if (!serviceBusinessPartnerItem.delete(tbusinessPartnerItem)) {
 					Clients.showNotification("No se pudo guardar dirección socio", "error", null, "middle_center", 2000);
 					return;
 				}
@@ -511,6 +549,11 @@ public class FrmBusinessPartnerMaster {
 			businessPartner = new TbusinessPartner();
 			businessPartner = listBusinessPartner2.get(0);
 			listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>(businessPartner.getTbusinessPartnerBranches());
+			listBusinessPartnerItem = new ArrayList<BusinessPartnerItemCustom>();
+			for (TbusinesPartnerItem businessPartnerItem : businessPartner.getTbusinesPartnerItems()) {
+				BusinessPartnerItemCustom businessPartnerItemCustom = new BusinessPartnerItemCustom(businessPartnerItem, businessPartnerItem.getTitem());
+				listBusinessPartnerItem.add(businessPartnerItemCustom);
+			}
 			disableAll = false;
 			update = true;
 			return;
@@ -533,13 +576,13 @@ public class FrmBusinessPartnerMaster {
 		update = true;
 	}
 
-	@NotifyChange({ "item" })
+	@NotifyChange({ "listBusinessPartnerItem" })
 	@Command
 	public void addItem() {
 		// Update references
 		item = serviceItem.findByCode(item.getCode());
 		Boolean found = false;
-		for (TbusinesPartnerItem auxBusinessPartnerItem : businessPartner.getTbusinesPartnerItems()) {
+		for (BusinessPartnerItemCustom auxBusinessPartnerItem : listBusinessPartnerItem) {
 			if (auxBusinessPartnerItem.getTitem().getIdItem() == item.getIdItem()) {
 				found = true;
 				break;
@@ -549,20 +592,21 @@ public class FrmBusinessPartnerMaster {
 			TbusinesPartnerItem businessPartnerItem = new TbusinesPartnerItem();
 			businessPartnerItem.setTitem(item);
 			businessPartnerItem.setPrice(0);
-			businessPartner.getTbusinesPartnerItems().add(businessPartnerItem);
-			BindUtils.postNotifyChange(null, null, businessPartner, "tbusinesPartnerItems");
+			BusinessPartnerItemCustom bpiCustom = new BusinessPartnerItemCustom(businessPartnerItem, item);
+			listBusinessPartnerItem.add(bpiCustom);
 		} else
 			Clients.showNotification("Ya se encuentra en la lista", "info", null, "middle_center", 2000);
 		item = new Titem();
 	}
 
+	@NotifyChange({ "listBusinessPartnerItem" })
 	@Command
-	public void deleteItem(@BindingParam("bpItem")TbusinesPartnerItem businesPartnerItem) {
-		for (Iterator<TbusinesPartnerItem> iterator = businessPartner.getTbusinesPartnerItems().iterator(); iterator.hasNext();) {
-			TbusinesPartnerItem auxBusinessPartnerItem = iterator.next();
+	public void deleteItem(@BindingParam("bpItem")BusinessPartnerItemCustom businesPartnerItem) {
+		for (Iterator<BusinessPartnerItemCustom> iterator = listBusinessPartnerItem.iterator(); iterator.hasNext();) {
+			BusinessPartnerItemCustom auxBusinessPartnerItem = iterator.next();
 			if (auxBusinessPartnerItem.equals(businesPartnerItem)) {
+				listBusinessPartnerItemForDelete.add(auxBusinessPartnerItem);
 				iterator.remove();
-				BindUtils.postNotifyChange(null, null, businessPartner, "tbusinesPartnerItems");
 				break;
 			}
 		}

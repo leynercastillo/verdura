@@ -4,7 +4,7 @@
 		closable="true" onClose="@command('close')"
 		viewModel="@id('vm') @init('controllers.pedidos.CtrlOrders')">
 		<style src="resource/style/styleZK.css"></style>
-		<caption label="Pedidos" zclass="formTitle"></caption>
+		<caption label="Cargar Pedidos" zclass="formTitle"></caption>
 		<grid>
 			<columns>
 				<column align="right" width="15%"></column>
@@ -27,30 +27,36 @@
 							</template>
 						</combobox>
 						<combobox autocomplete="true" autodrop="true"
-							buttonVisible="false" hflex="3" maxlength="15"
-							model="@load(vm.listBusinessPartnerRif)"
+							buttonVisible="false" disabled="@load(vm.disableAll)" hflex="3"
+							maxlength="15" model="@load(vm.listBusinessPartnerRif)"
 							onChange="@command('loadBusinessPartner', field='rif', val=self.value)"
 							onFocus="@command('searchBusinessPartnerByField', field='rif')"
 							value="@save(vm.businessPartner.rif, before = 'save') @load(vm.businessPartner.rif) @validator(vm.noEmpty, component = self)">
 						</combobox>
 					</hlayout>
 					<label sclass="formLabel" value="Nro. Pedido:"></label>
-					<intbox disabled="true" hflex="1"
-						value="@save(vm.order.orderNumber) @load(vm.order.orderNumber)">
-					</intbox>
+					<hlayout>
+						<intbox disabled="true" hflex="1"
+							value="@load(vm.order.torderNumber.idOrderNumber)">
+						</intbox>
+						<button hflex="1" disabled="@command()"
+							label="Cerrar orden" onClick="@command('confirmCloseOrder')">
+						</button>
+					</hlayout>
 				</row>
 				<row>
 					<label sclass="formLabel" value="Nombre:"></label>
 					<combobox autocomplete="true" autodrop="true"
-						buttonVisible="false" hflex="1" maxlength="100"
-						model="@load(vm.listBusinessPartnerName)"
+						buttonVisible="false" disabled="@load(vm.disableAll)" hflex="1"
+						maxlength="100" model="@load(vm.listBusinessPartnerName)"
 						onChange="@command('loadBusinessPartner', field='name', val=self.value)"
 						onFocus="@command('searchBusinessPartnerByField', field='name')"
 						value="@save(vm.businessPartner.name, before = 'save') @load(vm.businessPartner.name) @validator(vm.noEmpty, component = self)">
 					</combobox>
 					<label sclass="formLabel" value="Fecha pedido:"></label>
-					<datebox format="dd/MM/yyyy" hflex="1" locale="es"
-						readonly="true" style="float: left"
+					<datebox disabled="@load(vm.disableAll)"
+						format="dd/MM/yyyy" hflex="1" locale="es" readonly="true"
+						style="float: left"
 						value="@save(vm.order.orderDate, before = 'save') @load(vm.order.orderDate)">
 					</datebox>
 				</row>
@@ -68,20 +74,23 @@
 						</template>
 					</combobox>
 					<label sclass="formLabel" value="Fecha entrega:"></label>
-					<datebox format="dd/MM/yyyy" hflex="1" locale="es"
-						readonly="true" style="float: left"
+					<datebox disabled="@load(vm.disableAll)"
+						format="dd/MM/yyyy" hflex="1" locale="es" readonly="true"
+						style="float: left"
 						value="@save(vm.order.deliveryDate, before = 'save') @load(vm.order.deliveryDate)">
 					</datebox>
 				</row>
 				<row>
 					<label sclass="formLabel" value="Direccion:"></label>
-					<textbox hflex="1" readonly="true"
+					<textbox disabled="@load(vm.disableAll)" hflex="1"
+						readonly="true"
 						value="@load(vm.order.tbusinessPartnerBranch.address)">
 					</textbox>
 				</row>
 				<row>
 					<cell colspan="4">
-						<listbox model="@load(vm.listItems)">
+						<listbox id="lbxOrderDetail"
+							model="@load(vm.listOrderDetail)">
 							<listhead>
 								<listheader label="Articulo"
 									hflex="3">
@@ -92,18 +101,16 @@
 								<listheader align="right"
 									label="Cantidad" hflex="1">
 								</listheader>
-								<listheader align="right" label="Total"
-									height="2">
-								</listheader>
 							</listhead>
 							<auxhead>
 								<auxheader></auxheader>
 								<auxheader>
 									<combobox
 										disabled="@load(vm.disableAll)" hflex="1"
-										model="@load(vm.listUnitMeasure)" readonly="true"
-										selectedItem="@save(vm.unitSelected) @load(vm.unitSelected)"
-										value="@load(vm.unitSelected.name eq null ? vm.select : vm.unitSelected.name)">
+										model="@load(vm.listUnitMeasure)"
+										onChange="@command('selectUnitMeasure')" readonly="true"
+										selectedItem="@bind(vm.unitSelected)"
+										value="@load(vm.unitSelected.name eq null ? vm.select : vm.unitSelected.name) @save(vm.select, before = 'save') @validator(vm.noSelect, component = self)">
 										<template name="model"
 											var="unit">
 											<comboitem
@@ -112,22 +119,22 @@
 										</template>
 									</combobox>
 								</auxheader>
-								<auxheader colspan="2"></auxheader>
+								<auxheader></auxheader>
 							</auxhead>
-							<template name="model" var="item">
+							<template name="model" var="orderDetail">
 								<listitem>
 									<listcell
-										label="@load(item.name)">
+										label="@load(orderDetail.itemName)">
 									</listcell>
 									<listcell
-										label="@load(vm.unitSelected.name)">
+										label="@load(orderDetail.tbasicData.name)">
 									</listcell>
 									<listcell>
 										<spinner constraint="min 0"
-											hflex="1">
+											disabled="@load(vm.disableAll)" hflex="1"
+											value="@bind(orderDetail.quantity)">
 										</spinner>
 									</listcell>
-									<listcell label="Total"></listcell>
 								</listitem>
 							</template>
 						</listbox>
@@ -136,13 +143,18 @@
 				<row>
 					<cell align="right">
 						<button image="resource/images/icons/search.png"
-							label="Buscar">
+							label="Buscar" onClick="@command('search')">
 						</button>
 					</cell>
 					<cell colspan="3">
 						<button disabled="@load(vm.disableAll)"
 							image="resource/images/icons/save.png" label="Guardar"
-							onClick="">
+							onClick="@command('save', lbx = lbxOrderDetail)">
+						</button>
+						<space></space>
+						<button disabled="@load(not vm.disableAll)"
+							image="resource/images/icons/print.png" label="Imprimir"
+							onClick="@command('printOrder')">
 						</button>
 						<space></space>
 						<button image="resource/images/icons/cancel.png"
@@ -152,5 +164,19 @@
 				</row>
 			</rows>
 		</grid>
+		<window border="normal" mode="modal" title="Atencion"
+			visible="@load(not empty vm.modalMessage)" width="25%">
+			<vbox align="center" hflex="true">
+				<hbox height="35%">
+					<image src="~./zul/img/msgbox/question-btn.png" />
+					<label value="@load(vm.modalMessage)" />
+				</hbox>
+				<hbox hflex="true" pack="center">
+					<button label="Si" onClick="@command('closeOrder')" />
+					<button label="No"
+						onClick="@command('cancelModal')" />
+				</hbox>
+			</vbox>
+		</window>
 	</window>
 </zk>

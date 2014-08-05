@@ -1,0 +1,6 @@
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<zk>
+	<window title="new page title" border="normal">
+		New Content Here!
+	</window>
+</zk>

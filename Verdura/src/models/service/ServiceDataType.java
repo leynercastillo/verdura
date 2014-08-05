@@ -17,6 +17,11 @@ public class ServiceDataType {
 	public TdataType getUnitMeasure() {
 		return daoDataType.findByName("UNIT MEASURE");
 	}
+	
+	@Transactional(readOnly = true)
+	public TdataType getUnitMeasureForOrders() {
+		return daoDataType.findByName("UNIT MEASURE ORDER");
+	}
 
 	@Transactional(readOnly = true)
 	public TdataType getItemType() {

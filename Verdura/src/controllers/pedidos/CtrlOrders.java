@@ -1,5 +1,6 @@
 package controllers.pedidos;
 
+import general.GenericReport;
 import general.SimpleListModelCustom;
 import general.ValidateZK;
 
@@ -14,18 +15,25 @@ import models.TbusinessPartner;
 import models.TbusinessPartnerBranch;
 import models.Titem;
 import models.Torder;
+import models.TorderDetail;
+import models.TorderNumber;
 import models.service.ServiceBasicData;
 import models.service.ServiceBusinessPartner;
 import models.service.ServiceItem;
 import models.service.ServiceOrder;
+import models.service.ServiceOrderDetail;
+import models.service.ServiceOrderNumber;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.Validator;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.ListModel;
@@ -41,6 +49,10 @@ public class CtrlOrders {
 	private ServiceItem serviceItem;
 	@WireVariable
 	private ServiceOrder serviceOrder;
+	@WireVariable
+	private ServiceOrderDetail serviceOrderDetail;
+	@WireVariable
+	private ServiceOrderNumber serviceOrderNumber;
 
 	private Torder order;
 	private TbusinessPartner businessPartner;
@@ -48,12 +60,38 @@ public class CtrlOrders {
 	private List<TbasicData> listRifType;
 	private List<TbasicData> listUnitMeasure;
 	private List<TbusinessPartnerBranch> listBusinessPartnerBranch;
-	private List<Titem> listItems;
+	private List<TorderDetail> listOrderDetail;
 	private ListModel<Object> listBusinessPartnerRif;
 	private ListModel<Object> listBusinessPartnerName;
 	private boolean disableAll;
+	private boolean closeOrder;
 	private String minCombo;
 	private String select;
+	private String modalMessage;
+
+	public boolean isCloseOrder() {
+		return closeOrder;
+	}
+
+	public void setCloseOrder(boolean closeOrder) {
+		this.closeOrder = closeOrder;
+	}
+
+	public String getModalMessage() {
+		return modalMessage;
+	}
+
+	public void setModalMessage(String modalMessage) {
+		this.modalMessage = modalMessage;
+	}
+
+	public List<TorderDetail> getListOrderDetail() {
+		return listOrderDetail;
+	}
+
+	public void setListOrderDetail(List<TorderDetail> listOrderDetail) {
+		this.listOrderDetail = listOrderDetail;
+	}
 
 	public TbasicData getUnitSelected() {
 		return unitSelected;
@@ -69,14 +107,6 @@ public class CtrlOrders {
 
 	public void setListUnitMeasure(List<TbasicData> listUnitMeasure) {
 		this.listUnitMeasure = listUnitMeasure;
-	}
-
-	public List<Titem> getListItems() {
-		return listItems;
-	}
-
-	public void setListItems(List<Titem> listItems) {
-		this.listItems = listItems;
 	}
 
 	public String getSelect() {
@@ -159,6 +189,10 @@ public class CtrlOrders {
 		return new ValidateZK().getNoEmpty();
 	}
 
+	public Validator getNoSelect() {
+		return new ValidateZK().getNoSelect();
+	}
+
 	@Init
 	public void init() {
 		restartForm();
@@ -171,17 +205,29 @@ public class CtrlOrders {
 		Date today = new Date();
 		order.setOrderDate(today);
 		order.setDeliveryDate(today);
-		order.setOrderNumber(serviceOrder.getMaxOrderNumber());
+		TorderNumber orderNumber = serviceOrderNumber.getMaxOrderNumber();
+		if (orderNumber == null) {
+			orderNumber = new TorderNumber();
+			orderNumber.setIdOrderNumber(1);
+			orderNumber.setStatus('A');
+			if (!serviceOrderNumber.save(orderNumber)) {
+				Clients.showNotification("Ha ocurrido un error.", "error", null, "middle_center", 2000);
+			}
+		}
+		order.setTorderNumber(orderNumber);
+		order.setStatus('A');
 		select = "--Seleccione--";
 		businessPartner = new TbusinessPartner();
-		disableAll = new Boolean(false);
+		disableAll = false;
+		closeOrder = false;
 		listRifType = serviceBasicData.listRifType();
 		minCombo = new String("--");
 		listBusinessPartnerRif = new ListModelList<Object>();
 		listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>();
-		listItems = new ArrayList<Titem>();
-		listUnitMeasure = serviceBasicData.listMeasureUnit();
+		listOrderDetail = new ArrayList<TorderDetail>();
+		listUnitMeasure = serviceBasicData.listMeasureUnitForOrders();
 		unitSelected = new TbasicData();
+		modalMessage = null;
 	}
 
 	@NotifyChange("*")
@@ -189,12 +235,12 @@ public class CtrlOrders {
 	public void loadBusinessPartner(@BindingParam("field") String field, @BindingParam("val") String value) {
 		List<TbusinessPartner> auxListBusinessPartner = new ArrayList<TbusinessPartner>();
 		if (field.equals("rif")) {
-			TbusinessPartner auxBusinessPartner = serviceBusinessPartner.findByRif(value);
+			TbusinessPartner auxBusinessPartner = serviceBusinessPartner.findCustomerByRif(value);
 			if (auxBusinessPartner != null) {
 				auxListBusinessPartner.add(auxBusinessPartner);
 			}
 		} else if (field.equals("name")) {
-			auxListBusinessPartner = serviceBusinessPartner.listByName(value);
+			auxListBusinessPartner = serviceBusinessPartner.listByNameByCustomer(value);
 		}
 		int listSize = auxListBusinessPartner.size();
 		if (listSize == 1) {
@@ -205,15 +251,26 @@ public class CtrlOrders {
 				if (businessPartnerBranch.isAddressDefault())
 					order.setTbusinessPartnerBranch(businessPartnerBranch);
 			}
-			disableAll = new Boolean(false);
-			listItems = serviceItem.listActive();
+			disableAll = false;
+			closeOrder = true;
+			listOrderDetail = new ArrayList<TorderDetail>();
+			List<Titem> auxListItem = serviceItem.listActive();
+			for (Titem auxItem : auxListItem) {
+				TorderDetail auxOrderDetail = new TorderDetail();
+				auxOrderDetail.setItemName(auxItem.getName());
+				auxOrderDetail.setQuantity(0);
+				auxOrderDetail.setStatus('A');
+				auxOrderDetail.setTbasicData(unitSelected);
+				auxOrderDetail.setTitem(auxItem);
+				listOrderDetail.add(auxOrderDetail);
+			}
 			return;
 		} else if (listSize == 0) {
 			Clients.showNotification("Ningun registro coincide", "info", null, "middle_center", 2000);
 		} else {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("listBusinessPartner", auxListBusinessPartner);
-			Executions.createComponents("system/socios/frmBusinessPartnerList.zul", null, map);
+			Executions.createComponents("system/pedidos/frmSearchOrders.zul", null, map);
 		}
 	}
 
@@ -221,12 +278,104 @@ public class CtrlOrders {
 	@Command
 	public void searchBusinessPartnerByField(@BindingParam("field") String field) {
 		if (field.compareTo("name") == 0) {
-			listBusinessPartnerName = new SimpleListModelCustom<Object>(serviceBusinessPartner.listNames());
+			listBusinessPartnerName = new SimpleListModelCustom<Object>(serviceBusinessPartner.listNamesByCustomer());
 			return;
 		} else if (field.compareTo("rif") == 0) {
-			listBusinessPartnerRif = new SimpleListModelCustom<Object>(serviceBusinessPartner.listRif());
+			listBusinessPartnerRif = new SimpleListModelCustom<Object>(serviceBusinessPartner.listRifByCustomer());
 			return;
 		}
+	}
+
+	@NotifyChange({ "listOrderDetail" })
+	@Command
+	public void selectUnitMeasure() {
+		for (TorderDetail orderDetail : listOrderDetail) {
+			orderDetail.setTbasicData(unitSelected);
+		}
+	}
+
+	@NotifyChange("*")
+	@Command
+	public void save(@BindingParam("lbx") Component component) {
+		boolean detailIsEmpty = true;
+		for (TorderDetail orderDetail : listOrderDetail) {
+			if (orderDetail.getQuantity() > 0) {
+				detailIsEmpty = false;
+				order.getTorderDetails().add(orderDetail);
+			}
+		}
+		if (detailIsEmpty) {
+			throw new WrongValueException(component, "Debe asignar al menos una cantidad a un articulo.");
+		} else {
+			order.setBpName(businessPartner.getName());
+			order.setRif(businessPartner.getTbasicDataByRifType().getName() + "-" + businessPartner.getRif());
+			order.setBpBranchAddress(order.getTbusinessPartnerBranch().getAddress());
+			if (!serviceOrder.save(order)) {
+				Clients.showNotification("No se pudo guardar el pedido.", "error", null, "middle_center", 2000);
+				return;
+			}
+			for (TorderDetail orderDetail : order.getTorderDetails()) {
+				orderDetail.setTorder(order);
+				if (!serviceOrderDetail.save(orderDetail)) {
+					Clients.showNotification("No se pudo guardar la orden.", "error", null, "middle_center", 2000);
+					return;
+				}
+			}
+			Clients.showNotification("Pedido guardado correctamente", "info", null, "middle_center", 2000);
+			restartForm();
+		}
+	}
+
+	@Command
+	public void search() {
+		Executions.createComponents("system/pedidos/frmSearchOrders.zul", null, null);
+	}
+
+	@NotifyChange({ "order", "listOrderDetail", "businessPartner", "disableAll", "unitSelected" })
+	@GlobalCommand
+	public void selectedOrder(@BindingParam("order") Torder selectedOrder) {
+		order = new Torder();
+		order = serviceOrder.findById(selectedOrder.getIdOrder());
+		listOrderDetail = new ArrayList<TorderDetail>(order.getTorderDetails());
+		businessPartner = order.getTbusinessPartnerBranch().getTbusinessPartner();
+		unitSelected = listOrderDetail.get(0).getTbasicData();
+		disableAll = true;
+		closeOrder = true;
+	}
+
+	@NotifyChange("*")
+	@Command
+	public void closeOrder() {
+		if (!serviceOrderNumber.closeOrder(order.getTorderNumber())) {
+			Clients.showNotification("No se pudo cerrar la orden.", "error", null, "middle_center", 2000);
+			return;
+		}
+		Clients.showNotification("Orden cerrada correctamente", "info", null, "middle_center", 2000);
+		restartForm();
+	}
+
+	@NotifyChange({ "modalMessage" })
+	@Command
+	public void cancelModal() {
+		if (modalMessage != null)
+			modalMessage = null;
+	}
+
+	@NotifyChange({ "modalMessage" })
+	@Command
+	public void confirmCloseOrder() {
+		int orderByOrderNumber = serviceOrder.listOrderByOrderNumber(order.getTorderNumber()).size();
+		modalMessage = "Esta orden posee " + orderByOrderNumber + " pedidos. ¿Esta seguro de cerrar la orden?";
+	}
+
+	@Command
+	public void printOrder() {
+		GenericReport report = new GenericReport();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("IMAGES_DIR", "../../resource/images/system/");
+		map.put("ORDER_NUMBER", order.getTorderNumber().getIdOrderNumber());
+		report.createPdf("/resource/reports/orders/", "order.jasper", map, "pedido-cliente.pdf");
+		report.viewPdf("/resource/reports/orders/pedido-cliente.pdf", "Pedido cliente");
 	}
 
 	@Command
@@ -235,5 +384,4 @@ public class CtrlOrders {
 		map.put("page", "");
 		BindUtils.postGlobalCommand(null, null, "selectedPage", map);
 	}
-
 }

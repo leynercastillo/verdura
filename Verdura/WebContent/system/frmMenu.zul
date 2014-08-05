@@ -40,8 +40,19 @@
 						<treechildren>
 							<treeitem>
 								<treerow>
-									<treecell label="Pedidos"
+									<treecell label="Cargar Pedidos"
 										onClick="@command('optionSelected', optionSelected='system/pedidos/frmOrders.zul')">
+									</treecell>
+								</treerow>
+							</treeitem>
+						</treechildren>
+					</tree>
+					<tree>
+						<treechildren>
+							<treeitem>
+								<treerow>
+									<treecell label="Resumen Pedidos"
+										onClick="@command('optionSelected', optionSelected='system/pedidos/frmOrdersResume.zul')">
 									</treecell>
 								</treerow>
 							</treeitem>

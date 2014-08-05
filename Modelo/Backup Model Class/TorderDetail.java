@@ -1,6 +1,6 @@
 package models;
 
-// Generated 12/06/2014 09:35:54 PM by Hibernate Tools 4.0.0
+// Generated 14/07/2014 10:49:25 PM by Hibernate Tools 4.0.0
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Table(name = "torder_detail", schema = "public")
 public class TorderDetail implements java.io.Serializable {
 
-	private static final long serialVersionUID = 4711521974692825121L;
+	private static final long serialVersionUID = 4711521974692825121L;	
 	private int idOrderDetail;
 	private Torder torder;
 	private Titem titem;

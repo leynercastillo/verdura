@@ -14,14 +14,26 @@ public class ServiceBusinessPartner {
 
 	@Autowired
 	private DaoBusinessPartner daoBusinessPartner;
-	
+	@Autowired
+	private ServiceBasicData serviceBasicData;
+
 	@Transactional
-	public boolean save(TbusinessPartner businessPartner){
+	public boolean save(TbusinessPartner businessPartner) {
 		if (businessPartner.getIdBusinessPartner() == 0) {
 			return daoBusinessPartner.save(businessPartner);
-		}else {
+		} else {
 			return daoBusinessPartner.update(businessPartner);
 		}
+	}
+
+	@Transactional(readOnly = true)
+	public TbusinessPartner findSupplierByRif(String rif) {
+		return daoBusinessPartner.findTypeBusinessPartnerByString(rif, "rif", serviceBasicData.findSuplier());
+	}
+
+	@Transactional(readOnly = true)
+	public TbusinessPartner findCustomerByRif(String rif) {
+		return daoBusinessPartner.findTypeBusinessPartnerByString(rif, "rif", serviceBasicData.findCustomer());
 	}
 
 	@Transactional(readOnly = true)
@@ -30,17 +42,42 @@ public class ServiceBusinessPartner {
 	}
 
 	@Transactional(readOnly = true)
+	public List<TbusinessPartner> listByName(String name) {
+		return daoBusinessPartner.listByString("name", name);
+	}
+
+	@Transactional(readOnly = true)
+	public List<TbusinessPartner> listByNameByCustomer(String name) {
+		return daoBusinessPartner.listByStringAndTypeBusinessPartner("name", name, serviceBasicData.findCustomer());
+	}
+
+	@Transactional(readOnly = true)
+	public List<String> listNamesBySuplier() {
+		return daoBusinessPartner.listStringByFieldAndType("name", serviceBasicData.findSuplier());
+	}
+
+	@Transactional(readOnly = true)
+	public List<String> listNamesByCustomer() {
+		return daoBusinessPartner.listStringByFieldAndType("name", serviceBasicData.findCustomer());
+	}
+
+	@Transactional(readOnly = true)
 	public List<String> listNames() {
 		return daoBusinessPartner.listStringByField("name");
 	}
 
 	@Transactional(readOnly = true)
-	public List<String> listRif() {
-		return daoBusinessPartner.listStringByField("rif");
+	public List<String> listRifBySuplier() {
+		return daoBusinessPartner.listStringByFieldAndType("rif", serviceBasicData.findSuplier());
 	}
 
 	@Transactional(readOnly = true)
-	public List<TbusinessPartner> listByName(String name) {
-		return daoBusinessPartner.listByString("name", name);
+	public List<String> listRifByCustomer() {
+		return daoBusinessPartner.listStringByFieldAndType("rif", serviceBasicData.findCustomer());
+	}
+
+	@Transactional(readOnly = true)
+	public List<String> listRif() {
+		return daoBusinessPartner.listStringByField("rif");
 	}
 }
