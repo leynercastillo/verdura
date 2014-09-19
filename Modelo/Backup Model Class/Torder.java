@@ -1,6 +1,6 @@
 package models;
 
-// Generated 31/07/2014 10:38:33 PM by Hibernate Tools 4.0.0
+// Generated 03/09/2014 08:16:43 AM by Hibernate Tools 4.0.0
 
 import java.util.Date;
 import java.util.HashSet;
@@ -37,7 +37,6 @@ public class Torder implements java.io.Serializable {
 	private String rif;
 	private String bpBranchAddress;
 	private char status;
-	private Set<Tbill> tbills = new HashSet<Tbill>(0);
 	private Set<TorderDetail> torderDetails = new HashSet<TorderDetail>(0);
 
 	public Torder() {
@@ -55,7 +54,7 @@ public class Torder implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public Torder(int idOrder, TorderNumber torderNumber, TbusinessPartnerBranch tbusinessPartnerBranch, String bpName, Date orderDate, Date deliveryDate, String rif, String bpBranchAddress, char status, Set<Tbill> tbills, Set<TorderDetail> torderDetails) {
+	public Torder(int idOrder, TorderNumber torderNumber, TbusinessPartnerBranch tbusinessPartnerBranch, String bpName, Date orderDate, Date deliveryDate, String rif, String bpBranchAddress, char status, Set<TorderDetail> torderDetails) {
 		this.idOrder = idOrder;
 		this.torderNumber = torderNumber;
 		this.tbusinessPartnerBranch = tbusinessPartnerBranch;
@@ -65,13 +64,12 @@ public class Torder implements java.io.Serializable {
 		this.rif = rif;
 		this.bpBranchAddress = bpBranchAddress;
 		this.status = status;
-		this.tbills = tbills;
 		this.torderDetails = torderDetails;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "torder_id_seq")
-	@SequenceGenerator(name = "torder_id_seq", sequenceName = "torder_id_seq")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "tpurchase_id_purchase_seq")
+	@SequenceGenerator(name = "tpurchase_id_purchase_seq", sequenceName = "tpurchase_id_purchase_seq")
 	@Column(name = "id_order", unique = true, nullable = false)
 	public int getIdOrder() {
 		return this.idOrder;
@@ -155,15 +153,6 @@ public class Torder implements java.io.Serializable {
 
 	public void setStatus(char status) {
 		this.status = status;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "torder")
-	public Set<Tbill> getTbills() {
-		return this.tbills;
-	}
-
-	public void setTbills(Set<Tbill> tbills) {
-		this.tbills = tbills;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "torder")

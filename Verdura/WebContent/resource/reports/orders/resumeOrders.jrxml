@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="resumeOrders" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e185f002-2c2e-4e0c-951c-8ba705e61847">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="IMAGES_DIR" class="java.lang.String"/>
+	<parameter name="ORDER_NUMBER" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+	o.id_order_number,
+	od.item_name,
+	SUM(CASE od.measure_unit WHEN 18 THEN od.quantity ELSE ((od.quantity * im.weight_unit)) END) AS "KG",
+	me.weight_unit AS "KG POR CESTA",
+	SUM(CASE od.measure_unit WHEN 18 THEN od.quantity/me.weight_unit ELSE ((od.quantity * im.weight_unit)/me.weight_unit) END) AS "CESTAS"
+FROM
+	torder o INNER JOIN torder_detail od ON o.id_order = od.id_order
+	INNER JOIN titem i ON i.id_item = od.id_item
+	INNER JOIN tinput_measure_unit im ON (im.id_item = i.id_item AND im.measure_unit = od.measure_unit)
+	INNER JOIN tinput_measure_unit me ON (me.id_item = i.id_item AND me.measure_unit = 20)
+WHERE
+	o.id_order_number = $P{ORDER_NUMBER}
+GROUP BY od.id_item, od.item_name, o.id_order_number, me.weight_unit]]>
+	</queryString>
+	<field name="id_order_number" class="java.lang.Integer"/>
+	<field name="item_name" class="java.lang.String"/>
+	<field name="KG" class="java.lang.Float"/>
+	<field name="KG POR CESTA" class="java.lang.Float"/>
+	<field name="CESTAS" class="java.lang.Float"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="88" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="143" height="68" uuid="803410c2-1977-4f6e-9ec0-8944f91b04e0"/>
+				<imageExpression><![CDATA[$P{IMAGES_DIR}+"logo_fynca.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="436" y="68" width="80" height="15" uuid="e0bda47c-2d2e-4822-b60e-dd41a96a61d5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NRO PEDIDO:]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement x="516" y="68" width="56" height="15" uuid="5a2498ef-ca7c-474d-ab00-be38b8f00cda"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_order_number}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="161" y="28" width="250" height="25" uuid="89d69032-8ff8-41cf-9e87-5b8298c66bf9"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESUMEN DE PEDIDOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="230" height="20" uuid="0eb42e22-0700-46a6-aa0c-ac442af021d8"/>
+				<box leftPadding="5" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ARTICULO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="0" width="100" height="20" uuid="e4e06224-fb5f-4e9f-bd59-39f3e9f5e759"/>
+				<box leftPadding="5" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[KG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="0" width="102" height="20" uuid="971b58ed-4e1e-469f-88d8-76699044d64a"/>
+				<box leftPadding="5" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MEDIA CESTAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="0" width="140" height="20" uuid="3f9d34ca-81f3-4d70-9aac-c7669ca85a75"/>
+				<box leftPadding="5" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[KG POR MEDIA CESTA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="230" height="15" uuid="ffe948e4-28c0-4d61-afa9-d4f06a725884"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="230" y="0" width="100" height="15" uuid="1f616942-b766-457f-b3fc-83054abcae6b"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{KG}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="470" y="0" width="102" height="15" uuid="5095d59b-9118-40d1-9ea3-b3fb215cc602"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CESTAS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="330" y="0" width="140" height="15" uuid="9153d46a-9ef6-48cd-907d-6ca8b14d2caf"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{KG POR CESTA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="15" uuid="ab4a3a36-c8db-4cb5-bcb8-74d76fbf6eac"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[FRESCO Y NATURAL C.A. - RIF. J-29462831-1
+
+ ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="572" height="15" uuid="67ebcb09-37b3-4a86-b877-ad70b94e2109"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[AV. 6, EDIF KARUAY, PISO 6, APTO 6-B, URB. RESIDENCIAS LA CASCADA, VALERA EDO RUJILLO]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

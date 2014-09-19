@@ -8,6 +8,7 @@
 	<title>Verdura</title>
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="-1" />
+	<link rel="icon" type="image/png" href="resource/images/icons/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="resource/style/stylePage.css">
 	<link rel="stylesheet" type="text/css" href="resource/style/bootstrap.min.css">
 	<z:zkhead />

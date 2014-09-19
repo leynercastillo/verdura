@@ -1,5 +1,8 @@
 package models.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import models.TorderNumber;
 import models.dao.DaoOrderNumber;
 
@@ -29,9 +32,36 @@ public class ServiceOrderNumber {
 			return daoOrderNumber.save(orderNumber);
 		}
 	}
+	
+	@Transactional
+	public boolean finishOrder(TorderNumber orderNumber) {
+		orderNumber.setStatus('F');
+		return daoOrderNumber.update(orderNumber);
+	}
 
 	@Transactional(readOnly = true)
 	public TorderNumber getMaxOrderNumber() {
-		return daoOrderNumber.getWithMaxField("idOrderNumber");
+		return daoOrderNumber.findMaxField("idOrderNumber");
+	}
+
+	@Transactional(readOnly = true)
+	public List<String> listNumber() {
+		/* Chequear hacer esto mismo con un metodo mas generico */
+		List<Integer> list = daoOrderNumber.listIntegerByFields("idOrderNumber");
+		List<String> listOrderNumber = new ArrayList<String>();
+		for (Integer number : list) {
+			listOrderNumber.add(number.toString());
+		}
+		return listOrderNumber;
+	}
+
+	@Transactional(readOnly = true)
+	public TorderNumber findByNumber(Integer number) {
+		return daoOrderNumber.findByIdAndStatus(number, 'C');
+	}
+	
+	@Transactional(readOnly = true)
+	public TorderNumber findOrderClosed() {
+		return daoOrderNumber.findOrderClosed("status", 'C');
 	}
 }

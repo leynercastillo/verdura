@@ -1,14 +1,18 @@
 package models;
 
-// Generated 31/07/2014 10:38:33 PM by Hibernate Tools 4.0.0
+// Generated 03/09/2014 09:02:10 AM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -21,6 +25,7 @@ public class TorderNumber implements java.io.Serializable {
 	private static final long serialVersionUID = 6116382577303014934L;
 	private int idOrderNumber;
 	private char status;
+	private Set<Tpurchase> tpurchases = new HashSet<Tpurchase>(0);
 	private Set<Torder> torders = new HashSet<Torder>(0);
 
 	public TorderNumber() {
@@ -31,13 +36,16 @@ public class TorderNumber implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public TorderNumber(int idOrderNumber, char status, Set<Torder> torders) {
+	public TorderNumber(int idOrderNumber, char status, Set<Tpurchase> tpurchases, Set<Torder> torders) {
 		this.idOrderNumber = idOrderNumber;
 		this.status = status;
+		this.tpurchases = tpurchases;
 		this.torders = torders;
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "torder_number_id_seq")
+	@SequenceGenerator(name = "torder_number_id_seq", sequenceName = "torder_number_id_order_number_seq")
 	@Column(name = "id_order_number", unique = true, nullable = false)
 	public int getIdOrderNumber() {
 		return this.idOrderNumber;
@@ -54,6 +62,15 @@ public class TorderNumber implements java.io.Serializable {
 
 	public void setStatus(char status) {
 		this.status = status;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "torderNumber")
+	public Set<Tpurchase> getTpurchases() {
+		return this.tpurchases;
+	}
+
+	public void setTpurchases(Set<Tpurchase> tpurchases) {
+		this.tpurchases = tpurchases;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "torderNumber")

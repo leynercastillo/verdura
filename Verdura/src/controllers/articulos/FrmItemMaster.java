@@ -279,13 +279,13 @@ public class FrmItemMaster {
 		listItemName = new ListModelList<Object>();
 		listMeasureUnit = serviceBasicData.listMeasureUnit();
 		selectedInputMeasureUnit = new TbasicData();
-		listOutputMeasureUnit = new ArrayList<ToutputMeasureUnit>();
 		selectedOutputMeasureUnit = new TbasicData();
 		listItemType = serviceBasicData.listItemType();
 		listDeleteInputMeasureUnit = new ArrayList<TinputMeasureUnit>();
 		listDeleteOutputMeasureUnit = new ArrayList<ToutputMeasureUnit>();
-		// Default measureUnit
-		listInputMeasureUnit = new ArrayList<TinputMeasureUnit>(defaultMeasuresUnit());
+		// Default inputMeasureUnit
+		listInputMeasureUnit = new ArrayList<TinputMeasureUnit>(defaultInputMeasuresUnit());
+		listOutputMeasureUnit = new ArrayList<ToutputMeasureUnit>(defaultOutputMeasuresUnit());
 	}
 
 	@NotifyChange({ "listItemCode", "listItemName" })
@@ -437,18 +437,34 @@ public class FrmItemMaster {
 		map.put("page", "");
 		BindUtils.postGlobalCommand(null, null, "selectedPage", map);
 	}
-	
-	public List<TinputMeasureUnit> defaultMeasuresUnit() {
+
+	public List<TinputMeasureUnit> defaultInputMeasuresUnit() {
 		List<TbasicData> auxListMeasureUnits = serviceBasicData.listMeasureUnit();
 		List<TinputMeasureUnit> listMeasureUnits = new ArrayList<TinputMeasureUnit>();
 		for (TbasicData measureUnit : auxListMeasureUnits) {
-			if (measureUnit.getName().equals("KG") || measureUnit.getName().equals("CESTA")) {
+			if (measureUnit.getName().equals("CESTA") || measureUnit.getName().equals("MEDIA CESTA")) {
 				TinputMeasureUnit inpuMeasureUnit = new TinputMeasureUnit();
 				inpuMeasureUnit.setStatus('A');
 				inpuMeasureUnit.setTbasicData(measureUnit);
 				inpuMeasureUnit.setWeightUnit(0);
 				inpuMeasureUnit.setTitem(item);
 				listMeasureUnits.add(inpuMeasureUnit);
+			}
+		}
+		return listMeasureUnits;
+	}
+
+	public List<ToutputMeasureUnit> defaultOutputMeasuresUnit() {
+		List<TbasicData> auxListMeasureUnits = serviceBasicData.listMeasureUnit();
+		List<ToutputMeasureUnit> listMeasureUnits = new ArrayList<ToutputMeasureUnit>();
+		for (TbasicData measureUnit : auxListMeasureUnits) {
+			if (measureUnit.getName().equals("MEDIA CESTA")) {
+				ToutputMeasureUnit outputMeasureUnit = new ToutputMeasureUnit();
+				outputMeasureUnit.setStatus('A');
+				outputMeasureUnit.setTbasicData(measureUnit);
+				outputMeasureUnit.setWeightUnit(0);
+				outputMeasureUnit.setTitem(item);
+				listMeasureUnits.add(outputMeasureUnit);
 			}
 		}
 		return listMeasureUnits;

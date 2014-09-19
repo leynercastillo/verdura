@@ -1,6 +1,6 @@
 package models;
 
-// Generated 01/08/2014 10:16:18 AM by Hibernate Tools 4.0.0
+// Generated 03/09/2014 09:02:10 AM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +25,7 @@ public class TorderNumber implements java.io.Serializable {
 	private static final long serialVersionUID = 6116382577303014934L;
 	private int idOrderNumber;
 	private char status;
+	private Set<Tpurchase> tpurchases = new HashSet<Tpurchase>(0);
 	private Set<Torder> torders = new HashSet<Torder>(0);
 
 	public TorderNumber() {
@@ -35,9 +36,10 @@ public class TorderNumber implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public TorderNumber(int idOrderNumber, char status, Set<Torder> torders) {
+	public TorderNumber(int idOrderNumber, char status, Set<Tpurchase> tpurchases, Set<Torder> torders) {
 		this.idOrderNumber = idOrderNumber;
 		this.status = status;
+		this.tpurchases = tpurchases;
 		this.torders = torders;
 	}
 
@@ -60,6 +62,15 @@ public class TorderNumber implements java.io.Serializable {
 
 	public void setStatus(char status) {
 		this.status = status;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "torderNumber")
+	public Set<Tpurchase> getTpurchases() {
+		return this.tpurchases;
+	}
+
+	public void setTpurchases(Set<Tpurchase> tpurchases) {
+		this.tpurchases = tpurchases;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "torderNumber")

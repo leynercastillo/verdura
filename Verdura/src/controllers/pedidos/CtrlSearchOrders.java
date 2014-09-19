@@ -15,7 +15,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
 
-public class FrmSearchOrders {
+public class CtrlSearchOrders {
 
 	@WireVariable
 	private ServiceOrder serviceOrder;

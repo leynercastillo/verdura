@@ -1,6 +1,6 @@
 package models;
 
-// Generated 14/07/2014 10:49:25 PM by Hibernate Tools 4.0.0
+// Generated 03/09/2014 09:02:10 AM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,8 +35,8 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 	private String contactPhone;
 	private String contactName;
 	private boolean addressDefault;
+	private Set<Tpurchase> tpurchases = new HashSet<Tpurchase>(0);
 	private Set<Torder> torders = new HashSet<Torder>(0);
-	private Set<Tbill> tbills = new HashSet<Tbill>(0);
 
 	public TbusinessPartnerBranch() {
 	}
@@ -52,7 +52,7 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 		this.addressDefault = addressDefault;
 	}
 
-	public TbusinessPartnerBranch(int idBusinessPartnerBranch, TbusinessPartner tbusinessPartner, TbasicData tbasicData, String name, String address, String email, String fax, String contactPhone, String contactName, boolean addressDefault, Set<Torder> torders, Set<Tbill> tbills) {
+	public TbusinessPartnerBranch(int idBusinessPartnerBranch, TbusinessPartner tbusinessPartner, TbasicData tbasicData, String name, String address, String email, String fax, String contactPhone, String contactName, boolean addressDefault, Set<Tpurchase> tpurchases, Set<Torder> torders) {
 		this.idBusinessPartnerBranch = idBusinessPartnerBranch;
 		this.tbusinessPartner = tbusinessPartner;
 		this.tbasicData = tbasicData;
@@ -63,8 +63,8 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 		this.contactPhone = contactPhone;
 		this.contactName = contactName;
 		this.addressDefault = addressDefault;
+		this.tpurchases = tpurchases;
 		this.torders = torders;
-		this.tbills = tbills;
 	}
 
 	@Id
@@ -163,21 +163,21 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbusinessPartnerBranch")
+	public Set<Tpurchase> getTpurchases() {
+		return this.tpurchases;
+	}
+
+	public void setTpurchases(Set<Tpurchase> tpurchases) {
+		this.tpurchases = tpurchases;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbusinessPartnerBranch")
 	public Set<Torder> getTorders() {
 		return this.torders;
 	}
 
 	public void setTorders(Set<Torder> torders) {
 		this.torders = torders;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbusinessPartnerBranch")
-	public Set<Tbill> getTbills() {
-		return this.tbills;
-	}
-
-	public void setTbills(Set<Tbill> tbills) {
-		this.tbills = tbills;
 	}
 
 }

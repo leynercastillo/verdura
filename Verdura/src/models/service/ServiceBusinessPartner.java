@@ -50,6 +50,11 @@ public class ServiceBusinessPartner {
 	public List<TbusinessPartner> listByNameByCustomer(String name) {
 		return daoBusinessPartner.listByStringAndTypeBusinessPartner("name", name, serviceBasicData.findCustomer());
 	}
+	
+	@Transactional(readOnly = true)
+	public List<TbusinessPartner> listByNameBySupplier(String name) {
+		return daoBusinessPartner.listByStringAndTypeBusinessPartner("name", name, serviceBasicData.findSuplier());
+	}
 
 	@Transactional(readOnly = true)
 	public List<String> listNamesBySuplier() {

@@ -3,7 +3,9 @@ package models.service;
 import java.util.List;
 
 import models.Torder;
+import models.TorderDetail;
 import models.TorderNumber;
+import models.TpurchaseDetail;
 import models.dao.DaoOrder;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,11 @@ public class ServiceOrder {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Torder> listAll() {
-		return daoOrder.listAll();
+	public Integer getMaxCodNumber() {
+		Integer maxCodNumber = daoOrder.getMaxField("codNumber");
+		if (maxCodNumber == null)
+			maxCodNumber = 0;
+		return maxCodNumber + 1;
 	}
 
 	@Transactional(readOnly = true)
@@ -36,7 +41,16 @@ public class ServiceOrder {
 	}
 
 	@Transactional(readOnly = true)
+	public List<Torder> listAll() {
+		return daoOrder.listAll();
+	}
+
+	@Transactional(readOnly = true)
 	public List<Torder> listOrderByOrderNumber(TorderNumber orderNumber) {
 		return daoOrder.listOrderByField(orderNumber, "torderNumber");
+	}
+
+	public float getQuantityRemainingByItem(TpurchaseDetail purchaseDetail, int orderNumber) {
+		return daoOrder.getQuantityRemainingByItem(purchaseDetail.getTitem().getIdItem(), orderNumber);
 	}
 }

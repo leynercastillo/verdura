@@ -1,5 +1,6 @@
 package models.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import models.dao.DaoBasicData;
@@ -47,7 +48,14 @@ public class ServiceBasicData {
 
 	@Transactional(readOnly = true)
 	public List<TbasicData> listMeasureUnitForOrders() {
-		return daoBasicData.listByDataType(serviceDataType.getUnitMeasureForOrders());
+		List<TbasicData> auxListMeasure = daoBasicData.listByDataType(serviceDataType.getUnitMeasure());
+		List<TbasicData> listMeasure = new ArrayList<TbasicData>();
+		for (TbasicData tbasicData : auxListMeasure) {
+			if (tbasicData.getIdBasicData() == 18 || tbasicData.getIdBasicData() == 20) {
+				listMeasure.add(tbasicData);
+			}
+		}
+		return listMeasure; 
 	}
 
 	@Transactional(readOnly = true)

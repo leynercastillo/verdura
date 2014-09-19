@@ -1,6 +1,6 @@
 package models;
 
-// Generated 14/07/2014 10:49:25 PM by Hibernate Tools 4.0.0
+// Generated 03/09/2014 09:02:10 AM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,8 +34,8 @@ public class Titem implements java.io.Serializable {
 	private Set<TorderDetail> torderDetails = new HashSet<TorderDetail>(0);
 	private Set<ToutputMeasureUnit> toutputMeasureUnits = new HashSet<ToutputMeasureUnit>(0);
 	private Set<TbusinesPartnerItem> tbusinesPartnerItems = new HashSet<TbusinesPartnerItem>(0);
+	private Set<TpurchaseDetail> tpurchaseDetails = new HashSet<TpurchaseDetail>(0);
 	private Set<TinputMeasureUnit> tinputMeasureUnits = new HashSet<TinputMeasureUnit>(0);
-	private Set<TbillDetail> tbillDetails = new HashSet<TbillDetail>(0);
 
 	public Titem() {
 	}
@@ -49,7 +49,7 @@ public class Titem implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public Titem(int idItem, TbasicData tbasicData, String code, String name, boolean washable, char status, Set<TorderDetail> torderDetails, Set<ToutputMeasureUnit> toutputMeasureUnits, Set<TbusinesPartnerItem> tbusinesPartnerItems, Set<TinputMeasureUnit> tinputMeasureUnits, Set<TbillDetail> tbillDetails) {
+	public Titem(int idItem, TbasicData tbasicData, String code, String name, boolean washable, char status, Set<TorderDetail> torderDetails, Set<ToutputMeasureUnit> toutputMeasureUnits, Set<TbusinesPartnerItem> tbusinesPartnerItems, Set<TpurchaseDetail> tpurchaseDetails, Set<TinputMeasureUnit> tinputMeasureUnits) {
 		this.idItem = idItem;
 		this.tbasicData = tbasicData;
 		this.code = code;
@@ -59,8 +59,8 @@ public class Titem implements java.io.Serializable {
 		this.torderDetails = torderDetails;
 		this.toutputMeasureUnits = toutputMeasureUnits;
 		this.tbusinesPartnerItems = tbusinesPartnerItems;
+		this.tpurchaseDetails = tpurchaseDetails;
 		this.tinputMeasureUnits = tinputMeasureUnits;
-		this.tbillDetails = tbillDetails;
 	}
 
 	@Id
@@ -149,21 +149,21 @@ public class Titem implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "titem")
+	public Set<TpurchaseDetail> getTpurchaseDetails() {
+		return this.tpurchaseDetails;
+	}
+
+	public void setTpurchaseDetails(Set<TpurchaseDetail> tpurchaseDetails) {
+		this.tpurchaseDetails = tpurchaseDetails;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "titem")
 	public Set<TinputMeasureUnit> getTinputMeasureUnits() {
 		return this.tinputMeasureUnits;
 	}
 
 	public void setTinputMeasureUnits(Set<TinputMeasureUnit> tinputMeasureUnits) {
 		this.tinputMeasureUnits = tinputMeasureUnits;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "titem")
-	public Set<TbillDetail> getTbillDetails() {
-		return this.tbillDetails;
-	}
-
-	public void setTbillDetails(Set<TbillDetail> tbillDetails) {
-		this.tbillDetails = tbillDetails;
 	}
 
 }

@@ -1,6 +1,6 @@
 package models;
 
-// Generated 14/07/2014 10:49:25 PM by Hibernate Tools 4.0.0
+// Generated 03/09/2014 09:02:10 AM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -36,10 +36,10 @@ public class TbasicData implements java.io.Serializable {
 	private Set<TbusinesPartnerItem> tbusinesPartnerItems = new HashSet<TbusinesPartnerItem>(0);
 	private Set<TbasicData> tbasicDatas = new HashSet<TbasicData>(0);
 	private Set<TinputMeasureUnit> tinputMeasureUnits = new HashSet<TinputMeasureUnit>(0);
+	private Set<TpurchaseDetail> tpurchaseDetails = new HashSet<TpurchaseDetail>(0);
 	private Set<Titem> titems = new HashSet<Titem>(0);
 	private Set<TbusinessPartnerBranch> tbusinessPartnerBranches = new HashSet<TbusinessPartnerBranch>(0);
 	private Set<TorderDetail> torderDetails = new HashSet<TorderDetail>(0);
-	private Set<Tbill> tbills = new HashSet<Tbill>(0);
 	private Set<TbusinessPartner> tbusinessPartnersForRifType = new HashSet<TbusinessPartner>(0);
 	private Set<TbusinessPartner> tbusinessPartnersForType = new HashSet<TbusinessPartner>(0);
 
@@ -54,7 +54,7 @@ public class TbasicData implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public TbasicData(int idBasicData, TdataType tdataType, TbasicData tbasicData, String name, String description, boolean editable, char status, Set<ToutputMeasureUnit> toutputMeasureUnits, Set<TbusinesPartnerItem> tbusinesPartnerItems, Set<TbasicData> tbasicDatas, Set<TinputMeasureUnit> tinputMeasureUnits, Set<Titem> titems, Set<TbusinessPartnerBranch> tbusinessPartnerBranches, Set<TorderDetail> torderDetails, Set<Tbill> tbills, Set<TbusinessPartner> tbusinessPartnersForRifType, Set<TbusinessPartner> tbusinessPartnersForType) {
+	public TbasicData(int idBasicData, TdataType tdataType, TbasicData tbasicData, String name, String description, boolean editable, char status, Set<ToutputMeasureUnit> toutputMeasureUnits, Set<TbusinesPartnerItem> tbusinesPartnerItems, Set<TbasicData> tbasicDatas, Set<TinputMeasureUnit> tinputMeasureUnits, Set<TpurchaseDetail> tpurchaseDetails, Set<Titem> titems, Set<TbusinessPartnerBranch> tbusinessPartnerBranches, Set<TorderDetail> torderDetails, Set<TbusinessPartner> tbusinessPartnersForRifType, Set<TbusinessPartner> tbusinessPartnersForType) {
 		this.idBasicData = idBasicData;
 		this.tdataType = tdataType;
 		this.tbasicData = tbasicData;
@@ -66,10 +66,10 @@ public class TbasicData implements java.io.Serializable {
 		this.tbusinesPartnerItems = tbusinesPartnerItems;
 		this.tbasicDatas = tbasicDatas;
 		this.tinputMeasureUnits = tinputMeasureUnits;
+		this.tpurchaseDetails = tpurchaseDetails;
 		this.titems = titems;
 		this.tbusinessPartnerBranches = tbusinessPartnerBranches;
 		this.torderDetails = torderDetails;
-		this.tbills = tbills;
 		this.tbusinessPartnersForRifType = tbusinessPartnersForRifType;
 		this.tbusinessPartnersForType = tbusinessPartnersForType;
 	}
@@ -179,6 +179,15 @@ public class TbasicData implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")
+	public Set<TpurchaseDetail> getTpurchaseDetails() {
+		return this.tpurchaseDetails;
+	}
+
+	public void setTpurchaseDetails(Set<TpurchaseDetail> tpurchaseDetails) {
+		this.tpurchaseDetails = tpurchaseDetails;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")
 	public Set<Titem> getTitems() {
 		return this.titems;
 	}
@@ -203,15 +212,6 @@ public class TbasicData implements java.io.Serializable {
 
 	public void setTorderDetails(Set<TorderDetail> torderDetails) {
 		this.torderDetails = torderDetails;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")
-	public Set<Tbill> getTbills() {
-		return this.tbills;
-	}
-
-	public void setTbills(Set<Tbill> tbills) {
-		this.tbills = tbills;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicDataByRifType")

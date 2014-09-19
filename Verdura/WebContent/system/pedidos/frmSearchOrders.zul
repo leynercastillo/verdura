@@ -3,7 +3,7 @@
 	<window apply="org.zkoss.bind.BindComposer" border="normal"
 		closable="true" id="win" mode="modal"
 		onClose="@command('close', window = self)"
-		viewModel="@id('vm') @init('controllers.pedidos.FrmSearchOrders')"
+		viewModel="@id('vm') @init('controllers.pedidos.CtrlSearchOrders')"
 		width="90%">
 		<style src="resource/style/styleZK.css"></style>
 		<caption label="Buscar pedido" zclass="formTitleLabel"></caption>
@@ -14,6 +14,15 @@
 						onSelect="@command('backToOrder', window = win)" pageSize="10"
 						pagingPosition="both" selectedItem="@bind(vm.selectedOrder)">
 						<auxhead>
+							<auxheader colspan="1">
+								<image
+									src="/resource/images/icons/filter.png">
+								</image>
+								<textbox hflex="5" instant="true"
+									onChange="@command('dataFilter')"
+									value="@bind(vm.ordersFilter.codNumber)">
+								</textbox>
+							</auxheader>
 							<auxheader colspan="1">
 								<image
 									src="/resource/images/icons/filter.png">
@@ -46,7 +55,10 @@
 							</auxheader>
 						</auxhead>
 						<listhead>
-							<listheader hflex="1" label="Nro"
+							<listheader hflex="1" label="Pedido"
+								sort="auto(codNumber)">
+							</listheader>
+							<listheader hflex="1" label="Nro Orden"
 								sort="auto(torderNumber.idOrderNumber)">
 							</listheader>
 							<listheader hflex="1" label="Proveedor"
@@ -62,6 +74,9 @@
 						<template name="model" var="order">
 							<listitem>
 								<listcell
+									label="@load(order.codNumber)">
+								</listcell>
+								<listcell
 									label="@load(order.torderNumber.idOrderNumber)">
 								</listcell>
 								<listcell label="@load(order.bpName)">
@@ -70,7 +85,7 @@
 									label="@load(order.bpBranchAddress)">
 								</listcell>
 								<listcell
-									label="@load(order.orderDate)">
+									label="@load(order.orderDate) @converter('formatedDate',format='dd/MM/yyyy')">
 								</listcell>
 							</listitem>
 						</template>

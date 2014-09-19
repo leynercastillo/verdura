@@ -147,7 +147,8 @@
 																</spinner>
 															</listcell>
 															<listcell>
-																<button visible="@load(measureUnit.tbasicData.name eq 'KG' or measureUnit.tbasicData.name eq 'CESTA' ? false : true)"
+																<button
+																	visible="@load(measureUnit.tbasicData.name eq 'CESTA' or measureUnit.tbasicData.name eq 'MEDIA CESTA' ? false : true)"
 																	image="resource/images/icons/minus.png"
 																	onClick="@command('deleteInputUnitMeasure', measureUnit = measureUnit)">
 																</button>
@@ -220,6 +221,7 @@
 															</listcell>
 															<listcell>
 																<button
+																	visible="@load(measureUnit.tbasicData.name eq 'MEDIA CESTA' ? false : true)"
 																	image="resource/images/icons/minus.png"
 																	onClick="@command('deleteOutputUnitMeasure', measureUnit = measureUnit)">
 																</button>

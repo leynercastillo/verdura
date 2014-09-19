@@ -14,9 +14,10 @@ public class OrdersFilter {
 
 	private ServiceOrder serviceOrder;
 	private List<Torder> listOrders;
-	private int orderNumber;
-	private String providerName;
-	private String address;
+	private String orderNumber = "";
+	private String codNumber = "";
+	private String providerName = "";
+	private String address = "";
 
 	public OrdersFilter() {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -24,20 +25,28 @@ public class OrdersFilter {
 		listOrders = serviceOrder.listAll();
 	}
 
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public String getCodNumber() {
+		return codNumber;
+	}
+
+	public void setCodNumber(String codNumber) {
+		this.codNumber = codNumber;
+	}
+
 	public String getAddress() {
 		return address;
 	}
 
 	public void setAddress(String address) {
-		this.address = address == null ? "" : address.trim();
-	}
-
-	public int getOrderNumber() {
-		return orderNumber;
-	}
-
-	public void setOrderNumber(int orderNumber) {
-		this.orderNumber = orderNumber;
+		this.address = address;
 	}
 
 	public String getProviderName() {
@@ -45,17 +54,18 @@ public class OrdersFilter {
 	}
 
 	public void setProviderName(String providerName) {
-		this.providerName = providerName == null ? "" : providerName.trim();
+		this.providerName = providerName;
 	}
 
 	public List<Torder> getFilter(OrdersFilter ordersFilter) {
 		List<Torder> auxListOrders = new ArrayList<Torder>();
-		Integer auxOrderNumber = ordersFilter.getOrderNumber() == 0 ? null : orderNumber;
+		String auxOrderNumber = ordersFilter.getOrderNumber().toLowerCase();
+		String auxCodNumber = ordersFilter.getCodNumber().toLowerCase();
 		String auxProviderName = ordersFilter.getProviderName().toLowerCase();
 		String auxAddress = ordersFilter.getAddress().toLowerCase();
 		for (Iterator<Torder> i = listOrders.iterator(); i.hasNext();) {
 			Torder auxOrder = i.next();
-			if (auxOrder.getTorderNumber().getIdOrderNumber() == auxOrderNumber && auxOrder.getBpName().toLowerCase().contains(auxProviderName) && auxOrder.getBpBranchAddress().toLowerCase().contains(auxAddress)) {
+			if (Integer.toString(auxOrder.getTorderNumber().getIdOrderNumber()).contains(auxOrderNumber) && Integer.toString(auxOrder.getCodNumber()).contains(auxCodNumber) && auxOrder.getBpName().toLowerCase().contains(auxProviderName) && auxOrder.getBpBranchAddress().toLowerCase().contains(auxAddress)) {
 				auxListOrders.add(auxOrder);
 			}
 		}

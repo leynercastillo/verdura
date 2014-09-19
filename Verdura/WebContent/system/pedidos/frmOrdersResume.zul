@@ -1,6 +1,28 @@
 <?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
 <zk>
-	<window title="new page title" border="normal">
-		New Content Here!
+	<window apply="org.zkoss.bind.BindComposer" border="normal"
+		closable="true" onClose="@command('close')"
+		viewModel="@id('vm') @init('controllers.pedidos.CtrlOrdersResume')">
+		<style src="resource/style/styleZK.css"></style>
+		<caption label="Cargar Pedidos" zclass="formTitle"></caption>
+		<grid>
+			<columns>
+				<column align="right" width="15%"></column>
+				<column width="15%"></column>
+				<column align="left" width="35%"></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<label sclass="formLabel" value="Numero de pedido:"></label>
+					<combobox autocomplete="true" autodrop="true"
+						buttonVisible="false" hflex="1" id="nroPedido"
+						maxlength="100" model="@load(vm.listOrderNumber)"
+						onFocus="@command('searchOrderNumber')">
+					</combobox>
+					<button label="Generar" onClick="@command('generate', val = nroPedido.value)"></button>
+				</row>
+			</rows>
+		</grid>
 	</window>
 </zk>

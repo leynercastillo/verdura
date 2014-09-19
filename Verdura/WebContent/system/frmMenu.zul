@@ -6,6 +6,7 @@
 				<tab label="Inventario"></tab>
 				<tab label="Socios de negocio"></tab>
 				<tab label="Pedidos"></tab>
+				<tab label="Compras"></tab>
 				<tab label="Usuarios"></tab>
 			</tabs>
 			<tabpanels>
@@ -45,14 +46,23 @@
 									</treecell>
 								</treerow>
 							</treeitem>
-						</treechildren>
-					</tree>
-					<tree>
-						<treechildren>
 							<treeitem>
 								<treerow>
 									<treecell label="Resumen Pedidos"
 										onClick="@command('optionSelected', optionSelected='system/pedidos/frmOrdersResume.zul')">
+									</treecell>
+								</treerow>
+							</treeitem>
+						</treechildren>
+					</tree>
+				</tabpanel>
+				<tabpanel>
+					<tree>
+						<treechildren>
+							<treeitem>
+								<treerow>
+									<treecell label="Compras"
+										onClick="@command('optionSelected', optionSelected='system/compras/frmPurchase.zul')">
 									</treecell>
 								</treerow>
 							</treeitem>

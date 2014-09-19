@@ -34,18 +34,13 @@
 							value="@save(vm.businessPartner.rif, before = 'save') @load(vm.businessPartner.rif) @validator(vm.noEmpty, component = self)">
 						</combobox>
 					</hlayout>
-					<label sclass="formLabel" value="Nro. Pedido:"></label>
-					<hlayout>
-						<intbox disabled="true" hflex="1"
-							value="@load(vm.order.torderNumber.idOrderNumber)">
-						</intbox>
-						<button hflex="1" disabled="@command()"
-							label="Cerrar orden" onClick="@command('confirmCloseOrder')">
-						</button>
-					</hlayout>
+					<label sclass="formLabel" value="Pedido:"></label>
+					<intbox disabled="true" hflex="2"
+						value="@load(vm.order.codNumber)">
+					</intbox>
 				</row>
 				<row>
-					<label sclass="formLabel" value="Nombre:"></label>
+					<label sclass="formLabel" value="Cliente:"></label>
 					<combobox autocomplete="true" autodrop="true"
 						buttonVisible="false" disabled="@load(vm.disableAll)" hflex="1"
 						maxlength="100" model="@load(vm.listBusinessPartnerName)"
@@ -53,12 +48,15 @@
 						onFocus="@command('searchBusinessPartnerByField', field='name')"
 						value="@save(vm.businessPartner.name, before = 'save') @load(vm.businessPartner.name) @validator(vm.noEmpty, component = self)">
 					</combobox>
-					<label sclass="formLabel" value="Fecha pedido:"></label>
-					<datebox disabled="@load(vm.disableAll)"
-						format="dd/MM/yyyy" hflex="1" locale="es" readonly="true"
-						style="float: left"
-						value="@save(vm.order.orderDate, before = 'save') @load(vm.order.orderDate)">
-					</datebox>
+					<label sclass="formLabel" value="Nro. Orden:"></label>
+					<hlayout>
+						<intbox disabled="true" hflex="2"
+							value="@load(vm.order.torderNumber.idOrderNumber)">
+						</intbox>
+						<button hflex="3" label="Cerrar orden"
+							onClick="@command('confirmCloseOrder')">
+						</button>
+					</hlayout>
 				</row>
 				<row>
 					<label sclass="formLabel" value="Sucursal:"></label>
@@ -73,19 +71,25 @@
 							</comboitem>
 						</template>
 					</combobox>
-					<label sclass="formLabel" value="Fecha entrega:"></label>
+					<label sclass="formLabel" value="Fecha pedido:"></label>
 					<datebox disabled="@load(vm.disableAll)"
 						format="dd/MM/yyyy" hflex="1" locale="es" readonly="true"
 						style="float: left"
-						value="@save(vm.order.deliveryDate, before = 'save') @load(vm.order.deliveryDate)">
+						value="@save(vm.order.orderDate, before = 'save') @load(vm.order.orderDate)">
 					</datebox>
 				</row>
 				<row>
 					<label sclass="formLabel" value="Direccion:"></label>
 					<textbox disabled="@load(vm.disableAll)" hflex="1"
 						readonly="true"
-						value="@load(vm.order.tbusinessPartnerBranch.address)">
+						value="@load(vm.order.tbusinessPartnerBranch.address) @save(vm.order.bpBranchAddress)">
 					</textbox>
+					<label sclass="formLabel" value="Fecha entrega:"></label>
+					<datebox disabled="@load(vm.disableAll)"
+						format="dd/MM/yyyy" hflex="1" locale="es" readonly="true"
+						style="float: left"
+						value="@save(vm.order.deliveryDate, before = 'save') @load(vm.order.deliveryDate)">
+					</datebox>
 				</row>
 				<row>
 					<cell colspan="4">

@@ -216,6 +216,7 @@ public class CtrlOrders {
 		}
 		order.setTorderNumber(orderNumber);
 		order.setStatus('A');
+		order.setCodNumber(serviceOrder.getMaxCodNumber());
 		select = "--Seleccione--";
 		businessPartner = new TbusinessPartner();
 		disableAll = false;
@@ -223,6 +224,7 @@ public class CtrlOrders {
 		listRifType = serviceBasicData.listRifType();
 		minCombo = new String("--");
 		listBusinessPartnerRif = new ListModelList<Object>();
+		listBusinessPartnerName = new ListModelList<Object>();
 		listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>();
 		listOrderDetail = new ArrayList<TorderDetail>();
 		listUnitMeasure = serviceBasicData.listMeasureUnitForOrders();
@@ -309,7 +311,6 @@ public class CtrlOrders {
 		} else {
 			order.setBpName(businessPartner.getName());
 			order.setRif(businessPartner.getTbasicDataByRifType().getName() + "-" + businessPartner.getRif());
-			order.setBpBranchAddress(order.getTbusinessPartnerBranch().getAddress());
 			if (!serviceOrder.save(order)) {
 				Clients.showNotification("No se pudo guardar el pedido.", "error", null, "middle_center", 2000);
 				return;
@@ -373,7 +374,7 @@ public class CtrlOrders {
 		GenericReport report = new GenericReport();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("IMAGES_DIR", "../../resource/images/system/");
-		map.put("ORDER_NUMBER", order.getTorderNumber().getIdOrderNumber());
+		map.put("ID_ORDER", order.getIdOrder());
 		report.createPdf("/resource/reports/orders/", "order.jasper", map, "pedido-cliente.pdf");
 		report.viewPdf("/resource/reports/orders/pedido-cliente.pdf", "Pedido cliente");
 	}

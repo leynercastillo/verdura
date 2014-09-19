@@ -1,5 +1,7 @@
 package models.dao;
 
+import java.util.List;
+
 import models.TorderNumber;
 
 import org.hibernate.Criteria;
@@ -8,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -73,7 +76,26 @@ public class DaoOrderNumber {
 		}
 	}
 
-	public TorderNumber getWithMaxField(String field) {
+	public TorderNumber findByIdAndStatus(Integer id, char status) {
+		Session session = getCurrentSession();
+		Criteria criteria = session.createCriteria(TorderNumber.class);
+		criteria.add(Restrictions.eq("idOrderNumber", id));
+		criteria.add(Restrictions.eq("status", status));
+		Object bp = criteria.uniqueResult();
+		return bp != null ? (TorderNumber) bp : null;
+	}
+
+	public TorderNumber findOrderClosed(String field, Object value) {
+		Session session = getCurrentSession();
+		Criteria criteria = session.createCriteria(TorderNumber.class);
+		criteria.add(Restrictions.eq(field, value));
+		criteria.addOrder(Order.asc("idOrderNumber"));
+		criteria.setMaxResults(1);
+		Object obj = criteria.uniqueResult();
+		return obj == null ? null : (TorderNumber) obj;
+	}
+
+	public TorderNumber findMaxField(String field) {
 		Session session = getCurrentSession();
 		Criteria criteria = session.createCriteria(TorderNumber.class);
 		criteria.addOrder(Order.desc(field));
@@ -82,10 +104,13 @@ public class DaoOrderNumber {
 		return obj == null ? null : (TorderNumber) obj;
 	}
 
-	public Object getMaxField(String field) {
+	@SuppressWarnings("unchecked")
+	public List<Integer> listIntegerByFields(String field) {
 		Session session = getCurrentSession();
 		Criteria criteria = session.createCriteria(TorderNumber.class);
-		criteria.setProjection(Projections.max(field));
-		return criteria.uniqueResult();
+		criteria.setProjection(Projections.distinct(Projections.property(field)));
+		criteria.add(Restrictions.eq("status", 'C'));
+		criteria.addOrder(Order.asc(field));
+		return criteria.list();
 	}
 }
