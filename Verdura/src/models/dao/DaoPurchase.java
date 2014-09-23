@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,20 +75,35 @@ public class DaoPurchase {
 			return false;
 		}
 	}
-	
+
+	public Tpurchase findByField(Object value, String field) {
+		Criteria criteria = getCurrentSession().createCriteria(Tpurchase.class);
+		criteria.add(Restrictions.eq(field, value));
+		Object bp = criteria.uniqueResult();
+		return bp != null ? (Tpurchase) bp : null;
+	}
+
 	public Integer getMaxField(String field) {
 		Session session = getCurrentSession();
 		Criteria criteria = session.createCriteria(Tpurchase.class);
 		criteria.setProjection(Projections.max(field));
 		Object obj = criteria.uniqueResult();
-		return obj == null ? null : (Integer)obj;
+		return obj == null ? null : (Integer) obj;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Tpurchase> listPurchaseByField(Object value, String field) {
 		Session session = getCurrentSession();
 		Criteria criteria = session.createCriteria(Tpurchase.class);
 		criteria.add(Restrictions.eq(field, value));
+		return criteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Tpurchase> listAll() {
+		Session session = getCurrentSession();
+		Criteria criteria = session.createCriteria(Tpurchase.class);
+		criteria.addOrder(Order.asc("torderNumber"));
 		return criteria.list();
 	}
 }

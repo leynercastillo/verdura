@@ -2,9 +2,11 @@ package models.dao;
 
 import models.TpurchaseDetail;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -68,5 +70,12 @@ public class DaoPurchaseDetail {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	public TpurchaseDetail findByField(Object value, String field) {
+		Criteria criteria = getCurrentSession().createCriteria(TpurchaseDetail.class);
+		criteria.add(Restrictions.eq(field, value));
+		Object bp = criteria.uniqueResult();
+		return bp != null ? (TpurchaseDetail) bp : null;
 	}
 }

@@ -3,7 +3,6 @@ package models.service;
 import java.util.List;
 
 import models.Torder;
-import models.TorderDetail;
 import models.TorderNumber;
 import models.TpurchaseDetail;
 import models.dao.DaoOrder;
@@ -50,7 +49,8 @@ public class ServiceOrder {
 		return daoOrder.listOrderByField(orderNumber, "torderNumber");
 	}
 
-	public float getQuantityRemainingByItem(TpurchaseDetail purchaseDetail, int orderNumber) {
-		return daoOrder.getQuantityRemainingByItem(purchaseDetail.getTitem().getIdItem(), orderNumber);
+	@Transactional(readOnly = true)
+	public float getQuantityRemainingByItem(TpurchaseDetail purchaseDetail, TorderNumber orderNumber) {
+		return daoOrder.getQuantityRemainingByItem(purchaseDetail.getTitem().getIdItem(), orderNumber.getIdOrderNumber(), purchaseDetail.getTbasicData());
 	}
 }

@@ -9,12 +9,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.Validator;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zk.ui.event.InputEvent;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.ListModel;
@@ -24,13 +31,19 @@ import models.TbasicData;
 import models.TbusinesPartnerItem;
 import models.TbusinessPartner;
 import models.TbusinessPartnerBranch;
+import models.TinputMeasureUnit;
+import models.Titem;
+import models.TorderNumber;
 import models.Tpurchase;
 import models.TpurchaseDetail;
 import models.service.ServiceBasicData;
 import models.service.ServiceBusinessPartner;
+import models.service.ServiceBusinessPartnerItem;
+import models.service.ServiceItem;
 import models.service.ServiceOrder;
 import models.service.ServiceOrderNumber;
 import models.service.ServicePurchase;
+import models.service.ServicePurchaseDetail;
 
 public class CtrlPurchase {
 
@@ -41,23 +54,38 @@ public class CtrlPurchase {
 	@WireVariable
 	private ServicePurchase servicePurchase;
 	@WireVariable
+	private ServicePurchaseDetail servicePurchaseDetail;
+	@WireVariable
 	private ServiceOrderNumber serviceOrderNumber;
 	@WireVariable
 	private ServiceOrder serviceOrder;
+	@WireVariable
+	private ServiceItem serviceItem;
+	@WireVariable
+	private ServiceBusinessPartnerItem serviceBusinessPartnerItem;
 
 	private Tpurchase purchase;
 	private TbusinessPartner businessPartner;
-	private TbasicData unitSelected;
 	private String minCombo;
 	private String modalMessage;
+	private String modalAlert;
 	private String select;
 	private boolean disableAll;
 	private List<TbasicData> listRifType;
 	private List<TbasicData> listUnitMeasure;
 	private List<TpurchaseDetail> listPurchaseDetail;
 	private List<TbusinessPartnerBranch> listBusinessPartnerBranch;
+	private HashMap<String, Float> hashMissingQuantity;
 	private ListModel<Object> listBusinessPartnerRif;
 	private ListModel<Object> listBusinessPartnerName;
+
+	public String getModalAlert() {
+		return modalAlert;
+	}
+
+	public void setModalAlert(String modalAlert) {
+		this.modalAlert = modalAlert;
+	}
 
 	public String getSelect() {
 		return select;
@@ -89,14 +117,6 @@ public class CtrlPurchase {
 
 	public void setListBusinessPartnerName(ListModel<Object> listBusinessPartnerName) {
 		this.listBusinessPartnerName = listBusinessPartnerName;
-	}
-
-	public TbasicData getUnitSelected() {
-		return unitSelected;
-	}
-
-	public void setUnitSelected(TbasicData unitSelected) {
-		this.unitSelected = unitSelected;
 	}
 
 	public List<TpurchaseDetail> getListPurchaseDetail() {
@@ -186,7 +206,15 @@ public class CtrlPurchase {
 		purchase = new Tpurchase();
 		Date today = new Date();
 		purchase.setPurchaseNumber(servicePurchase.getMaxPurchaseNumber());
-		purchase.setTorderNumber(serviceOrderNumber.findOrderClosed());
+		TorderNumber auxOrderNumber = serviceOrderNumber.findOrderClosed();
+		if (auxOrderNumber != null) {
+			purchase.setTorderNumber(auxOrderNumber);
+			disableAll = false;
+			modalAlert = null;
+		} else {
+			disableAll = true;
+			modalAlert = "No existen ninguna orden de pedidos cerrada. Por favor cierre alguna orden de pedidos para efectuar alguna compra";
+		}
 		purchase.setPurchaseDate(today);
 		purchase.setDeliveryDate(today);
 		purchase.setStatus('A');
@@ -194,14 +222,13 @@ public class CtrlPurchase {
 		minCombo = "--";
 		select = "--Seleccione--";
 		modalMessage = null;
-		disableAll = false;
 		listRifType = serviceBasicData.listRifType();
 		listBusinessPartnerRif = new ListModelList<Object>();
 		listBusinessPartnerName = new ListModelList<Object>();
 		listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>();
 		listPurchaseDetail = new ArrayList<TpurchaseDetail>();
-		unitSelected = new TbasicData();
 		listUnitMeasure = serviceBasicData.listMeasureUnitForOrders();
+		hashMissingQuantity = new HashMap<String, Float>();
 	}
 
 	@NotifyChange("*")
@@ -233,10 +260,17 @@ public class CtrlPurchase {
 				auxPurchaseDetail.setItemName(auxItem.getTitem().getName());
 				auxPurchaseDetail.setQuantity(0);
 				auxPurchaseDetail.setStatus('A');
-				auxPurchaseDetail.setTbasicData(unitSelected);
 				auxPurchaseDetail.setTitem(auxItem.getTitem());
+				auxPurchaseDetail.setTbasicData(auxItem.getTbasicData());
+				auxPurchaseDetail.setMissingQuantity(0);
+				// calculate quantity reamining
+				float quantityRemaining = serviceOrder.getQuantityRemainingByItem(auxPurchaseDetail, purchase.getTorderNumber());
+				hashMissingQuantity.put(auxPurchaseDetail.getTitem().getCode(), quantityRemaining);
+				auxPurchaseDetail.setMissingQuantity(quantityRemaining);
+				// calculate price for measure unit and provider
+				float price = serviceBusinessPartnerItem.findPriceItem(businessPartner, auxPurchaseDetail.getTitem());
+				auxPurchaseDetail.setPrice(price);
 				listPurchaseDetail.add(auxPurchaseDetail);
-				System.out.println("Cuantos: "+serviceOrder.getQuantityRemainingByItem(auxPurchaseDetail, purchase.getTorderNumber().getIdOrderNumber()));
 			}
 			return;
 		} else if (listSize == 0) {
@@ -259,21 +293,28 @@ public class CtrlPurchase {
 			return;
 		}
 	}
-	
+
 	@NotifyChange({ "modalMessage" })
 	@Command
 	public void confirmFinishOrder() {
 		int orderByOrderNumber = servicePurchase.listOrderByOrderNumber(purchase.getTorderNumber()).size();
 		modalMessage = "Esta orden posee " + orderByOrderNumber + " compras. ¿Esta seguro de finalizar la orden?";
 	}
-	
+
 	@NotifyChange({ "modalMessage" })
 	@Command
 	public void cancelModal() {
 		if (modalMessage != null)
 			modalMessage = null;
 	}
-	
+
+	@NotifyChange({ "modalAlert" })
+	@Command
+	public void cancelModalAlert() {
+		if (modalAlert != null)
+			modalAlert = null;
+	}
+
 	@NotifyChange("*")
 	@Command
 	public void finishOrder() {
@@ -283,5 +324,116 @@ public class CtrlPurchase {
 		}
 		Clients.showNotification("Orden finalizada correctamente", "info", null, "middle_center", 2000);
 		restartForm();
+	}
+
+	/*
+	 * @NotifyChange("listPurchaseDetail")
+	 * 
+	 * @Command public void selectMeasureUnit(@BindingParam("purchaseDetail")
+	 * TpurchaseDetail purchaseDetail) { // calculate quantity reamining float
+	 * quantityRemaining =
+	 * serviceOrder.getQuantityRemainingByItem(purchaseDetail,
+	 * purchase.getTorderNumber());
+	 * hashMissingQuantity.put(purchaseDetail.getTitem().getCode(),
+	 * quantityRemaining); purchaseDetail.setMissingQuantity(quantityRemaining);
+	 * // calculate price for measure unit and provider float price =
+	 * serviceBusinessPartnerItem.findPriceItem(businessPartner,
+	 * purchaseDetail.getTitem()); purchaseDetail.setPrice(price); }
+	 */
+
+	@Command
+	public void changeQuantity(@ContextParam(ContextType.TRIGGER_EVENT) InputEvent event, @BindingParam("purchaseDetail") TpurchaseDetail purchaseDetail) {
+		int value = 0;
+		if (!event.getValue().isEmpty())
+			value = Math.round(Float.parseFloat(event.getValue()));
+		purchaseDetail.setQuantity(value);
+		BindUtils.postNotifyChange(null, null, purchaseDetail, "quantity");
+		// Update current missing quantity
+		purchaseDetail.setMissingQuantity(hashMissingQuantity.get(purchaseDetail.getTitem().getCode()) - value);
+		BindUtils.postNotifyChange(null, null, purchaseDetail, "missingQuantity");
+		// Update total price
+		purchaseDetail.setTotalPrice(purchaseDetail.getPrice() * value);
+		BindUtils.postNotifyChange(null, null, purchaseDetail, "totalPrice");
+	}
+
+	@Command
+	public void changePrice(@ContextParam(ContextType.TRIGGER_EVENT) InputEvent event, @BindingParam("purchaseDetail") TpurchaseDetail purchaseDetail) {
+		float value = 0;
+		if (!event.getValue().isEmpty())
+			value = Float.parseFloat(event.getValue());
+		// Update total price
+		purchaseDetail.setTotalPrice(purchaseDetail.getQuantity() * value);
+		BindUtils.postNotifyChange(null, null, purchaseDetail, "totalPrice");
+	}
+
+	@NotifyChange("*")
+	@Command
+	public void save(@BindingParam("lbx") Component component) {
+		boolean detailIsEmpty = true;
+		for (TpurchaseDetail purchaseDetail : listPurchaseDetail) {
+			if (purchaseDetail.getQuantity() > 0) {
+				detailIsEmpty = false;
+				// Convert quantity to kg
+				Titem auxItem = serviceItem.findByCode(purchaseDetail.getTitem().getCode());
+				for (TinputMeasureUnit auxInputMeasure : auxItem.getTinputMeasureUnits()) {
+					if (auxInputMeasure.getTbasicData().getIdBasicData() == purchaseDetail.getTbasicData().getIdBasicData()) {
+						purchaseDetail.setQuantity(purchaseDetail.getQuantity() * auxInputMeasure.getWeightUnit());
+					}
+				}
+				purchase.getTpurchaseDetails().add(purchaseDetail);
+			}
+		}
+		if (detailIsEmpty) {
+			throw new WrongValueException(component, "Debe asignar al menos una cantidad a un articulo.");
+		} else {
+			// optimize after
+			purchase.setBpName(businessPartner.getName());
+			purchase.setRif(businessPartner.getTbasicDataByRifType().getName() + "-" + businessPartner.getRif());
+			purchase.setBpBranchAddress(purchase.getTbusinessPartnerBranch().getAddress());
+			if (!servicePurchase.save(purchase)) {
+				Clients.showNotification("No se pudo guardar la compra.", "error", null, "middle_center", 2000);
+				return;
+			}
+			for (TpurchaseDetail purchaseDetail : purchase.getTpurchaseDetails()) {
+				purchaseDetail.setTpurchase(purchase);
+				if (!servicePurchaseDetail.save(purchaseDetail) || (!serviceBusinessPartnerItem.updatePrice(purchaseDetail))) {
+					Clients.showNotification("No se pudo guardar la compra.", "error", null, "middle_center", 2000);
+					return;
+				}
+			}
+			Clients.showNotification("Compra guardada correctamente", "info", null, "middle_center", 2000);
+			restartForm();
+		}
+	}
+
+	@NotifyChange({ "purchase", "listPurchaseDetail", "businessPartner", "disableAll" })
+	@GlobalCommand
+	public void selectedPurchase(@BindingParam("purchase") Tpurchase selectedPurchase) {
+		purchase = new Tpurchase();
+		purchase = servicePurchase.findById(selectedPurchase.getIdPurchase());
+		listPurchaseDetail = new ArrayList<TpurchaseDetail>(purchase.getTpurchaseDetails());
+		// Convert kg to selected unit
+		for (TpurchaseDetail auxPurchaseDetail : listPurchaseDetail) {
+			Titem auxItem = serviceItem.findByCode(auxPurchaseDetail.getTitem().getCode());
+			for (TinputMeasureUnit auxInputMeasure : auxItem.getTinputMeasureUnits()) {
+				if (auxInputMeasure.getTbasicData().getIdBasicData() == auxPurchaseDetail.getTbasicData().getIdBasicData()) {
+					auxPurchaseDetail.setQuantity(auxPurchaseDetail.getQuantity() / auxInputMeasure.getWeightUnit());
+				}
+			}
+		}
+		businessPartner = purchase.getTbusinessPartnerBranch().getTbusinessPartner();
+		disableAll = true;
+	}
+
+	@Command
+	public void search() {
+		Executions.createComponents("system/compras/frmSearchPurchases.zul", null, null);
+	}
+
+	@Command
+	public void close() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", "");
+		BindUtils.postGlobalCommand(null, null, "selectedPage", map);
 	}
 }

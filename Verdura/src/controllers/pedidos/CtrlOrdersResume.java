@@ -8,6 +8,7 @@ import general.SimpleListModelCustom;
 import models.TorderNumber;
 import models.service.ServiceOrderNumber;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.ValidationContext;
 import org.zkoss.bind.Validator;
 import org.zkoss.bind.annotation.BindingParam;
@@ -101,5 +102,12 @@ public class CtrlOrdersResume {
 		} else {
 			Clients.showNotification("Ningun registro coincide", "info", null, "middle_center", 2000);
 		}
+	}
+	
+	@Command
+	public void close() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", "");
+		BindUtils.postGlobalCommand(null, null, "selectedPage", map);
 	}
 }

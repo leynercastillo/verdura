@@ -13,6 +13,7 @@ import java.util.Map;
 import models.TbasicData;
 import models.TbusinessPartner;
 import models.TbusinessPartnerBranch;
+import models.TinputMeasureUnit;
 import models.Titem;
 import models.Torder;
 import models.TorderDetail;
@@ -303,14 +304,23 @@ public class CtrlOrders {
 		for (TorderDetail orderDetail : listOrderDetail) {
 			if (orderDetail.getQuantity() > 0) {
 				detailIsEmpty = false;
+				// Convert quantity to kg
+				Titem auxItem = serviceItem.findByCode(orderDetail.getTitem().getCode());
+				for (TinputMeasureUnit auxInputMeasure : auxItem.getTinputMeasureUnits()) {
+					if (auxInputMeasure.getTbasicData().getIdBasicData() == unitSelected.getIdBasicData()) {
+						orderDetail.setQuantity(orderDetail.getQuantity() * auxInputMeasure.getWeightUnit());
+					}
+				}
 				order.getTorderDetails().add(orderDetail);
 			}
 		}
 		if (detailIsEmpty) {
 			throw new WrongValueException(component, "Debe asignar al menos una cantidad a un articulo.");
 		} else {
+			// optimize after
 			order.setBpName(businessPartner.getName());
 			order.setRif(businessPartner.getTbasicDataByRifType().getName() + "-" + businessPartner.getRif());
+			order.setBpBranchAddress(order.getTbusinessPartnerBranch().getAddress());
 			if (!serviceOrder.save(order)) {
 				Clients.showNotification("No se pudo guardar el pedido.", "error", null, "middle_center", 2000);
 				return;
@@ -338,6 +348,15 @@ public class CtrlOrders {
 		order = new Torder();
 		order = serviceOrder.findById(selectedOrder.getIdOrder());
 		listOrderDetail = new ArrayList<TorderDetail>(order.getTorderDetails());
+		// Convert kg to selected unit
+		for (TorderDetail auxOrderDetail : listOrderDetail) {
+			Titem auxItem = serviceItem.findByCode(auxOrderDetail.getTitem().getCode());
+			for (TinputMeasureUnit auxInputMeasure : auxItem.getTinputMeasureUnits()) {
+				if (auxInputMeasure.getTbasicData().getIdBasicData() == auxOrderDetail.getTbasicData().getIdBasicData()) {
+					auxOrderDetail.setQuantity(auxOrderDetail.getQuantity() / auxInputMeasure.getWeightUnit());
+				}
+			}
+		}
 		businessPartner = order.getTbusinessPartnerBranch().getTbusinessPartner();
 		unitSelected = listOrderDetail.get(0).getTbasicData();
 		disableAll = true;

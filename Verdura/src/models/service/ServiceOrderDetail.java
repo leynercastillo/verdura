@@ -21,4 +21,9 @@ public class ServiceOrderDetail {
 			return daoOrderDetail.update(orderDetail);
 		}
 	}
+	
+	@Transactional(readOnly = true)
+	public TorderDetail findById(Integer id) {
+		return daoOrderDetail.findByField(id, "idOrderDetail");
+	}
 }

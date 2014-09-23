@@ -16,7 +16,7 @@ public class OrdersFilter {
 	private List<Torder> listOrders;
 	private String orderNumber = "";
 	private String codNumber = "";
-	private String providerName = "";
+	private String customerName = "";
 	private String address = "";
 
 	public OrdersFilter() {
@@ -49,23 +49,23 @@ public class OrdersFilter {
 		this.address = address;
 	}
 
-	public String getProviderName() {
-		return providerName;
+	public String getCustomerName() {
+		return customerName;
 	}
 
-	public void setProviderName(String providerName) {
-		this.providerName = providerName;
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 
 	public List<Torder> getFilter(OrdersFilter ordersFilter) {
 		List<Torder> auxListOrders = new ArrayList<Torder>();
 		String auxOrderNumber = ordersFilter.getOrderNumber().toLowerCase();
 		String auxCodNumber = ordersFilter.getCodNumber().toLowerCase();
-		String auxProviderName = ordersFilter.getProviderName().toLowerCase();
+		String auxCustomerName = ordersFilter.getCustomerName().toLowerCase();
 		String auxAddress = ordersFilter.getAddress().toLowerCase();
 		for (Iterator<Torder> i = listOrders.iterator(); i.hasNext();) {
 			Torder auxOrder = i.next();
-			if (Integer.toString(auxOrder.getTorderNumber().getIdOrderNumber()).contains(auxOrderNumber) && Integer.toString(auxOrder.getCodNumber()).contains(auxCodNumber) && auxOrder.getBpName().toLowerCase().contains(auxProviderName) && auxOrder.getBpBranchAddress().toLowerCase().contains(auxAddress)) {
+			if (Integer.toString(auxOrder.getTorderNumber().getIdOrderNumber()).contains(auxOrderNumber) && Integer.toString(auxOrder.getCodNumber()).contains(auxCodNumber) && auxOrder.getBpName().toLowerCase().contains(auxCustomerName) && auxOrder.getBpBranchAddress().toLowerCase().contains(auxAddress)) {
 				auxListOrders.add(auxOrder);
 			}
 		}

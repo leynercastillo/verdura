@@ -15,7 +15,21 @@ public class ServicePurchase {
 
 	@Autowired
 	private DaoPurchase daoPurchase;
-	
+
+	@Transactional
+	public boolean save(Tpurchase purchase) {
+		if (purchase.getIdPurchase() == 0) {
+			return daoPurchase.save(purchase);
+		} else {
+			return daoPurchase.update(purchase);
+		}
+	}
+
+	@Transactional(readOnly = true)
+	public Tpurchase findById(Integer id) {
+		return daoPurchase.findByField(id, "idPurchase");
+	}
+
 	@Transactional(readOnly = true)
 	public Integer getMaxPurchaseNumber() {
 		Integer maxCodNumber = daoPurchase.getMaxField("purchaseNumber");
@@ -23,9 +37,14 @@ public class ServicePurchase {
 			maxCodNumber = 0;
 		return maxCodNumber + 1;
 	}
-	
+
 	@Transactional(readOnly = true)
 	public List<Tpurchase> listOrderByOrderNumber(TorderNumber orderNumber) {
 		return daoPurchase.listPurchaseByField(orderNumber, "torderNumber");
+	}
+
+	@Transactional(readOnly = true)
+	public List<Tpurchase> listAll() {
+		return daoPurchase.listAll();
 	}
 }

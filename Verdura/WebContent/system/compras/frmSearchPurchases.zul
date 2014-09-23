@@ -3,16 +3,17 @@
 	<window apply="org.zkoss.bind.BindComposer" border="normal"
 		closable="true" id="win" mode="modal"
 		onClose="@command('close', window = self)"
-		viewModel="@id('vm') @init('controllers.pedidos.CtrlSearchOrders')"
+		viewModel="@id('vm') @init('controllers.compras.CtrlSearchPurchases')"
 		width="90%">
 		<style src="resource/style/styleZK.css"></style>
-		<caption label="Buscar pedido" zclass="formTitleLabel"></caption>
+		<caption label="Buscar compras" zclass="formTitleLabel"></caption>
 		<grid>
 			<rows>
 				<row>
-					<listbox model="@load(vm.listOrders)" mold="paging"
-						onSelect="@command('backToOrder', window = win)" pageSize="10"
-						pagingPosition="both" selectedItem="@bind(vm.selectedOrder)">
+					<listbox model="@load(vm.listPurchases)"
+						mold="paging" onSelect="@command('backToPurchase', window = win)"
+						pageSize="10" pagingPosition="both"
+						selectedItem="@bind(vm.selectedPurchase)">
 						<auxhead>
 							<auxheader colspan="1">
 								<image
@@ -20,7 +21,7 @@
 								</image>
 								<textbox hflex="5" instant="true"
 									onChange="@command('dataFilter')"
-									value="@bind(vm.ordersFilter.codNumber)">
+									value="@bind(vm.purchasesFilter.purchaseNumber)">
 								</textbox>
 							</auxheader>
 							<auxheader colspan="1">
@@ -29,7 +30,7 @@
 								</image>
 								<textbox hflex="5" instant="true"
 									onChange="@command('dataFilter')"
-									value="@bind(vm.ordersFilter.orderNumber)">
+									value="@bind(vm.purchasesFilter.orderNumber)">
 								</textbox>
 							</auxheader>
 							<auxheader colspan="1">
@@ -38,7 +39,7 @@
 								</image>
 								<textbox hflex="5" instant="true"
 									onChange="@command('dataFilter')"
-									value="@bind(vm.ordersFilter.customerName)">
+									value="@bind(vm.purchasesFilter.providerName)">
 								</textbox>
 							</auxheader>
 							<auxheader>
@@ -47,7 +48,7 @@
 								</image>
 								<textbox hflex="5" instant="true"
 									onChange="@command('dataFilter')"
-									value="@bind(vm.ordersFilter.address)">
+									value="@bind(vm.purchasesFilter.address)">
 								</textbox>
 							</auxheader>
 							<auxheader>
@@ -55,37 +56,38 @@
 							</auxheader>
 						</auxhead>
 						<listhead>
-							<listheader hflex="1" label="Pedido"
-								sort="auto(codNumber)">
+							<listheader hflex="1" label="Compra"
+								sort="auto(purchaseNumber)">
 							</listheader>
 							<listheader hflex="1" label="Nro Orden"
 								sort="auto(torderNumber.idOrderNumber)">
 							</listheader>
-							<listheader hflex="1" label="Proveedor"
+							<listheader hflex="1" label="Cliente"
 								sort="auto(bpName)">
 							</listheader>
 							<listheader hflex="1" label="Direccion"
 								sort="auto(bpBranchAddress)">
 							</listheader>
 							<listheader hflex="1" label="Fecha"
-								sort="(orderDate)">
+								sort="(purchaseDate)">
 							</listheader>
 						</listhead>
-						<template name="model" var="order">
+						<template name="model" var="purchase">
 							<listitem>
 								<listcell
-									label="@load(order.codNumber)">
+									label="@load(purchase.purchaseNumber)">
 								</listcell>
 								<listcell
-									label="@load(order.torderNumber.idOrderNumber)">
-								</listcell>
-								<listcell label="@load(order.bpName)">
+									label="@load(purchase.torderNumber.idOrderNumber)">
 								</listcell>
 								<listcell
-									label="@load(order.bpBranchAddress)">
+									label="@load(purchase.bpName)">
 								</listcell>
 								<listcell
-									label="@load(order.orderDate) @converter('formatedDate',format='dd/MM/yyyy')">
+									label="@load(purchase.bpBranchAddress)">
+								</listcell>
+								<listcell
+									label="@load(purchase.purchaseDate) @converter('formatedDate',format='dd/MM/yyyy')">
 								</listcell>
 							</listitem>
 						</template>

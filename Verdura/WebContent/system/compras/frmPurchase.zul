@@ -115,56 +115,56 @@
 									label="Pendiente" hflex="1">
 								</listheader>
 							</listhead>
-							<auxhead>
-								<auxheader></auxheader>
-								<auxheader>
-									<combobox
-										disabled="@load(vm.disableAll)" hflex="1"
-										model="@load(vm.listUnitMeasure)"
-										onChange="@command('selectUnitMeasure')" readonly="true"
-										selectedItem="@bind(vm.unitSelected)"
-										value="@load(vm.unitSelected.name eq null ? vm.select : vm.unitSelected.name) @save(vm.select, before = 'save') @validator(vm.noSelect, component = self)">
-										<template name="model"
-											var="unit">
-											<comboitem
-												label="@load(unit.name)">
-											</comboitem>
-										</template>
-									</combobox>
-								</auxheader>
-								<auxheader></auxheader>
-								<auxheader></auxheader>
-								<auxheader></auxheader>
-								<auxheader></auxheader>
-							</auxhead>
-							<template name="model" var="orderDetail">
+							<template name="model"
+								var="purchaseDetail">
 								<listitem>
 									<listcell
-										label="@load(orderDetail.itemName)">
-									</listcell>
-									<listcell
-										label="@load(orderDetail.tbasicData.name)">
+										label="@load(purchaseDetail.itemName)">
 									</listcell>
 									<listcell>
-										<spinner constraint="min 0"
+										<!-- model="@load(vm.listUnitMeasure)" -->
+										<combobox buttonVisible="false"
 											disabled="@load(vm.disableAll)" hflex="1"
-											value="@bind(orderDetail.quantity)">
-										</spinner>
+											onChange="@command('selectMeasureUnit', purchaseDetail = purchaseDetail)"
+											readonly="true"
+											selectedItem="@bind(purchaseDetail.tbasicData)"
+											value="@load(purchaseDetail.tbasicData.name)">
+											<!-- <template name="model"
+												var="unit">
+												<comboitem
+												label="@load(unit.name)">
+												</comboitem>
+												</template> -->
+										</combobox>
 									</listcell>
 									<listcell>
-										<doublespinner
-											constraint="min 0" format="###,###.##" hflex="1"
-											locale="es_ES" step="0.5">
-										</doublespinner>
+										<intbox
+											disabled="@load(vm.disableAll)" hflex="1"
+											onChanging="@command('changeQuantity', purchaseDetail = purchaseDetail)"
+											style="text-align: right"
+											value="@bind(purchaseDetail.quantity)">
+										</intbox>
 									</listcell>
 									<listcell>
-										<doublebox format="###,###.##"
-											hflex="1" locale="es_ES" style="text-align: right">
+										<doublebox
+											disabled="@load(vm.disableAll)" format="###,###.##" hflex="1"
+											locale="es_ES" style="text-align: right"
+											onChanging="@command('changePrice', purchaseDetail = purchaseDetail)"
+											value="@bind(purchaseDetail.price)">
 										</doublebox>
 									</listcell>
 									<listcell>
-										<doublebox format="###,###.##"
-											hflex="1" locale="es_ES" style="text-align: right">
+										<doublebox disabled="true"
+											format="###,###.##" hflex="1" locale="es_ES"
+											style="text-align: right"
+											value="@bind(purchaseDetail.totalPrice)">
+										</doublebox>
+									</listcell>
+									<listcell>
+										<doublebox disabled="true"
+											format="###,###.##" hflex="1" locale="es_ES"
+											style="text-align: right"
+											value="@load(purchaseDetail.missingQuantity)">
 										</doublebox>
 									</listcell>
 								</listitem>
@@ -181,7 +181,7 @@
 					<cell colspan="3">
 						<button disabled="@load(vm.disableAll)"
 							image="resource/images/icons/save.png" label="Guardar"
-							onClick="@command('save', lbx = lbxOrderDetail)">
+							onClick="@command('save', lbx = lbxPurchaseDetail)">
 						</button>
 						<space></space>
 						<button disabled="@load(not vm.disableAll)"
@@ -209,6 +209,17 @@
 					<button label="No"
 						onClick="@command('cancelModal')" />
 				</hbox>
+			</vbox>
+		</window>
+		<window border="normal" mode="modal" title="Atencion"
+			visible="@load(not empty vm.modalAlert)" width="25%">
+			<vbox align="center" hflex="true">
+				<hbox height="35%">
+					<image src="~./zul/img/msgbox/question-btn.png" />
+					<label value="@load(vm.modalAlert)" />
+				</hbox>
+				<button hflex="1" label="Aceptar"
+					onClick="@command('cancelModalAlert')" />
 			</vbox>
 		</window>
 	</window>

@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Verdura</title>
+	<title>Fresco y Natural</title>
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="-1" />
 	<link rel="icon" type="image/png" href="resource/images/icons/favicon.ico" />
