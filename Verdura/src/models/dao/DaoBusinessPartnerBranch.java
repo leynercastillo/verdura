@@ -2,9 +2,11 @@ package models.dao;
 
 import models.TbusinessPartnerBranch;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -68,5 +70,12 @@ public class DaoBusinessPartnerBranch {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public TbusinessPartnerBranch findByField(Object value, String field) {
+		Criteria criteria = getCurrentSession().createCriteria(TbusinessPartnerBranch.class);
+		criteria.add(Restrictions.eq(field, value));
+		Object bp = criteria.uniqueResult();
+		return bp != null ? (TbusinessPartnerBranch) bp : null;
 	}
 }

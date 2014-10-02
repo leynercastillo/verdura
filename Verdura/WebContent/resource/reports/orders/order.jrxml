@@ -14,10 +14,13 @@
 	o.order_date,
 	od.item_name,
 	b.name,
-	od.quantity
+	od.quantity / ip.weight_unit AS quantity,
+	od.quantity AS kg
 FROM
 	torder o INNER JOIN torder_detail od ON od.id_order = o.id_order
 	INNER JOIN tbasic_data b ON b.id_basic_data = od.measure_unit
+	INNER JOIN titem i ON i.id_item = od.id_item
+	INNER JOIN tinput_measure_unit ip ON (ip.id_item = i.id_item and ip.measure_unit = od.measure_unit)
 WHERE
 	o.id_order = $P{ID_ORDER}]]>
 	</queryString>
@@ -29,6 +32,7 @@ WHERE
 	<field name="item_name" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="quantity" class="java.lang.Float"/>
+	<field name="kg" class="java.lang.Float"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -117,7 +121,7 @@ WHERE
 				<text><![CDATA[CLIENTE:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="40" width="341" height="20" uuid="f421f8e7-c5c2-473a-9c0d-d663d6905a5d"/>
+				<reportElement x="0" y="40" width="230" height="20" uuid="f421f8e7-c5c2-473a-9c0d-d663d6905a5d"/>
 				<box leftPadding="5" rightPadding="5">
 					<bottomPen lineWidth="1.0"/>
 				</box>
@@ -127,7 +131,7 @@ WHERE
 				<text><![CDATA[ARTICULO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="473" y="40" width="100" height="20" uuid="69c1833b-6c07-4269-abbd-57a75449196f"/>
+				<reportElement x="362" y="40" width="100" height="20" uuid="69c1833b-6c07-4269-abbd-57a75449196f"/>
 				<box leftPadding="5" rightPadding="5">
 					<bottomPen lineWidth="1.0"/>
 				</box>
@@ -137,7 +141,7 @@ WHERE
 				<text><![CDATA[CANTIDAD]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="341" y="40" width="132" height="20" uuid="d5b09b79-ad22-4251-9ef3-c0a45ef48bf7"/>
+				<reportElement x="230" y="40" width="132" height="20" uuid="d5b09b79-ad22-4251-9ef3-c0a45ef48bf7"/>
 				<box leftPadding="5" rightPadding="5">
 					<bottomPen lineWidth="1.0"/>
 				</box>
@@ -146,27 +150,43 @@ WHERE
 				</textElement>
 				<text><![CDATA[UNIDAD]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="462" y="40" width="110" height="20" uuid="90f37f30-1d50-4f12-b284-f044d4d7c3e6"/>
+				<box rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL KG]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="340" height="20" uuid="40ac34a0-4721-4fd8-b3e7-3ef53d109868"/>
+				<reportElement x="0" y="0" width="230" height="20" uuid="40ac34a0-4721-4fd8-b3e7-3ef53d109868"/>
 				<box leftPadding="5" rightPadding="5"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0">
-				<reportElement x="472" y="0" width="100" height="20" uuid="19a11b22-c66f-4265-bf51-5607ca130e5f"/>
+				<reportElement x="362" y="0" width="100" height="20" uuid="19a11b22-c66f-4265-bf51-5607ca130e5f"/>
 				<box leftPadding="5" rightPadding="5"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="340" y="0" width="132" height="20" uuid="cdf9744a-2bff-4199-b0f4-59c67f2c8998"/>
+				<reportElement x="230" y="0" width="132" height="20" uuid="cdf9744a-2bff-4199-b0f4-59c67f2c8998"/>
 				<box leftPadding="5" rightPadding="5"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="462" y="0" width="110" height="20" uuid="444d33b6-0ef7-4b7a-999f-0bce840c70ff"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{kg}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -185,7 +205,7 @@ WHERE
 			<staticText>
 				<reportElement x="0" y="15" width="572" height="15" uuid="47702947-28ff-45a5-a354-7156b1748858"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[AV. 6, EDIF KARUAY, PISO 6, APTO 6-B, URB. RESIDENCIAS LA CASCADA, VALERA EDO RUJILLO]]></text>
+				<text><![CDATA[AV. 6, EDIF KARUAY, PISO 6, APTO 6-B, URB. RESIDENCIAS LA CASCADA, VALERA EDO TRUJILLO]]></text>
 			</staticText>
 		</band>
 	</pageFooter>

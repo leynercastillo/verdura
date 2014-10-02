@@ -1,5 +1,6 @@
 package controllers.compras;
 
+import general.GenericReport;
 import general.SimpleListModelCustom;
 import general.ValidateZK;
 
@@ -423,6 +424,16 @@ public class CtrlPurchase {
 		}
 		businessPartner = purchase.getTbusinessPartnerBranch().getTbusinessPartner();
 		disableAll = true;
+	}
+
+	@Command
+	public void printPurchase() {
+		GenericReport report = new GenericReport();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("IMAGES_DIR", "../../resource/images/system/");
+		map.put("ID_PURCHASE", purchase.getIdPurchase());
+		report.createPdf("/resource/reports/purchases/", "purchase.jasper", map, "compra-proveedor.pdf");
+		report.viewPdf("/resource/reports/purchases/compra-proveedor.pdf", "Compra proveedor");
 	}
 
 	@Command

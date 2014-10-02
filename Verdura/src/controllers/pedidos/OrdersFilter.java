@@ -7,21 +7,25 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import models.TbusinessPartnerBranch;
 import models.Torder;
+import models.service.ServiceBusinessPartnerBranch;
 import models.service.ServiceOrder;
 
 public class OrdersFilter {
 
 	private ServiceOrder serviceOrder;
+	private ServiceBusinessPartnerBranch serviceBusinessPartnerBranch;
 	private List<Torder> listOrders;
 	private String orderNumber = "";
 	private String codNumber = "";
 	private String customerName = "";
-	private String address = "";
+	private String customerBranchName = "";
 
 	public OrdersFilter() {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 		this.serviceOrder = applicationContext.getBean(ServiceOrder.class);
+		this.serviceBusinessPartnerBranch = applicationContext.getBean(ServiceBusinessPartnerBranch.class);
 		listOrders = serviceOrder.listAll();
 	}
 
@@ -41,12 +45,12 @@ public class OrdersFilter {
 		this.codNumber = codNumber;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getCustomerBranchName() {
+		return customerBranchName;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setCustomerBranchName(String customerBranchName) {
+		this.customerBranchName = customerBranchName;
 	}
 
 	public String getCustomerName() {
@@ -62,10 +66,12 @@ public class OrdersFilter {
 		String auxOrderNumber = ordersFilter.getOrderNumber().toLowerCase();
 		String auxCodNumber = ordersFilter.getCodNumber().toLowerCase();
 		String auxCustomerName = ordersFilter.getCustomerName().toLowerCase();
-		String auxAddress = ordersFilter.getAddress().toLowerCase();
+		String auxCustomerBranchName = ordersFilter.getCustomerBranchName().toLowerCase();
 		for (Iterator<Torder> i = listOrders.iterator(); i.hasNext();) {
 			Torder auxOrder = i.next();
-			if (Integer.toString(auxOrder.getTorderNumber().getIdOrderNumber()).contains(auxOrderNumber) && Integer.toString(auxOrder.getCodNumber()).contains(auxCodNumber) && auxOrder.getBpName().toLowerCase().contains(auxCustomerName) && auxOrder.getBpBranchAddress().toLowerCase().contains(auxAddress)) {
+			TbusinessPartnerBranch auxBusinessPartnerBranch = serviceBusinessPartnerBranch.findById(auxOrder.getTbusinessPartnerBranch().getIdBusinessPartnerBranch());
+			auxOrder.setTbusinessPartnerBranch(auxBusinessPartnerBranch);
+			if (Integer.toString(auxOrder.getTorderNumber().getIdOrderNumber()).contains(auxOrderNumber) && Integer.toString(auxOrder.getCodNumber()).contains(auxCodNumber) && auxOrder.getBpName().toLowerCase().contains(auxCustomerName) && auxOrder.getTbusinessPartnerBranch().getName().toLowerCase().contains(auxCustomerBranchName)) {
 				auxListOrders.add(auxOrder);
 			}
 		}

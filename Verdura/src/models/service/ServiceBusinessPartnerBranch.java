@@ -26,4 +26,9 @@ public class ServiceBusinessPartnerBranch {
 	public boolean delete(TbusinessPartnerBranch businessPartnerBranch) {
 		return daoBusinessPartnerBranch.delete(businessPartnerBranch);
 	}
+
+	@Transactional(readOnly = true)
+	public TbusinessPartnerBranch findById(Integer id) {
+		return daoBusinessPartnerBranch.findByField(id, "idBusinessPartnerBranch");
+	}
 }

@@ -9,23 +9,25 @@
 		<![CDATA[SELECT
 	o.id_order_number,
 	od.item_name,
-	SUM(CASE od.measure_unit WHEN 18 THEN od.quantity ELSE ((od.quantity * im.weight_unit)) END) AS "KG",
+	SUM(od.quantity) AS "KG",
 	me.weight_unit AS "KG POR CESTA",
-	SUM(CASE od.measure_unit WHEN 18 THEN od.quantity/me.weight_unit ELSE ((od.quantity * im.weight_unit)/me.weight_unit) END) AS "CESTAS"
+	SUM(od.quantity/me.weight_unit) AS "CESTAS",
+	CASE onu.status WHEN 'C' THEN 'cerrada' ELSE 'abierta' END AS "status"
 FROM
 	torder o INNER JOIN torder_detail od ON o.id_order = od.id_order
+	INNER JOIN torder_number onu on onu.id_order_number = o.id_order_number
 	INNER JOIN titem i ON i.id_item = od.id_item
-	INNER JOIN tinput_measure_unit im ON (im.id_item = i.id_item AND im.measure_unit = od.measure_unit)
 	INNER JOIN tinput_measure_unit me ON (me.id_item = i.id_item AND me.measure_unit = 20)
 WHERE
 	o.id_order_number = $P{ORDER_NUMBER}
-GROUP BY od.id_item, od.item_name, o.id_order_number, me.weight_unit]]>
+GROUP BY od.id_item, od.item_name, o.id_order_number, me.weight_unit, onu.status]]>
 	</queryString>
 	<field name="id_order_number" class="java.lang.Integer"/>
 	<field name="item_name" class="java.lang.String"/>
 	<field name="KG" class="java.lang.Float"/>
 	<field name="KG POR CESTA" class="java.lang.Float"/>
 	<field name="CESTAS" class="java.lang.Float"/>
+	<field name="status" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -36,14 +38,15 @@ GROUP BY od.id_item, od.item_name, o.id_order_number, me.weight_unit]]>
 				<imageExpression><![CDATA[$P{IMAGES_DIR}+"logo_fynca.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="436" y="68" width="80" height="15" uuid="e0bda47c-2d2e-4822-b60e-dd41a96a61d5"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="411" y="57" width="90" height="15" uuid="e0bda47c-2d2e-4822-b60e-dd41a96a61d5"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[NRO PEDIDO:]]></text>
 			</staticText>
 			<textField pattern="###0">
-				<reportElement x="516" y="68" width="56" height="15" uuid="5a2498ef-ca7c-474d-ab00-be38b8f00cda"/>
+				<reportElement x="501" y="57" width="71" height="15" uuid="5a2498ef-ca7c-474d-ab00-be38b8f00cda"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
@@ -59,6 +62,19 @@ GROUP BY od.id_item, od.item_name, o.id_order_number, me.weight_unit]]>
 				</textElement>
 				<text><![CDATA[RESUMEN DE PEDIDOS]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="411" y="72" width="90" height="15" uuid="ed631581-fb9d-4acc-b0c5-407624f0228c"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="501" y="72" width="71" height="15" uuid="2b790bc3-ebf4-4c6e-94a8-a38f1712a78b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{status}.toUpperCase()]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
@@ -148,7 +164,7 @@ GROUP BY od.id_item, od.item_name, o.id_order_number, me.weight_unit]]>
 			<staticText>
 				<reportElement x="0" y="15" width="572" height="15" uuid="67ebcb09-37b3-4a86-b877-ad70b94e2109"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[AV. 6, EDIF KARUAY, PISO 6, APTO 6-B, URB. RESIDENCIAS LA CASCADA, VALERA EDO RUJILLO]]></text>
+				<text><![CDATA[AV. 6, EDIF KARUAY, PISO 6, APTO 6-B, URB. RESIDENCIAS LA CASCADA, VALERA EDO TRUJILLO]]></text>
 			</staticText>
 		</band>
 	</pageFooter>

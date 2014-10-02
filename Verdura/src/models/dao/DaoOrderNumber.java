@@ -76,11 +76,10 @@ public class DaoOrderNumber {
 		}
 	}
 
-	public TorderNumber findByIdAndStatus(Integer id, char status) {
+	public TorderNumber findById(Integer id) {
 		Session session = getCurrentSession();
 		Criteria criteria = session.createCriteria(TorderNumber.class);
 		criteria.add(Restrictions.eq("idOrderNumber", id));
-		criteria.add(Restrictions.eq("status", status));
 		Object bp = criteria.uniqueResult();
 		return bp != null ? (TorderNumber) bp : null;
 	}
@@ -109,7 +108,6 @@ public class DaoOrderNumber {
 		Session session = getCurrentSession();
 		Criteria criteria = session.createCriteria(TorderNumber.class);
 		criteria.setProjection(Projections.distinct(Projections.property(field)));
-		criteria.add(Restrictions.eq("status", 'C'));
 		criteria.addOrder(Order.asc(field));
 		return criteria.list();
 	}

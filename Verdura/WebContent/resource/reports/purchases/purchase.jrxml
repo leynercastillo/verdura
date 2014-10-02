@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="purchase" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d3301049-d804-41e5-aed1-d5e140e97c78">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ID_PURCHASE" class="java.lang.Integer"/>
+	<parameter name="IMAGES_DIR" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	p.id_order_number,
+	p.rif,
+	p.bp_name,
+	p.bp_branch_address,
+	p.purchase_date,
+	pd.item_name,
+	b.name,
+	pd.quantity / ip.weight_unit AS quantity,
+	pd.price,
+	pd.total_price
+FROM
+	tpurchase p INNER JOIN tpurchase_detail pd ON pd.id_purchase = p.id_purchase
+	INNER JOIN tbasic_data b ON b.id_basic_data = pd.measure_unit
+	INNER JOIN titem i ON i.id_item = pd.id_item
+	INNER JOIN tinput_measure_unit ip ON (ip.id_item = i.id_item and ip.measure_unit = pd.measure_unit)
+WHERE
+	p.id_purchase = $P{ID_PURCHASE}]]>
+	</queryString>
+	<field name="id_order_number" class="java.lang.Integer"/>
+	<field name="rif" class="java.lang.String"/>
+	<field name="bp_name" class="java.lang.String"/>
+	<field name="bp_branch_address" class="java.lang.String"/>
+	<field name="purchase_date" class="java.sql.Timestamp"/>
+	<field name="item_name" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Float"/>
+	<field name="price" class="java.lang.Float"/>
+	<field name="total_price" class="java.lang.Float"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="88" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="143" height="68" uuid="0419f184-47e9-4b13-a846-254174152d4e"/>
+				<imageExpression><![CDATA[$P{IMAGES_DIR}+"logo_fynca.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="251" y="28" width="250" height="25" uuid="c5909983-e576-452e-bea5-bbbdf5b1d79b"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPRA PROVEEDOR]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="652" y="58" width="100" height="15" uuid="33c11943-d980-4e61-8403-67df5c24d2cd"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{id_order_number}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="652" y="73" width="100" height="15" uuid="e9d2efcc-418b-48ee-a99e-a32234e51604"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{purchase_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="572" y="58" width="80" height="15" uuid="df38cda2-d627-4024-9c47-8fc368238da5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NRO PEDIDO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="572" y="73" width="79" height="15" uuid="ff05e8b6-da76-47e5-8b1b-269a24684458"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="60" splitType="Stretch">
+			<textField>
+				<reportElement x="43" y="0" width="100" height="20" uuid="aab7a7a9-e33a-483c-beb6-99ab5d8b43c8"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{rif}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="233" y="0" width="519" height="20" uuid="4ca3c51d-70bc-4359-9662-e202351afce0"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{bp_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="143" y="0" width="90" height="20" uuid="c3f2b108-507b-44ae-abbb-ccea46110c26"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROVEEDOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="43" height="20" uuid="1cd05e1c-e8b1-4ebf-adf5-cc5ae0d5bf52"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RIF:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="161" height="20" uuid="35938b82-83c1-4f0e-971c-35ff8073c3ad"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCION SUCURSAL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="161" y="20" width="591" height="20" uuid="313f06d4-337b-43af-9990-198101fe5cee"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{bp_branch_address}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="192" height="20" uuid="db74d921-264c-4903-bace-a9c7ef501893"/>
+				<box leftPadding="5" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ARTICULO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="192" y="40" width="120" height="20" uuid="75d1bcaa-3d65-4fb4-b505-0edb65bbfdfc"/>
+				<box leftPadding="5" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="312" y="40" width="140" height="20" uuid="0c1f3f4a-3233-40ef-b8ed-3daea8142fe3"/>
+				<box leftPadding="5" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="452" y="40" width="150" height="20" uuid="507da8df-bfd3-45b8-80da-77d430fc1001"/>
+				<box leftPadding="5" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRECIO UNIT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="602" y="40" width="150" height="20" uuid="3e8a6d07-6171-4b4c-8ea3-360c0e34431b"/>
+				<box leftPadding="5" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRECIO TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="192" height="20" uuid="fcf14607-86e3-4d8f-9f14-c450a8294e18"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="192" y="0" width="120" height="20" uuid="ec44cf99-7498-44e5-9892-c4b24ec874d1"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="312" y="0" width="140" height="20" uuid="47737dc4-9431-45c4-a2ec-a4a35873229a"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="452" y="0" width="150" height="20" uuid="53813673-1743-4fff-9a7e-f6a56c219afd"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="602" y="0" width="150" height="20" uuid="fc350808-39c3-49c4-b88d-d8f7c283eb66"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_price}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="15" width="752" height="15" uuid="c47e0a5f-8184-44d2-b41f-627be1541399"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[AV. 6, EDIF KARUAY, PISO 6, APTO 6-B, URB. RESIDENCIAS LA CASCADA, VALERA EDO TRUJILLO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="752" height="15" uuid="cb244205-1452-4d63-9e0f-63fc345e3c35"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[FRESCO Y NATURAL C.A. - RIF. J-29462831-1
+
+ ]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

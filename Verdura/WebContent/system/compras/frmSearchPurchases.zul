@@ -48,7 +48,7 @@
 								</image>
 								<textbox hflex="5" instant="true"
 									onChange="@command('dataFilter')"
-									value="@bind(vm.purchasesFilter.address)">
+									value="@bind(vm.purchasesFilter.providerBranchName)">
 								</textbox>
 							</auxheader>
 							<auxheader>
@@ -62,11 +62,11 @@
 							<listheader hflex="1" label="Nro Orden"
 								sort="auto(torderNumber.idOrderNumber)">
 							</listheader>
-							<listheader hflex="1" label="Cliente"
+							<listheader hflex="1" label="Proveedor"
 								sort="auto(bpName)">
 							</listheader>
-							<listheader hflex="1" label="Direccion"
-								sort="auto(bpBranchAddress)">
+							<listheader hflex="1" label="Sucursal"
+								sort="auto(tbusinessPartnerBranch.name)">
 							</listheader>
 							<listheader hflex="1" label="Fecha"
 								sort="(purchaseDate)">
@@ -84,7 +84,7 @@
 									label="@load(purchase.bpName)">
 								</listcell>
 								<listcell
-									label="@load(purchase.bpBranchAddress)">
+									label="@load(purchase.tbusinessPartnerBranch.name)">
 								</listcell>
 								<listcell
 									label="@load(purchase.purchaseDate) @converter('formatedDate',format='dd/MM/yyyy')">

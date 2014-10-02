@@ -26,11 +26,10 @@ public class ServiceOrderNumber {
 		orderNumber.setStatus('C');
 		if (!daoOrderNumber.update(orderNumber)) {
 			return false;
-		} else {
-			TorderNumber nextOrder = new TorderNumber();
-			nextOrder.setStatus('A');
-			return daoOrderNumber.save(orderNumber);
 		}
+		TorderNumber nextOrder = new TorderNumber();
+		nextOrder.setStatus('A');
+		return daoOrderNumber.save(orderNumber);
 	}
 	
 	@Transactional
@@ -57,7 +56,7 @@ public class ServiceOrderNumber {
 
 	@Transactional(readOnly = true)
 	public TorderNumber findByNumber(Integer number) {
-		return daoOrderNumber.findByIdAndStatus(number, 'C');
+		return daoOrderNumber.findById(number);
 	}
 	
 	@Transactional(readOnly = true)

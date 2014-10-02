@@ -7,21 +7,25 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import models.TbusinessPartnerBranch;
 import models.Tpurchase;
+import models.service.ServiceBusinessPartnerBranch;
 import models.service.ServicePurchase;
 
 public class PurchasesFilter {
 
 	private ServicePurchase servicePurchase;
+	private ServiceBusinessPartnerBranch serviceBusinessPartnerBranch;
 	private List<Tpurchase> listPurchases;
 	private String orderNumber = "";
 	private String purchaseNumber = "";
 	private String providerName = "";
-	private String address = "";
+	private String providerBranchName = "";
 
 	public PurchasesFilter() {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 		this.servicePurchase = applicationContext.getBean(ServicePurchase.class);
+		this.serviceBusinessPartnerBranch = applicationContext.getBean(ServiceBusinessPartnerBranch.class);
 		listPurchases = servicePurchase.listAll();
 	}
 
@@ -49,12 +53,12 @@ public class PurchasesFilter {
 		this.providerName = providerName;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getProviderBranchName() {
+		return providerBranchName;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setProviderBranchName(String providerBranchName) {
+		this.providerBranchName = providerBranchName;
 	}
 
 	public List<Tpurchase> getFilter(PurchasesFilter purchasesFilter) {
@@ -62,10 +66,12 @@ public class PurchasesFilter {
 		String auxOrderNumber = purchasesFilter.getOrderNumber().toLowerCase();
 		String auxPurchaseNumber = purchasesFilter.getPurchaseNumber().toLowerCase();
 		String auxProviderName = purchasesFilter.getProviderName().toLowerCase();
-		String auxAddress = purchasesFilter.getAddress().toLowerCase();
+		String auxProviderBranchName = purchasesFilter.getProviderBranchName().toLowerCase();
 		for (Iterator<Tpurchase> i = listPurchases.iterator(); i.hasNext();) {
 			Tpurchase auxPurchase = i.next();
-			if (Integer.toString(auxPurchase.getTorderNumber().getIdOrderNumber()).contains(auxOrderNumber) && Integer.toString(auxPurchase.getPurchaseNumber()).contains(auxPurchaseNumber) && auxPurchase.getBpName().toLowerCase().contains(auxProviderName) && auxPurchase.getBpBranchAddress().toLowerCase().contains(auxAddress)) {
+			TbusinessPartnerBranch auxBusinessPartnerBranch = serviceBusinessPartnerBranch.findById(auxPurchase.getTbusinessPartnerBranch().getIdBusinessPartnerBranch());
+			auxPurchase.setTbusinessPartnerBranch(auxBusinessPartnerBranch);
+			if (Integer.toString(auxPurchase.getTorderNumber().getIdOrderNumber()).contains(auxOrderNumber) && Integer.toString(auxPurchase.getPurchaseNumber()).contains(auxPurchaseNumber) && auxPurchase.getBpName().toLowerCase().contains(auxProviderName) && auxPurchase.getTbusinessPartnerBranch().getName().toLowerCase().contains(auxProviderBranchName)) {
 				auxListPurchases.add(auxPurchase);
 			}
 		}

@@ -186,7 +186,7 @@
 						<space></space>
 						<button disabled="@load(not vm.disableAll)"
 							image="resource/images/icons/print.png" label="Imprimir"
-							onClick="@command('printOrder')">
+							onClick="@command('printPurchase')">
 						</button>
 						<space></space>
 						<button image="resource/images/icons/cancel.png"

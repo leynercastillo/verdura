@@ -1,10 +1,11 @@
-package controllers.pedidos;
+package controllers.compras;
+
+import general.GenericReport;
+import general.SimpleListModelCustom;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import general.GenericReport;
-import general.SimpleListModelCustom;
 import models.TorderNumber;
 import models.service.ServiceOrderNumber;
 
@@ -23,7 +24,7 @@ import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.impl.InputElement;
 
-public class CtrlOrdersResume {
+public class CtrlPurchasesResume {
 
 	@WireVariable
 	private ServiceOrderNumber serviceOrderNumber;
@@ -97,8 +98,8 @@ public class CtrlOrdersResume {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("IMAGES_DIR", "../../resource/images/system/");
 			map.put("ORDER_NUMBER", orderNumber.getIdOrderNumber());
-			report.createPdf("/resource/reports/orders/", "resumeOrders.jasper", map, "resumen-pedido.pdf");
-			report.viewPdf("/resource/reports/orders/resumen-pedido.pdf", "Resumen Pedidos");
+			report.createPdf("/resource/reports/orders/", "resumePurchases.jasper", map, "resumen-compra.pdf");
+			report.viewPdf("/resource/reports/orders/resumen-compra.pdf", "Resumen compras");
 		} else {
 			Clients.showNotification("Ningun registro coincide", "info", null, "middle_center", 2000);
 		}
