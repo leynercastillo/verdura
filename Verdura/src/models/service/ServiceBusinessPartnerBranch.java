@@ -24,7 +24,10 @@ public class ServiceBusinessPartnerBranch {
 
 	@Transactional
 	public boolean delete(TbusinessPartnerBranch businessPartnerBranch) {
-		return daoBusinessPartnerBranch.delete(businessPartnerBranch);
+		if (businessPartnerBranch.getIdBusinessPartnerBranch() != 0)
+			return daoBusinessPartnerBranch.delete(businessPartnerBranch);
+		else
+			return true;
 	}
 
 	@Transactional(readOnly = true)

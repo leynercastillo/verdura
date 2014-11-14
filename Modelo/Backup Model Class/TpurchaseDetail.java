@@ -1,6 +1,6 @@
 package models;
 
-// Generated 21/09/2014 09:25:45 AM by Hibernate Tools 4.0.0
+// Generated 21/09/2014 11:58:57 PM by Hibernate Tools 4.0.0
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,13 +28,14 @@ public class TpurchaseDetail implements java.io.Serializable {
 	private String itemName;
 	private float quantity;
 	private float price;
+	private float totalPrice;
 	private float missingQuantity;
 	private char status;
 
 	public TpurchaseDetail() {
 	}
 
-	public TpurchaseDetail(int idPurchaseDetail, Tpurchase tpurchase, Titem titem, TbasicData tbasicData, String itemName, float quantity, float price, float missingQuantity, char status) {
+	public TpurchaseDetail(int idPurchaseDetail, Tpurchase tpurchase, Titem titem, TbasicData tbasicData, String itemName, float quantity, float price, float totalPrice, float missingQuantity, char status) {
 		this.idPurchaseDetail = idPurchaseDetail;
 		this.tpurchase = tpurchase;
 		this.titem = titem;
@@ -42,13 +43,14 @@ public class TpurchaseDetail implements java.io.Serializable {
 		this.itemName = itemName;
 		this.quantity = quantity;
 		this.price = price;
+		this.totalPrice = totalPrice;
 		this.missingQuantity = missingQuantity;
 		this.status = status;
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "tpurchase_detail_id_seq")
-    @SequenceGenerator(name = "tpurchase_detail_id_seq", sequenceName = "tpurchase_detail_id_purchase_detail_seq")
+	@SequenceGenerator(name = "tpurchase_detail_id_seq", sequenceName = "tpurchase_detail_id_purchase_detail_seq")
 	@Column(name = "id_purchase_detail", unique = true, nullable = false)
 	public int getIdPurchaseDetail() {
 		return this.idPurchaseDetail;
@@ -113,6 +115,15 @@ public class TpurchaseDetail implements java.io.Serializable {
 
 	public void setPrice(float price) {
 		this.price = price;
+	}
+
+	@Column(name = "total_price", nullable = false, precision = 8, scale = 8)
+	public float getTotalPrice() {
+		return this.totalPrice;
+	}
+
+	public void setTotalPrice(float totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	@Column(name = "missing_quantity", nullable = false, precision = 8, scale = 8)

@@ -62,6 +62,7 @@ public class CtrlOrders {
 	private List<TbasicData> listUnitMeasure;
 	private List<TbusinessPartnerBranch> listBusinessPartnerBranch;
 	private List<TorderDetail> listOrderDetail;
+	private List<TorderDetail> listDeleteOrderForDetail;
 	private ListModel<Object> listBusinessPartnerRif;
 	private ListModel<Object> listBusinessPartnerName;
 	private boolean disableAll;
@@ -228,6 +229,7 @@ public class CtrlOrders {
 		listBusinessPartnerName = new ListModelList<Object>();
 		listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>();
 		listOrderDetail = new ArrayList<TorderDetail>();
+		listDeleteOrderForDetail = new ArrayList<TorderDetail>();
 		listUnitMeasure = serviceBasicData.listMeasureUnitForOrders();
 		unitSelected = new TbasicData();
 		modalMessage = null;
@@ -312,6 +314,8 @@ public class CtrlOrders {
 					}
 				}
 				order.getTorderDetails().add(orderDetail);
+			} else {
+				listDeleteOrderForDetail.add(orderDetail);
 			}
 		}
 		if (detailIsEmpty) {
@@ -332,9 +336,21 @@ public class CtrlOrders {
 					return;
 				}
 			}
+			for (TorderDetail auxOrderDetail : listDeleteOrderForDetail) {
+				if (serviceOrderDetail.delete(auxOrderDetail)) {
+					Clients.showNotification("No se pudo guardar la orden.", "error", null, "middle_center", 2000);
+					return;
+				}
+			}
 			Clients.showNotification("Pedido guardado correctamente", "info", null, "middle_center", 2000);
 			restartForm();
 		}
+	}
+
+	@NotifyChange({ "disableAll" })
+	@Command
+	public void edit() {
+		disableAll = false;
 	}
 
 	@Command

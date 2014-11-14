@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="purchase" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d3301049-d804-41e5-aed1-d5e140e97c78">
-	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.zoom" value="1.2396694214876032"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="ID_PURCHASE" class="java.lang.Integer"/>
 	<parameter name="IMAGES_DIR" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
-	p.id_order_number,
-	p.rif,
-	p.bp_name,
-	p.bp_branch_address,
-	p.purchase_date,
-	pd.item_name,
-	b.name,
-	pd.quantity / ip.weight_unit AS quantity,
-	pd.price,
-	pd.total_price
+p.id_order_number,
+p.rif,
+p.bp_name,
+p.bp_branch_address,
+p.purchase_date,
+pd.item_name,
+b.name,
+pd.quantity / ip.weight_unit AS quantity,
+pd.price,
+pd.total_price
 FROM
-	tpurchase p INNER JOIN tpurchase_detail pd ON pd.id_purchase = p.id_purchase
-	INNER JOIN tbasic_data b ON b.id_basic_data = pd.measure_unit
-	INNER JOIN titem i ON i.id_item = pd.id_item
-	INNER JOIN tinput_measure_unit ip ON (ip.id_item = i.id_item and ip.measure_unit = pd.measure_unit)
+tpurchase p INNER JOIN tpurchase_detail pd ON pd.id_purchase = p.id_purchase
+INNER JOIN tbasic_data b ON b.id_basic_data = pd.measure_unit
+INNER JOIN titem i ON i.id_item = pd.id_item
+INNER JOIN tinput_measure_unit ip ON (ip.id_item = i.id_item and ip.measure_unit = pd.measure_unit)
 WHERE
-	p.id_purchase = $P{ID_PURCHASE}]]>
+p.id_purchase = $P{ID_PURCHASE}]]>
 	</queryString>
 	<field name="id_order_number" class="java.lang.Integer"/>
 	<field name="rif" class="java.lang.String"/>
@@ -65,15 +65,17 @@ WHERE
 				<textFieldExpression><![CDATA[$F{purchase_date}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="572" y="58" width="80" height="15" uuid="df38cda2-d627-4024-9c47-8fc368238da5"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="552" y="58" width="100" height="15" uuid="df38cda2-d627-4024-9c47-8fc368238da5"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[NRO PEDIDO:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="572" y="73" width="79" height="15" uuid="ff05e8b6-da76-47e5-8b1b-269a24684458"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="552" y="73" width="100" height="15" uuid="ff05e8b6-da76-47e5-8b1b-269a24684458"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[FECHA:]]></text>

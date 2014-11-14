@@ -4,7 +4,7 @@
 		closable="true" onClose="@command('close')"
 		viewModel="@id('vm') @init('controllers.compras.CtrlPurchasesResume')">
 		<style src="resource/style/styleZK.css"></style>
-		<caption label="Cargar Pedidos" zclass="formTitle"></caption>
+		<caption label="Resumen de compras" zclass="formTitle"></caption>
 		<grid>
 			<columns>
 				<column align="right" width="15%"></column>
@@ -14,13 +14,17 @@
 			</columns>
 			<rows>
 				<row>
-					<label sclass="formLabel" value="Numero de pedido:"></label>
+					<label sclass="formLabel"
+						value="Numero de pedido:">
+					</label>
 					<combobox autocomplete="true" autodrop="true"
-						buttonVisible="false" hflex="1" id="nroPedido"
-						maxlength="100" model="@load(vm.listOrderNumber)"
+						buttonVisible="false" hflex="1" id="nroPedido" maxlength="100"
+						model="@load(vm.listOrderNumber)"
 						onFocus="@command('searchOrderNumber')">
 					</combobox>
-					<button label="Generar" onClick="@command('generate', val = nroPedido.value)"></button>
+					<button label="Generar"
+						onClick="@command('generate', val = nroPedido.value)">
+					</button>
 				</row>
 			</rows>
 		</grid>

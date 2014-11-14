@@ -31,7 +31,7 @@ public class ServiceOrderNumber {
 		nextOrder.setStatus('A');
 		return daoOrderNumber.save(orderNumber);
 	}
-	
+
 	@Transactional
 	public boolean finishOrder(TorderNumber orderNumber) {
 		orderNumber.setStatus('F');
@@ -55,10 +55,21 @@ public class ServiceOrderNumber {
 	}
 
 	@Transactional(readOnly = true)
+	public List<String> listNumberByClosedOrders() {
+		/* Chequear hacer esto mismo con un metodo mas generico */
+		List<Integer> list = daoOrderNumber.listIntegerByStatus("idOrderNumber", 'C');
+		List<String> listOrderNumber = new ArrayList<String>();
+		for (Integer number : list) {
+			listOrderNumber.add(number.toString());
+		}
+		return listOrderNumber;
+	}
+
+	@Transactional(readOnly = true)
 	public TorderNumber findByNumber(Integer number) {
 		return daoOrderNumber.findById(number);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public TorderNumber findOrderClosed() {
 		return daoOrderNumber.findOrderClosed("status", 'C');

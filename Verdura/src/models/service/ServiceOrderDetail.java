@@ -21,7 +21,15 @@ public class ServiceOrderDetail {
 			return daoOrderDetail.update(orderDetail);
 		}
 	}
-	
+
+	@Transactional
+	public boolean delete(TorderDetail orderDetail) {
+		if (orderDetail.getIdOrderDetail() != 0) {
+			return daoOrderDetail.delete(orderDetail);
+		} else
+			return true;
+	}
+
 	@Transactional(readOnly = true)
 	public TorderDetail findById(Integer id) {
 		return daoOrderDetail.findByField(id, "idOrderDetail");

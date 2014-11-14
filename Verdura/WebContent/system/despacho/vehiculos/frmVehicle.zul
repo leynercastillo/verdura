@@ -1,0 +1,185 @@
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" border="normal"
+		closable="true" onClose="@command('close')"
+		viewModel="@id('vm') @init('controllers.despacho.vehiculos.CtrlVehicle')">
+		<style src="resource/style/styleZK.css"></style>
+		<caption label="Vehiculos" zclass="formTitle"></caption>
+		<grid>
+			<columns>
+				<column align="right" width="15%"></column>
+				<column align="left" width="20%"></column>
+				<column align="right" width="10%"></column>
+				<column align="left" width="20%"></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<label sclass="formLabel" value="Placa:"></label>
+					<combobox autocomplete="@load(vm.disableAll)"
+						autodrop="@load(vm.disableAll)" buttonVisible="false"
+						disabled="@load(vm.disableAll)" hflex="1" maxlength="15"
+						model="@load(vm.listVehicleDocNum)"
+						onChange="@command(vm.disableAll ? 'loadVehicle':'', field='docNum', val=self.value)"
+						onFocus="@command(vm.disableAll ? 'searchVehicleByField':'', field='docNum')"
+						value="@save(vm.vehicle.docNum, before = 'save') @load(vm.vehicle.docNum) @validator(vm.noRepeatDocNum, component = self)">
+					</combobox>
+					<space></space>
+				</row>
+				<row>
+					<label sclass="formLabel" value="Modelo:"></label>
+					<combobox autocomplete="@load(vm.disableAll)"
+						autodrop="@load(vm.disableAll)" buttonVisible="false"
+						disabled="@load(vm.disableAll)" hflex="1" maxlength="100"
+						model="@load(vm.listVehicleModel)"
+						onChange="@command(vm.disableAll ? 'loadVehicle':'', field='model', val=self.value)"
+						onFocus="@command(vm.disableAll ? 'searchVehicleByField':'', field='model')"
+						value="@save(vm.vehicle.model, before = 'save') @load(vm.vehicle.model) @validator(vm.noEmpty, component = self)">
+					</combobox>
+					<space></space>
+					<space></space>
+					<space></space>
+				</row>
+				<row spans="5">
+					<tabbox>
+						<tabs>
+							<tab id="tabGeneral" label="General"></tab>
+							<tab id="tabOwner" label="Propietario"></tab>
+						</tabs>
+						<tabpanels>
+							<tabpanel>
+								<grid>
+									<columns>
+										<column align="right"
+											width="15%">
+										</column>
+										<column width="30%"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<label sclass="formLabel"
+												value="Unidad de carga:">
+											</label>
+											<combobox
+												disabled="@load(vm.disableAll)" hflex="1"
+												model="@load(vm.listMeasureUnit)" readonly="true"
+												selectedItem="@bind(vm.vehicle.tbasicData)"
+												value="@save(vm.seleccione, before = 'save') @load(vm.vehicle.tbasicData.name eq null ? vm.seleccione : vm.vehicle.tbasicData.name) @validator(vm.noSelectInTab, component = self, tab = tabGeneral)">
+												<template name="model"
+													var="measureUnit">
+													<comboitem
+														label="@load(measureUnit.name)">
+													</comboitem>
+												</template>
+											</combobox>
+										</row>
+										<row>
+											<label sclass="formLabel"
+												value="Capacidad:">
+											</label>
+											<doublebox
+												disabled="@load(vm.disableAll)" format="###,###.##"
+												hflex="1" locale="es_ES" style="text-align: right"
+												value="@bind(vm.vehicle.capacity)">
+											</doublebox>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+							<tabpanel>
+								<grid>
+									<columns>
+										<column align="right"
+											width="15%">
+										</column>
+										<column width="30%"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<label sclass="formLabel"
+												value="Propietario:">
+											</label>
+											<combobox
+												autocomplete="@load(vm.disableAll)"
+												autodrop="@load(vm.disableAll)" buttonVisible="false"
+												disabled="@load(vm.disableAll)" hflex="1" maxlength="100"
+												model="@load(vm.listVehicleOwner)"
+												onChange="@command(vm.disableAll ? 'loadVehicle':'', field='owner', val=self.value)"
+												onFocus="@command(vm.disableAll ? 'searchVehicleByField':'', field='owner')"
+												value="@save(vm.vehicle.owner, before = 'save') @load(vm.vehicle.owner) @validator(vm.noEmptyInTab, component = self, tab = tabOwner)">
+											</combobox>
+										</row>
+										<row>
+											<label sclass="formLabel"
+												value="Telefono:">
+											</label>
+											<textbox
+												disabled="@load(vm.disableAll)" hflex="1" maxlength="20"
+												value="@bind(vm.vehicle.ownerPhone)">
+											</textbox>
+										</row>
+									</rows>
+								</grid>
+							</tabpanel>
+						</tabpanels>
+					</tabbox>
+				</row>
+				<row>
+					<label sclass="formLabel" value="Comentarios:"></label>
+					<cell colspan="2">
+						<textbox disabled="@load(vm.disableAll)"
+							hflex="1" maxlength="450" rows="4"
+							value="@bind(vm.vehicle.comment)">
+						</textbox>
+					</cell>
+					<space></space>
+				</row>
+				<row>
+					<radiogroup id="status"
+						selectedItem="@save(vm.vehicle.status)">
+						<radio
+							checked="@load(vm.vehicle.status eq 'A' ? 'true':'false')"
+							disabled="@load(vm.disableAll)" label="Activo" sclass="frmLabel"
+							value="A">
+						</radio>
+					</radiogroup>
+					<radio
+						checked="@load(vm.vehicle.status eq 'I' ? 'true':'false')"
+						disabled="@load(vm.disableAll)" label="Inactivo"
+						radiogroup="status" sclass="formLabel" value="I">
+					</radio>
+					<space></space>
+					<space></space>
+					<space></space>
+				</row>
+				<row>
+					<button image="resource/images/icons/search.png"
+						label="Buscar" onClick="@command('search')">
+					</button>
+					<cell colspan="2">
+						<hbox>
+							<button disabled="@load(vm.disableAll)"
+								image="resource/images/icons/save.png" label="Guardar"
+								onClick="@command('save')">
+							</button>
+							<space></space>
+							<button disabled="@load(not vm.disableAll)"
+								image="resource/images/icons/edit.png" label="Editar"
+								onClick="@command('edit')">
+							</button>
+							<space></space>
+							<button
+								image="resource/images/icons/cancel.png" label="Cancelar"
+								onClick="@command('restartForm')">
+							</button>
+						</hbox>
+					</cell>
+					<space></space>
+					<space></space>
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>

@@ -76,7 +76,7 @@ public class CtrlPurchasesResume {
 	@NotifyChange({ "listOrderNumber" })
 	@Command
 	public void searchOrderNumber() {
-		listOrderNumber = new SimpleListModelCustom<Object>(serviceOrderNumber.listNumber());
+		listOrderNumber = new SimpleListModelCustom<Object>(serviceOrderNumber.listNumberByClosedOrders());
 	}
 
 	@NotifyChange({ "*" })
@@ -98,8 +98,8 @@ public class CtrlPurchasesResume {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("IMAGES_DIR", "../../resource/images/system/");
 			map.put("ORDER_NUMBER", orderNumber.getIdOrderNumber());
-			report.createPdf("/resource/reports/orders/", "resumePurchases.jasper", map, "resumen-compra.pdf");
-			report.viewPdf("/resource/reports/orders/resumen-compra.pdf", "Resumen compras");
+			report.createPdf("/resource/reports/purchases/", "resumePurchases.jasper", map, "resumen-compra.pdf");
+			report.viewPdf("/resource/reports/purchases/resumen-compra.pdf", "Resumen compras");
 		} else {
 			Clients.showNotification("Ningun registro coincide", "info", null, "middle_center", 2000);
 		}

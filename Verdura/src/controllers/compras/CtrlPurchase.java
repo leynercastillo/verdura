@@ -75,6 +75,7 @@ public class CtrlPurchase {
 	private List<TbasicData> listRifType;
 	private List<TbasicData> listUnitMeasure;
 	private List<TpurchaseDetail> listPurchaseDetail;
+	private List<TpurchaseDetail> listPurchaseDetailForDelete;
 	private List<TbusinessPartnerBranch> listBusinessPartnerBranch;
 	private HashMap<String, Float> hashMissingQuantity;
 	private ListModel<Object> listBusinessPartnerRif;
@@ -228,6 +229,7 @@ public class CtrlPurchase {
 		listBusinessPartnerName = new ListModelList<Object>();
 		listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>();
 		listPurchaseDetail = new ArrayList<TpurchaseDetail>();
+		listPurchaseDetailForDelete = new ArrayList<TpurchaseDetail>();
 		listUnitMeasure = serviceBasicData.listMeasureUnitForOrders();
 		hashMissingQuantity = new HashMap<String, Float>();
 	}
@@ -327,21 +329,6 @@ public class CtrlPurchase {
 		restartForm();
 	}
 
-	/*
-	 * @NotifyChange("listPurchaseDetail")
-	 * 
-	 * @Command public void selectMeasureUnit(@BindingParam("purchaseDetail")
-	 * TpurchaseDetail purchaseDetail) { // calculate quantity reamining float
-	 * quantityRemaining =
-	 * serviceOrder.getQuantityRemainingByItem(purchaseDetail,
-	 * purchase.getTorderNumber());
-	 * hashMissingQuantity.put(purchaseDetail.getTitem().getCode(),
-	 * quantityRemaining); purchaseDetail.setMissingQuantity(quantityRemaining);
-	 * // calculate price for measure unit and provider float price =
-	 * serviceBusinessPartnerItem.findPriceItem(businessPartner,
-	 * purchaseDetail.getTitem()); purchaseDetail.setPrice(price); }
-	 */
-
 	@Command
 	public void changeQuantity(@ContextParam(ContextType.TRIGGER_EVENT) InputEvent event, @BindingParam("purchaseDetail") TpurchaseDetail purchaseDetail) {
 		int value = 0;
@@ -350,6 +337,7 @@ public class CtrlPurchase {
 		purchaseDetail.setQuantity(value);
 		BindUtils.postNotifyChange(null, null, purchaseDetail, "quantity");
 		// Update current missing quantity
+		System.out.println();
 		purchaseDetail.setMissingQuantity(hashMissingQuantity.get(purchaseDetail.getTitem().getCode()) - value);
 		BindUtils.postNotifyChange(null, null, purchaseDetail, "missingQuantity");
 		// Update total price
@@ -382,6 +370,8 @@ public class CtrlPurchase {
 					}
 				}
 				purchase.getTpurchaseDetails().add(purchaseDetail);
+			} else {
+				listPurchaseDetailForDelete.add(purchaseDetail);
 			}
 		}
 		if (detailIsEmpty) {
@@ -402,9 +392,21 @@ public class CtrlPurchase {
 					return;
 				}
 			}
+			for (TpurchaseDetail auxPurchaseDetail : listPurchaseDetailForDelete) {
+				if (servicePurchaseDetail.delete(auxPurchaseDetail)) {
+					Clients.showNotification("No se pudo guardar la compra.", "error", null, "middle_center", 2000);
+					return;
+				}
+			}
 			Clients.showNotification("Compra guardada correctamente", "info", null, "middle_center", 2000);
 			restartForm();
 		}
+	}
+
+	@NotifyChange({ "disableAll" })
+	@Command
+	public void edit() {
+		disableAll = false;
 	}
 
 	@NotifyChange({ "purchase", "listPurchaseDetail", "businessPartner", "disableAll" })
@@ -421,6 +423,10 @@ public class CtrlPurchase {
 					auxPurchaseDetail.setQuantity(auxPurchaseDetail.getQuantity() / auxInputMeasure.getWeightUnit());
 				}
 			}
+			// Re calculate quantity missing
+			float quantityRemaining = serviceOrder.getQuantityRemainingByItem(auxPurchaseDetail, purchase.getTorderNumber());
+			hashMissingQuantity.put(auxPurchaseDetail.getTitem().getCode(), quantityRemaining);
+			auxPurchaseDetail.setMissingQuantity(quantityRemaining);
 		}
 		businessPartner = purchase.getTbusinessPartnerBranch().getTbusinessPartner();
 		disableAll = true;

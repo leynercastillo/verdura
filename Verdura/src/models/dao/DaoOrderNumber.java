@@ -111,4 +111,14 @@ public class DaoOrderNumber {
 		criteria.addOrder(Order.asc(field));
 		return criteria.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Integer> listIntegerByStatus(String field, char statusValue) {
+		Session session = getCurrentSession();
+		Criteria criteria = session.createCriteria(TorderNumber.class);
+		criteria.setProjection(Projections.distinct(Projections.property(field)));
+		criteria.add(Restrictions.eq("status", statusValue));
+		criteria.addOrder(Order.asc(field));
+		return criteria.list();
+	}
 }

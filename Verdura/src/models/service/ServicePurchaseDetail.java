@@ -21,4 +21,12 @@ public class ServicePurchaseDetail {
 			return daoPurchaseDetail.update(purchaseDetail);
 		}
 	}
+
+	@Transactional
+	public boolean delete(TpurchaseDetail purchaseDetail) {
+		if (purchaseDetail.getIdPurchaseDetail() != 0) {
+			return daoPurchaseDetail.delete(purchaseDetail);
+		} else
+			return true;
+	}
 }

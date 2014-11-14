@@ -185,6 +185,11 @@
 						</button>
 						<space></space>
 						<button disabled="@load(not vm.disableAll)"
+							image="resource/images/icons/edit.png" label="Editar"
+							onClick="@command('edit')">
+						</button>
+						<space></space>
+						<button disabled="@load(not vm.disableAll)"
 							image="resource/images/icons/print.png" label="Imprimir"
 							onClick="@command('printPurchase')">
 						</button>

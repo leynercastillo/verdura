@@ -32,7 +32,7 @@ GROUP BY od.id_item, od.item_name, o.id_order_number, me.weight_unit, onu.status
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="88" splitType="Stretch">
+		<band height="87" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="143" height="68" uuid="803410c2-1977-4f6e-9ec0-8944f91b04e0"/>
 				<imageExpression><![CDATA[$P{IMAGES_DIR}+"logo_fynca.jpg"]]></imageExpression>

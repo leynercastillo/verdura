@@ -1,6 +1,6 @@
 package models;
 
-// Generated 03/09/2014 09:02:10 AM by Hibernate Tools 4.0.0
+// Generated 02/11/2014 09:38:14 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,6 +37,7 @@ public class TbasicData implements java.io.Serializable {
 	private Set<TbasicData> tbasicDatas = new HashSet<TbasicData>(0);
 	private Set<TinputMeasureUnit> tinputMeasureUnits = new HashSet<TinputMeasureUnit>(0);
 	private Set<TpurchaseDetail> tpurchaseDetails = new HashSet<TpurchaseDetail>(0);
+	private Set<Tvehicle> tvehicles = new HashSet<Tvehicle>(0);
 	private Set<Titem> titems = new HashSet<Titem>(0);
 	private Set<TbusinessPartnerBranch> tbusinessPartnerBranches = new HashSet<TbusinessPartnerBranch>(0);
 	private Set<TorderDetail> torderDetails = new HashSet<TorderDetail>(0);
@@ -54,7 +55,7 @@ public class TbasicData implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public TbasicData(int idBasicData, TdataType tdataType, TbasicData tbasicData, String name, String description, boolean editable, char status, Set<ToutputMeasureUnit> toutputMeasureUnits, Set<TbusinesPartnerItem> tbusinesPartnerItems, Set<TbasicData> tbasicDatas, Set<TinputMeasureUnit> tinputMeasureUnits, Set<TpurchaseDetail> tpurchaseDetails, Set<Titem> titems, Set<TbusinessPartnerBranch> tbusinessPartnerBranches, Set<TorderDetail> torderDetails, Set<TbusinessPartner> tbusinessPartnersForRifType, Set<TbusinessPartner> tbusinessPartnersForType) {
+	public TbasicData(int idBasicData, TdataType tdataType, TbasicData tbasicData, String name, String description, boolean editable, char status, Set<ToutputMeasureUnit> toutputMeasureUnits, Set<TbusinesPartnerItem> tbusinesPartnerItems, Set<TbasicData> tbasicDatas, Set<TinputMeasureUnit> tinputMeasureUnits, Set<TpurchaseDetail> tpurchaseDetails, Set<Tvehicle> tvehicles, Set<Titem> titems, Set<TbusinessPartnerBranch> tbusinessPartnerBranches, Set<TorderDetail> torderDetails, Set<TbusinessPartner> tbusinessPartnersForRifType, Set<TbusinessPartner> tbusinessPartnersForType) {
 		this.idBasicData = idBasicData;
 		this.tdataType = tdataType;
 		this.tbasicData = tbasicData;
@@ -67,6 +68,7 @@ public class TbasicData implements java.io.Serializable {
 		this.tbasicDatas = tbasicDatas;
 		this.tinputMeasureUnits = tinputMeasureUnits;
 		this.tpurchaseDetails = tpurchaseDetails;
+		this.tvehicles = tvehicles;
 		this.titems = titems;
 		this.tbusinessPartnerBranches = tbusinessPartnerBranches;
 		this.torderDetails = torderDetails;
@@ -76,7 +78,7 @@ public class TbasicData implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "tbasic_data_id_seq")
-    @SequenceGenerator(name = "tbasic_data_id_seq", sequenceName = "tbasic_data_id_seq")
+	@SequenceGenerator(name = "tbasic_data_id_seq", sequenceName = "tbasic_data_id_seq")
 	@Column(name = "id_basic_data", unique = true, nullable = false)
 	public int getIdBasicData() {
 		return this.idBasicData;
@@ -185,6 +187,15 @@ public class TbasicData implements java.io.Serializable {
 
 	public void setTpurchaseDetails(Set<TpurchaseDetail> tpurchaseDetails) {
 		this.tpurchaseDetails = tpurchaseDetails;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")
+	public Set<Tvehicle> getTvehicles() {
+		return this.tvehicles;
+	}
+
+	public void setTvehicles(Set<Tvehicle> tvehicles) {
+		this.tvehicles = tvehicles;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbasicData")

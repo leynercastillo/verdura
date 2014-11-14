@@ -1,6 +1,6 @@
 package models;
 
-// Generated 03/09/2014 09:02:10 AM by Hibernate Tools 4.0.0
+// Generated 02/11/2014 09:38:14 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -36,6 +37,7 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 	private String contactName;
 	private boolean addressDefault;
 	private Set<Tpurchase> tpurchases = new HashSet<Tpurchase>(0);
+	private Set<Troute> troutes = new HashSet<Troute>(0);
 	private Set<Torder> torders = new HashSet<Torder>(0);
 
 	public TbusinessPartnerBranch() {
@@ -52,7 +54,7 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 		this.addressDefault = addressDefault;
 	}
 
-	public TbusinessPartnerBranch(int idBusinessPartnerBranch, TbusinessPartner tbusinessPartner, TbasicData tbasicData, String name, String address, String email, String fax, String contactPhone, String contactName, boolean addressDefault, Set<Tpurchase> tpurchases, Set<Torder> torders) {
+	public TbusinessPartnerBranch(int idBusinessPartnerBranch, TbusinessPartner tbusinessPartner, TbasicData tbasicData, String name, String address, String email, String fax, String contactPhone, String contactName, boolean addressDefault, Set<Tpurchase> tpurchases, Set<Troute> troutes, Set<Torder> torders) {
 		this.idBusinessPartnerBranch = idBusinessPartnerBranch;
 		this.tbusinessPartner = tbusinessPartner;
 		this.tbasicData = tbasicData;
@@ -64,12 +66,13 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 		this.contactName = contactName;
 		this.addressDefault = addressDefault;
 		this.tpurchases = tpurchases;
+		this.troutes = troutes;
 		this.torders = torders;
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "tbusiness_partner_branch_id_seq")
-    @SequenceGenerator(name = "tbusiness_partner_branch_id_seq", sequenceName = "tbusiness_partner_branch_id_seq")
+	@SequenceGenerator(name = "tbusiness_partner_branch_id_seq", sequenceName = "tbusiness_partner_branch_id_seq")
 	@Column(name = "id_business_partner_branch", unique = true, nullable = false)
 	public int getIdBusinessPartnerBranch() {
 		return this.idBusinessPartnerBranch;
@@ -169,6 +172,15 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 
 	public void setTpurchases(Set<Tpurchase> tpurchases) {
 		this.tpurchases = tpurchases;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "tbusinessPartnerBranches")
+	public Set<Troute> getTroutes() {
+		return this.troutes;
+	}
+
+	public void setTroutes(Set<Troute> troutes) {
+		this.troutes = troutes;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbusinessPartnerBranch")
