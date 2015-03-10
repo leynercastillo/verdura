@@ -1,6 +1,6 @@
 package models;
 
-// Generated 02/11/2014 09:38:14 PM by Hibernate Tools 4.0.0
+// Generated 17/12/2014 05:36:53 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -37,7 +36,7 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 	private String contactName;
 	private boolean addressDefault;
 	private Set<Tpurchase> tpurchases = new HashSet<Tpurchase>(0);
-	private Set<Troute> troutes = new HashSet<Troute>(0);
+	private Set<TbusinessPartnerRoute> tbusinessPartnerRoutes = new HashSet<TbusinessPartnerRoute>(0);
 	private Set<Torder> torders = new HashSet<Torder>(0);
 
 	public TbusinessPartnerBranch() {
@@ -54,7 +53,7 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 		this.addressDefault = addressDefault;
 	}
 
-	public TbusinessPartnerBranch(int idBusinessPartnerBranch, TbusinessPartner tbusinessPartner, TbasicData tbasicData, String name, String address, String email, String fax, String contactPhone, String contactName, boolean addressDefault, Set<Tpurchase> tpurchases, Set<Troute> troutes, Set<Torder> torders) {
+	public TbusinessPartnerBranch(int idBusinessPartnerBranch, TbusinessPartner tbusinessPartner, TbasicData tbasicData, String name, String address, String email, String fax, String contactPhone, String contactName, boolean addressDefault, Set<Tpurchase> tpurchases, Set<TbusinessPartnerRoute> tbusinessPartnerRoutes, Set<Torder> torders) {
 		this.idBusinessPartnerBranch = idBusinessPartnerBranch;
 		this.tbusinessPartner = tbusinessPartner;
 		this.tbasicData = tbasicData;
@@ -66,7 +65,7 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 		this.contactName = contactName;
 		this.addressDefault = addressDefault;
 		this.tpurchases = tpurchases;
-		this.troutes = troutes;
+		this.tbusinessPartnerRoutes = tbusinessPartnerRoutes;
 		this.torders = torders;
 	}
 
@@ -174,13 +173,13 @@ public class TbusinessPartnerBranch implements java.io.Serializable {
 		this.tpurchases = tpurchases;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "tbusinessPartnerBranches")
-	public Set<Troute> getTroutes() {
-		return this.troutes;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbusinessPartnerBranch")
+	public Set<TbusinessPartnerRoute> getTbusinessPartnerRoutes() {
+		return this.tbusinessPartnerRoutes;
 	}
 
-	public void setTroutes(Set<Troute> troutes) {
-		this.troutes = troutes;
+	public void setTbusinessPartnerRoutes(Set<TbusinessPartnerRoute> tbusinessPartnerRoutes) {
+		this.tbusinessPartnerRoutes = tbusinessPartnerRoutes;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tbusinessPartnerBranch")

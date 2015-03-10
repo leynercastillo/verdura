@@ -1,3 +1,6 @@
+/applicationContext.xml
+/configuration/
 /controllers/
 /general/
 /models/
+/applicationContext-security.xml

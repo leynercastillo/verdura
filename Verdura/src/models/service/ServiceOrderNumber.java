@@ -74,4 +74,9 @@ public class ServiceOrderNumber {
 	public TorderNumber findOrderClosed() {
 		return daoOrderNumber.findOrderClosed("status", 'C');
 	}
+
+	@Transactional(readOnly = true)
+	public List<TorderNumber> listOrderFinished() {
+		return daoOrderNumber.listOrderByField("status", 'F');
+	}
 }

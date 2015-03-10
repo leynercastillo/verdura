@@ -75,7 +75,14 @@ public class DaoItem {
 			return false;
 		}
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public List<Titem> listAll() {
+		Criteria criteria = getCurrentSession().createCriteria(Titem.class);
+		criteria.addOrder(Order.asc("name"));
+		return criteria.list();
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Titem> listActiveOrderedByField(String field) {
 		Criteria criteria = getCurrentSession().createCriteria(Titem.class);

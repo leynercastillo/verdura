@@ -27,20 +27,20 @@ public class SecurityGroup implements java.io.Serializable {
 	private static final long serialVersionUID = -8439125473481013576L;
 	private int idSecurityGroup;
 	private String name;
-	private short status;
+	private char status;
 	private Set<SecurityUser> securityUsers = new HashSet<SecurityUser>(0);
 	private Set<SecurityRole> securityRoles = new HashSet<SecurityRole>(0);
 
 	public SecurityGroup() {
 	}
 
-	public SecurityGroup(int idSecurityGroup, String name, short status) {
+	public SecurityGroup(int idSecurityGroup, String name, char status) {
 		this.idSecurityGroup = idSecurityGroup;
 		this.name = name;
 		this.status = status;
 	}
 
-	public SecurityGroup(int idSecurityGroup, String name, short status, Set<SecurityUser> securityUsers, Set<SecurityRole> securityRoles) {
+	public SecurityGroup(int idSecurityGroup, String name, char status, Set<SecurityUser> securityUsers, Set<SecurityRole> securityRoles) {
 		this.idSecurityGroup = idSecurityGroup;
 		this.name = name;
 		this.status = status;
@@ -50,7 +50,7 @@ public class SecurityGroup implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "security_group_id_seq")
-    @SequenceGenerator(name = "security_group_id_seq", sequenceName = "security_group_id_seq")
+	@SequenceGenerator(name = "security_group_id_seq", sequenceName = "security_group_id_seq")
 	@Column(name = "id_security_group", unique = true, nullable = false)
 	public int getIdSecurityGroup() {
 		return this.idSecurityGroup;
@@ -70,11 +70,11 @@ public class SecurityGroup implements java.io.Serializable {
 	}
 
 	@Column(name = "status", nullable = false)
-	public short getStatus() {
+	public char getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(short status) {
+	public void setStatus(char status) {
 		this.status = status;
 	}
 

@@ -1,10 +1,10 @@
 package controllers.articulos;
 
-import general.SimpleListModelCustom;
 import general.ValidateZK;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +30,6 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zul.ListModel;
-import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.impl.InputElement;
 
@@ -54,12 +52,8 @@ public class FrmItemMaster {
 	private Boolean update;
 	private TbasicData selectedInputMeasureUnit;
 	private TbasicData selectedOutputMeasureUnit;
-	private ListModel<Object> listItemCode;
-	private ListModel<Object> listItemName;
 	private List<TbasicData> listItemType;
 	private List<TbasicData> listMeasureUnit;
-	private List<TinputMeasureUnit> listInputMeasureUnit;
-	private List<ToutputMeasureUnit> listOutputMeasureUnit;
 	private List<TinputMeasureUnit> listDeleteInputMeasureUnit;
 	private List<ToutputMeasureUnit> listDeleteOutputMeasureUnit;
 
@@ -87,36 +81,12 @@ public class FrmItemMaster {
 		this.selectedOutputMeasureUnit = selectedOutputMeasureUnit;
 	}
 
-	public List<TinputMeasureUnit> getListInputMeasureUnit() {
-		return listInputMeasureUnit;
-	}
-
-	public void setListInputMeasureUnit(List<TinputMeasureUnit> listInputMeasureUnit) {
-		this.listInputMeasureUnit = listInputMeasureUnit;
-	}
-
-	public List<ToutputMeasureUnit> getListOutputMeasureUnit() {
-		return listOutputMeasureUnit;
-	}
-
-	public void setListOutputMeasureUnit(List<ToutputMeasureUnit> listOutputMeasureUnit) {
-		this.listOutputMeasureUnit = listOutputMeasureUnit;
-	}
-
 	public Boolean getDisableBeforeSearch() {
 		return disableBeforeSearch;
 	}
 
 	public void setDisableBeforeSearch(Boolean disableBeforeSearch) {
 		this.disableBeforeSearch = disableBeforeSearch;
-	}
-
-	public ListModel<Object> getListItemName() {
-		return listItemName;
-	}
-
-	public void setListItemName(ListModel<Object> listItemName) {
-		this.listItemName = listItemName;
 	}
 
 	public List<TbasicData> getListItemType() {
@@ -149,14 +119,6 @@ public class FrmItemMaster {
 
 	public void setUpdate(Boolean update) {
 		this.update = update;
-	}
-
-	public ListModel<Object> getListItemCode() {
-		return listItemCode;
-	}
-
-	public void setListItemCode(ListModel<Object> listItemCode) {
-		this.listItemCode = listItemCode;
 	}
 
 	public Boolean getDisableAll() {
@@ -226,13 +188,13 @@ public class FrmItemMaster {
 			public void validate(ValidationContext ctx) {
 				InputElement inputElement = (InputElement) ctx.getBindContext().getValidatorArg("component");
 				String string = inputElement.getText();
-				if (listOutputMeasureUnit.size() == 1) {
+				if (item.getToutputMeasureUnits().size() == 1) {
 					throw new WrongValueException(inputElement, "Se puede añadir maximo una unidad de salida.");
 				}
 				if (string.isEmpty() || string.equals("--Seleccione--")) {
 					throw new WrongValueException(inputElement, "Seleccione una opcion valida.");
 				}
-				for (ToutputMeasureUnit outputMeasureUnit : listOutputMeasureUnit) {
+				for (ToutputMeasureUnit outputMeasureUnit : item.getToutputMeasureUnits()) {
 					if (outputMeasureUnit.getTbasicData().getName().equals(string)) {
 						throw new WrongValueException(inputElement, "Esta unidad ya fue añadida.");
 					}
@@ -250,7 +212,7 @@ public class FrmItemMaster {
 				if (string.isEmpty() || string.equals("--Seleccione--")) {
 					throw new WrongValueException(inputElement, "Seleccione una opcion valida.");
 				}
-				for (TinputMeasureUnit inputMeasureUnit : listInputMeasureUnit) {
+				for (TinputMeasureUnit inputMeasureUnit : item.getTinputMeasureUnits()) {
 					if (inputMeasureUnit.getTbasicData().getName().equals(string)) {
 						throw new WrongValueException(inputElement, "Esta unidad ya fue añadida.");
 					}
@@ -269,65 +231,21 @@ public class FrmItemMaster {
 	public void restartForm() {
 		item = new Titem();
 		item.setWashable(new Boolean(false));
+		// Default inputMeasureUnit and outputMeasureUnit
+		item.setTinputMeasureUnits(new HashSet<TinputMeasureUnit>(defaultInputMeasuresUnit()));
+		item.setToutputMeasureUnits(new HashSet<ToutputMeasureUnit>(defaultOutputMeasuresUnit()));
 		minCombo = new String("--");
 		seleccione = new String("--Seleccione--");
-		disableAll = new Boolean(false);
-		disableBeforeSearch = new Boolean(true);
-		update = new Boolean(false);
+		disableAll = false;
+		disableBeforeSearch = true;
+		update = false;
 		item.setStatus('A');
-		listItemCode = new ListModelList<Object>();
-		listItemName = new ListModelList<Object>();
 		listMeasureUnit = serviceBasicData.listMeasureUnit();
 		selectedInputMeasureUnit = new TbasicData();
 		selectedOutputMeasureUnit = new TbasicData();
 		listItemType = serviceBasicData.listItemType();
 		listDeleteInputMeasureUnit = new ArrayList<TinputMeasureUnit>();
 		listDeleteOutputMeasureUnit = new ArrayList<ToutputMeasureUnit>();
-		// Default inputMeasureUnit
-		listInputMeasureUnit = new ArrayList<TinputMeasureUnit>(defaultInputMeasuresUnit());
-		listOutputMeasureUnit = new ArrayList<ToutputMeasureUnit>(defaultOutputMeasuresUnit());
-	}
-
-	@NotifyChange({ "listItemCode", "listItemName" })
-	@Command
-	public void searchItemByField(@BindingParam("field") String field) {
-		if (field.equals("code")) {
-			listItemCode = new SimpleListModelCustom<Object>(serviceItem.listCodes());
-			return;
-		} else if (field.equals("name")) {
-			listItemName = new SimpleListModelCustom<Object>(serviceItem.listNames());
-			return;
-		}
-	}
-
-	@NotifyChange({ "item", "disableAll", "update", "listItem", "listInputMeasureUnit", "listOutputMeasureUnit" })
-	@Command
-	public void loadItem(@BindingParam("field") String field, @BindingParam("val") String value) {
-		List<Titem> listItemAux = new ArrayList<Titem>();
-		if (field.equals("code")) {
-			Titem itemAux = serviceItem.findByCode(value);
-			if (itemAux != null) {
-				listItemAux.add(itemAux);
-			}
-		} else if (field.equals("name")) {
-			listItemAux = serviceItem.listByName(value);
-		}
-		int listSize = listItemAux.size();
-		if (listSize == 1) {
-			item = new Titem();
-			item = listItemAux.get(0);
-			listInputMeasureUnit = new ArrayList<TinputMeasureUnit>(item.getTinputMeasureUnits());
-			listOutputMeasureUnit = new ArrayList<ToutputMeasureUnit>(item.getToutputMeasureUnits());
-			disableAll = new Boolean(false);
-			update = new Boolean(true);
-			return;
-		} else if (listSize == 0) {
-			Clients.showNotification("Ningun registro coincide", "info", null, "top_center", 2000);
-		} else {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("listItem", listItemAux);
-			Executions.createComponents("system/articulos/frmItemList.zul", null, map);
-		}
 	}
 
 	@NotifyChange("*")
@@ -344,7 +262,7 @@ public class FrmItemMaster {
 			Clients.showNotification("Fallo guardado articulo", "error", null, "middle_center", 2000);
 			return;
 		}
-		for (ToutputMeasureUnit measureUnit : listOutputMeasureUnit) {
+		for (ToutputMeasureUnit measureUnit : item.getToutputMeasureUnits()) {
 			measureUnit.setTitem(item);
 			if (!serviceOutputMeasureUnit.save(measureUnit)) {
 				Clients.showNotification("Fallo guardado articulo", "error", null, "middle_center", 2000);
@@ -359,7 +277,7 @@ public class FrmItemMaster {
 				}
 			}
 		}
-		for (TinputMeasureUnit measureUnit : listInputMeasureUnit) {
+		for (TinputMeasureUnit measureUnit : item.getTinputMeasureUnits()) {
 			measureUnit.setTitem(item);
 			if (!serviceIntputMeasureUnit.save(measureUnit)) {
 				Clients.showNotification("Fallo guardado articulo", "error", null, "middle_center", 2000);
@@ -381,45 +299,46 @@ public class FrmItemMaster {
 	@NotifyChange({ "*" })
 	@Command
 	public void search() {
-		restartForm();
-		disableAll = new Boolean(true);
-		disableBeforeSearch = new Boolean(false);
+		Executions.createComponents("system/articulos/frmItemSearch.zul", null, null);
 	}
 
-	@NotifyChange({ "listOutputMeasureUnit", "selectedOutputMeasureUnit" })
+	@NotifyChange({ "selectedOutputMeasureUnit" })
 	@Command
 	public void addOutputUnitMeasure() {
 		ToutputMeasureUnit outputMeasureUnit = new ToutputMeasureUnit();
 		outputMeasureUnit.setStatus('A');
 		outputMeasureUnit.setTbasicData(selectedOutputMeasureUnit);
 		outputMeasureUnit.setWeightUnit(0);
-		listOutputMeasureUnit.add(outputMeasureUnit);
+		item.getToutputMeasureUnits().add(outputMeasureUnit);
 		selectedOutputMeasureUnit = new TbasicData();
+		BindUtils.postNotifyChange(null, null, item, "toutputMeasureUnits");
 	}
 
-	@NotifyChange({ "listInputMeasureUnit", "selectedInputMeasureUnit" })
+	@NotifyChange({ "selectedInputMeasureUnit" })
 	@Command
 	public void addInputUnitMeasure() {
 		TinputMeasureUnit inputMeasureUnit = new TinputMeasureUnit();
 		inputMeasureUnit.setStatus('A');
 		inputMeasureUnit.setTbasicData(selectedInputMeasureUnit);
 		inputMeasureUnit.setWeightUnit(0);
-		listInputMeasureUnit.add(inputMeasureUnit);
+		item.getTinputMeasureUnits().add(inputMeasureUnit);
 		selectedInputMeasureUnit = new TbasicData();
+		BindUtils.postNotifyChange(null, null, item, "tinputMeasureUnits");
 	}
 
-	@NotifyChange({ "listOutputMeasureUnit" })
 	@Command
 	public void deleteOutputUnitMeasure(@BindingParam("measureUnit") ToutputMeasureUnit outputMeasureUnit) {
-		listOutputMeasureUnit.remove(outputMeasureUnit);
+		item.getToutputMeasureUnits().remove(outputMeasureUnit);
 		listDeleteOutputMeasureUnit.add(outputMeasureUnit);
+		BindUtils.postNotifyChange(null, null, item, "toutputMeasureUnits");
 	}
 
 	@NotifyChange({ "listInputMeasureUnit" })
 	@Command
 	public void deleteInputUnitMeasure(@BindingParam("measureUnit") TinputMeasureUnit inputMeasureUnit) {
-		listInputMeasureUnit.remove(inputMeasureUnit);
+		item.getTinputMeasureUnits().remove(inputMeasureUnit);
 		listDeleteInputMeasureUnit.add(inputMeasureUnit);
+		BindUtils.postNotifyChange(null, null, item, "tinputMeasureUnits");
 	}
 
 	@NotifyChange({ "item", "disableAll", "update" })
@@ -427,8 +346,10 @@ public class FrmItemMaster {
 	public void selectedItem(@BindingParam("item") Titem selectedItem) {
 		item = new Titem();
 		item = selectedItem;
-		disableAll = new Boolean(false);
-		update = new Boolean(true);
+		item.setToutputMeasureUnits(new HashSet<ToutputMeasureUnit>(serviceOutputMeasureUnit.listByItem(item)));
+		item.setTinputMeasureUnits(new HashSet<TinputMeasureUnit>(serviceIntputMeasureUnit.listByItem(item)));
+		disableAll = false;
+		update = true;
 	}
 
 	@Command

@@ -1,0 +1,49 @@
+<zk xmlns:h="native">
+	<style src="/resource/style/styleZK.css"></style>
+	<window hflex="1">
+		<h:form action="j_spring_security_check" id="f"
+			method="POST" name="f" xmlns:h="native">
+			<grid>
+				<columns>
+					<column hflex="1"></column>
+				</columns>
+				<rows>
+					<row spans="3">
+						<label if="${not empty param.login_error}"
+							style="color:red"
+							value="Tu usuario o contraseña son incorrectos. Intentalo de nuevo.">
+						</label>
+					</row>
+					<row>
+						<label sclass="formLabel" value="Usuario:">
+						</label>
+					</row>
+					<row>
+						<textbox hflex="1" id="u" mold="rounded"
+							name="j_username" />
+					</row>
+					<row>
+						<label sclass="formLabel" value="Contraseña:">
+						</label>
+					</row>
+					<row>
+						<textbox hflex="1" id="p" mold="rounded"
+							name="j_password" type="password" />
+					</row>
+					<row>
+						<div>
+							<checkbox id="r"
+								name="j_spring_security_remember_me" />
+							<label value="No olvidar mi clave."></label>
+						</div>
+					</row>
+					<row>
+						<button hflex="1" label="Entrar" mold="trendy"
+							type="submit">
+						</button>
+					</row>
+				</rows>
+			</grid>
+		</h:form>
+	</window>
+</zk>

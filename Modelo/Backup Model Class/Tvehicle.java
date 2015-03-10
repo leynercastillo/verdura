@@ -1,6 +1,6 @@
 package models;
 
-// Generated 02/11/2014 09:38:14 PM by Hibernate Tools 4.0.0
+// Generated 03/11/2014 12:09:40 AM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +30,7 @@ public class Tvehicle implements java.io.Serializable {
 	private String docNum;
 	private String model;
 	private String owner;
+	private String ownerPhone;
 	private float capacity;
 	private String comment;
 	private char status;
@@ -38,23 +39,24 @@ public class Tvehicle implements java.io.Serializable {
 	public Tvehicle() {
 	}
 
-	public Tvehicle(int idVehicle, TbasicData tbasicData, String docNum, String model, String owner, float capacity, String comment, char status) {
+	public Tvehicle(int idVehicle, TbasicData tbasicData, String docNum, String model, String owner, String ownerPhone, float capacity, char status) {
 		this.idVehicle = idVehicle;
 		this.tbasicData = tbasicData;
 		this.docNum = docNum;
 		this.model = model;
 		this.owner = owner;
+		this.ownerPhone = ownerPhone;
 		this.capacity = capacity;
-		this.comment = comment;
 		this.status = status;
 	}
 
-	public Tvehicle(int idVehicle, TbasicData tbasicData, String docNum, String model, String owner, float capacity, String comment, char status, Set<Twaybill> twaybills) {
+	public Tvehicle(int idVehicle, TbasicData tbasicData, String docNum, String model, String owner, String ownerPhone, float capacity, String comment, char status, Set<Twaybill> twaybills) {
 		this.idVehicle = idVehicle;
 		this.tbasicData = tbasicData;
 		this.docNum = docNum;
 		this.model = model;
 		this.owner = owner;
+		this.ownerPhone = ownerPhone;
 		this.capacity = capacity;
 		this.comment = comment;
 		this.status = status;
@@ -110,6 +112,15 @@ public class Tvehicle implements java.io.Serializable {
 		this.owner = owner;
 	}
 
+	@Column(name = "owner_phone", length = 20)
+	public String getOwnerPhone() {
+		return this.ownerPhone;
+	}
+
+	public void setOwnerPhone(String ownerPhone) {
+		this.ownerPhone = ownerPhone;
+	}
+
 	@Column(name = "capacity", nullable = false, precision = 8, scale = 8)
 	public float getCapacity() {
 		return this.capacity;
@@ -119,7 +130,7 @@ public class Tvehicle implements java.io.Serializable {
 		this.capacity = capacity;
 	}
 
-	@Column(name = "comment", nullable = false, length = 450)
+	@Column(name = "comment", length = 450)
 	public String getComment() {
 		return this.comment;
 	}

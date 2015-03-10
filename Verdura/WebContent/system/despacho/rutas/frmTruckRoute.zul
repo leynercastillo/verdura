@@ -1,6 +1,126 @@
-<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
 <zk>
-	<window title="new page title" border="normal">
-		New Content Here!
+	<window apply="org.zkoss.bind.BindComposer" border="normal"
+		closable="true" onClose="@command('close')"
+		viewModel="@id('vm') @init('controllers.despacho.ruta.CtrlTruckRoute')">
+		<style src="resource/style/styleZK.css"></style>
+		<caption label="Rutas" zclass="formTitle"></caption>
+		<grid>
+			<columns>
+				<column align="right" width="15%"></column>
+				<column width="30%"></column>
+				<column align="right" width="35%"></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<label sclass="formLabel" value="Nombre de Ruta:"></label>
+					<textbox disabled="@load(vm.disableAll)" hflex="1"
+						maxlength="150"
+						value="@save(vm.route.description, before = 'save') @load(vm.route.description) @validator(vm.noEmpty, component = self)">
+					</textbox>
+					<label sclass="formLabel" value="Codigo:"></label>
+					<intbox disabled="true" hflex="1"
+						value="@save(vm.route.code, before = 'save') @load(vm.route.code) @validator(vm.noEmpty, component = self)">
+					</intbox>
+				</row>
+				<row>
+					<label sclass="formLabel"
+						value="Cargar sucursal:">
+					</label>
+					<button disabled="@load(vm.disableAll)"
+						image="resource/images/icons/add.png"
+						onClick="@command('searchPartnerBranch')">
+					</button>
+				</row>
+				<row>
+					<cell colspan="4">
+						<listbox id="lbxBusinessPartnerRoutes"
+							model="@load(vm.route.tbusinessPartnerRoutes)">
+							<listhead>
+								<listheader hflex="2" label="Cliente"></listheader>
+								<listheader hflex="2"
+									label="Sucursal">
+								</listheader>
+								<listheader hflex="1" label="Estado"></listheader>
+								<listheader hflex="1" label="Ciudad"></listheader>
+								<listheader hflex="2"
+									label="Direccion">
+								</listheader>
+								<listheader hflex="1"
+									label="Eliminar">
+								</listheader>
+							</listhead>
+							<template name="model"
+								var="businessPartnerRoute">
+								<listitem>
+									<listcell
+										label="@load(businessPartnerRoute.tbusinessPartnerBranch.tbusinessPartner.name)">
+									</listcell>
+									<listcell
+										label="@load(businessPartnerRoute.tbusinessPartnerBranch.name)">
+									</listcell>
+									<listcell
+										label="@load(businessPartnerRoute.tbusinessPartnerBranch.tbasicData.tbasicData.name)">
+									</listcell>
+									<listcell
+										label="@load(businessPartnerRoute.tbusinessPartnerBranch.tbasicData.name)">
+									</listcell>
+									<listcell
+										label="@load(businessPartnerRoute.tbusinessPartnerBranch.address)">
+									</listcell>
+									<listcell>
+										<button
+											disabled="@load(vm.disableAll)"
+											image="resource/images/icons/minus.png"
+											onClick="@command('removePartner', partner = businessPartnerRoute)">
+										</button>
+									</listcell>
+								</listitem>
+							</template>
+						</listbox>
+					</cell>
+				</row>
+				<row>
+					<radiogroup id="status"
+						selectedItem="@save(vm.route.status)">
+						<radio
+							checked="@load(vm.route.status eq 'A' ? 'true':'false')"
+							disabled="@load(vm.disableAll)" label="Activo" sclass="frmLabel"
+							value="A">
+						</radio>
+					</radiogroup>
+					<radio
+						checked="@load(vm.route.status eq 'I' ? 'true':'false')"
+						disabled="@load(vm.disableAll)" label="Inactivo"
+						radiogroup="status" sclass="formLabel" value="I">
+					</radio>
+					<space></space>
+					<space></space>
+				</row>
+				<row>
+					<cell align="right">
+						<button image="resource/images/icons/search.png"
+							label="Buscar" onClick="@command('search')">
+						</button>
+					</cell>
+					<cell colspan="3">
+						<button disabled="@load(vm.disableAll)"
+							image="resource/images/icons/save.png" label="Guardar"
+							onClick="@command('save', lbx = lbxBusinessPartnerRoutes)">
+						</button>
+						<space></space>
+						<button disabled="@load(not vm.disableAll)"
+							image="resource/images/icons/edit.png" label="Editar"
+							onClick="@command('edit')">
+						</button>
+						<space></space>
+						<button image="resource/images/icons/cancel.png"
+							label="Cancelar" onClick="@command('restartForm')">
+						</button>
+					</cell>
+				</row>
+			</rows>
+		</grid>
 	</window>
 </zk>

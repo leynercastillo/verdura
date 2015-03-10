@@ -79,5 +79,4 @@ public class CtrlSearchPurchases {
 	public void close(@BindingParam("window") Window window) {
 		window.detach();
 	}
-
 }

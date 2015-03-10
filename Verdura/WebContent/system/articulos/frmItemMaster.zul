@@ -14,23 +14,15 @@
 			<rows>
 				<row>
 					<label sclass="formLabel" value="Codigo:"></label>
-					<combobox autocomplete="@load(vm.disableAll)"
-						autodrop="@load(vm.disableAll)" buttonVisible="false" hflex="1"
-						maxlength="15" model="@load(vm.listItemCode)"
-						onChange="@command(vm.disableAll ? 'loadItem':'', field='code', val=self.value)"
-						onFocus="@command(vm.disableAll ? 'searchItemByField':'', field='code')"
+					<textbox hflex="1" maxlength="15"
 						value="@save(vm.item.code, before = 'save') @load(vm.item.code) @validator(vm.noRepeatCode, component = self)">
-					</combobox>
+					</textbox>
 				</row>
 				<row>
 					<label sclass="formLabel" value="Descripcion:"></label>
-					<combobox autocomplete="@load(vm.disableAll)"
-						autodrop="@load(vm.disableAll)" buttonVisible="false" hflex="1"
-						maxlength="100" model="@load(vm.listItemName)"
-						onChange="@command(vm.disableAll ? 'loadItem':'', field='name', val=self.value)"
-						onFocus="@command(vm.disableAll ? 'searchItemByField':'', field='name')"
+					<textbox hflex="1" maxlength="100"
 						value="@save(vm.item.name, before = 'save') @load(vm.item.name) @validator(vm.noEmpty, component = self)">
-					</combobox>
+					</textbox>
 				</row>
 				<row spans="3">
 					<tabbox>
@@ -122,7 +114,7 @@
 										<row>
 											<cell colspan="2">
 												<listbox
-													model="@load(vm.listInputMeasureUnit)">
+													model="@load(vm.item.tinputMeasureUnits)">
 													<listhead>
 														<listheader
 															hflex="2" label="Articulo">
@@ -195,7 +187,7 @@
 										<row>
 											<cell colspan="2">
 												<listbox
-													model="@load(vm.listOutputMeasureUnit)">
+													model="@load(vm.item.toutputMeasureUnits)">
 													<listhead>
 														<listheader
 															hflex="2" label="Articulo">

@@ -1,0 +1,81 @@
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" border="normal"
+		closable="true" height="70%" id="window" mode="modal"
+		onClose="@command('close', window = self)"
+		viewModel="@id('vm') @init('controllers.socios.FrmBusinessPartnerSearch')"
+		width="90%">
+		<style src="resource/style/styleZK.css"></style>
+		<caption label="Socios de negocio" zclass="formTitle"></caption>
+		<listbox model="@load(vm.listBusinessPartnerBranch)"
+			mold="paging"
+			onSelect="@command('sendBusinessPartner', window = window)"
+			pageSize="10" pagingPosition="both"
+			selectedItem="@bind(vm.selectedBusinessPartner)">
+			<auxhead>
+				<auxheader colspan="1">
+					<image src="/resource/images/icons/filter.png">
+					</image>
+					<textbox hflex="1" instant="true"
+						onChange="@command('dataFilter')"
+						value="@bind(vm.businessPartnerFilter.rif)">
+					</textbox>
+				</auxheader>
+				<auxheader colspan="1">
+					<image src="/resource/images/icons/filter.png">
+					</image>
+					<textbox hflex="2" instant="true"
+						onChange="@command('dataFilter')"
+						value="@bind(vm.businessPartnerFilter.name)">
+					</textbox>
+				</auxheader>
+				<auxheader colspan="1"></auxheader>
+				<auxheader colspan="1">
+					<image src="/resource/images/icons/filter.png">
+					</image>
+					<textbox hflex="2" instant="true"
+						onChange="@command('dataFilter')"
+						value="@bind(vm.businessPartnerFilter.partnerBranchName)">
+					</textbox>
+				</auxheader>
+				<auxheader colspan="1">
+					<image src="/resource/images/icons/filter.png">
+					</image>
+					<textbox hflex="1" instant="true"
+						onChange="@command('dataFilter')"
+						value="@bind(vm.businessPartnerFilter.contactName)">
+					</textbox>
+				</auxheader>
+				<auxheader colspan="1"></auxheader>
+			</auxhead>
+			<listhead>
+				<listheader label="Rif" hflex="1"></listheader>
+				<listheader label="Socio de negocio" hflex="3"></listheader>
+				<listheader label="Tipo Cliente" hflex="1"></listheader>
+				<listheader label="Sucursal" hflex="3"></listheader>
+				<listheader label="Persona de contacto" hflex="3"></listheader>
+				<listheader label="Direccion" hflex="2"></listheader>
+			</listhead>
+			<template name="model" var="partnerBranch">
+				<listitem>
+					<listcell
+						label="@load(vm.fullRif(partnerBranch.tbusinessPartner.tbasicDataByRifType.name, partnerBranch.tbusinessPartner.rif))">
+					</listcell>
+					<listcell
+						label="@load(partnerBranch.tbusinessPartner.name)">
+					</listcell>
+					<listcell
+						label="@load(partnerBranch.tbusinessPartner.tbasicDataByType.name)">
+					</listcell>
+					<listcell label="@load(partnerBranch.name)">
+					</listcell>
+					<listcell
+						label="@load(partnerBranch.contactName)">
+					</listcell>
+					<listcell label="@load(partnerBranch.address)">
+					</listcell>
+				</listitem>
+			</template>
+		</listbox>
+	</window>
+</zk>

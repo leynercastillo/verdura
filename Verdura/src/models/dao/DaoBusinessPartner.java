@@ -78,6 +78,24 @@ public class DaoBusinessPartner {
 	}
 
 	@SuppressWarnings("unchecked")
+	public List<TbusinessPartner> listAll() {
+		Session session = getCurrentSession();
+		Criteria criteria = session.createCriteria(TbusinessPartner.class);
+		criteria.addOrder(Order.asc("name"));
+		return criteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TbusinessPartner> listAllActiveByType(TbasicData type) {
+		Session session = getCurrentSession();
+		Criteria criteria = session.createCriteria(TbusinessPartner.class);
+		criteria.add(Restrictions.eq("status", 'A'));
+		criteria.add(Restrictions.eq("tbasicDataByType", type));
+		criteria.addOrder(Order.asc("idBusinessPartner"));
+		return criteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
 	public List<TbusinessPartner> listOrderedbyField(String field) {
 		Criteria criteria = getCurrentSession().createCriteria(TbusinessPartner.class);
 		criteria.addOrder(Order.asc(field));
@@ -107,7 +125,7 @@ public class DaoBusinessPartner {
 		return bp != null ? (TbusinessPartner) bp : null;
 	}
 
-	public TbusinessPartner findByString(String value, String field) {
+	public TbusinessPartner findByString(Object value, String field) {
 		Criteria criteria = getCurrentSession().createCriteria(TbusinessPartner.class);
 		criteria.add(Restrictions.eq(field, value));
 		Object bp = criteria.uniqueResult();

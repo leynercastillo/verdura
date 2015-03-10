@@ -1,0 +1,147 @@
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" border="normal"
+		closable="true" onClose="@command('close')"
+		viewModel="@id('vm') @init('controllers.despacho.guia.CtrlWayBill')">
+		<style src="resource/style/styleZK.css"></style>
+		<caption label="Guia de despacho" zclass="formTitle"></caption>
+		<grid>
+			<columns>
+				<column width="12%" align="right"></column>
+				<column></column>
+				<column width="12%" align="right"></column>
+				<column></column>
+				<column width="12%" align="right"></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<space></space>
+					<space></space>
+					<space></space>
+					<space></space>
+					<label sclass="formLabel" value="Nro guia:"></label>
+					<intbox disabled="true" hflex="1"
+						value="@load(vm.waybill.number)">
+					</intbox>
+				</row>
+				<row>
+					<label sclass="formLabel" value="Ruta:"></label>
+					<cell colspan="3">
+						<combobox disabled="@load(vm.disableAll)"
+							hflex="1" model="@load(vm.listRoute)"
+							onChange="@command('selectingRoute')" readonly="true"
+							selectedItem="@bind(vm.waybill.troute)"
+							value="@save(vm.select, before = 'save') @load(vm.waybill.troute.description eq null ? vm.select : vm.waybill.troute.description) @validator(vm.noSelect, component = self)">
+							<template name="model" var="route">
+								<comboitem
+									label="@load(route.description)">
+								</comboitem>
+							</template>
+						</combobox>
+					</cell>
+					<label sclass="formLabel"
+						value="Nro Orden Pedido:">
+					</label>
+					<combobox disabled="@load(vm.disableAll)" hflex="1"
+						model="@load(vm.listOrderFinished)"
+						onChange="@command('selectOrder')" readonly="true"
+						selectedItem="@bind(vm.waybill.torderNumber)"
+						value="@save(vm.select, before = 'save') @load(vm.waybill.torderNumber.idOrderNumber eq null ? vm.select : vm.waybill.torderNumber.idOrderNumber) @validator(vm.noSelect, component = self)">
+						<template name="model" var="orderNumber">
+							<comboitem
+								label="@load(orderNumber.idOrderNumber)">
+							</comboitem>
+						</template>
+					</combobox>
+				</row>
+				<row>
+					<label sclass="formLabel" value="Vehiculo:"></label>
+					<combobox disabled="@load(vm.disableAll)" hflex="1"
+						model="@load(vm.listVehiculo)" readonly="true"
+						selectedItem="@bind(vm.waybill.tvehicle)"
+						value="@save(vm.select, before = 'save') @load(vm.waybill.tvehicle.model eq null ? vm.select : vm.waybill.tvehicle.model) @validator(vm.noSelect, component = self)">
+						<template name="model" var="vehiculo">
+							<comboitem label="@load(vehiculo.model)">
+							</comboitem>
+						</template>
+					</combobox>
+					<label sclass="formLabel" value="Capacidad:"></label>
+					<doublebox disabled="true" hflex="1"
+						value="@load(vm.waybill.tvehicle.capacity)">
+					</doublebox>
+					<label sclass="formLabel" value="Fecha:"></label>
+					<datebox disabled="@load(vm.disableAll)"
+						format="dd/MM/yyyy" hflex="1" locale="es" readonly="true"
+						style="float: left"
+						value="@save(vm.waybill.date, before = 'save') @load(vm.waybill.date)">
+					</datebox>
+				</row>
+				<row>
+					<cell colspan="6">
+						<window border="normal" hflex="1">
+							<caption label="Clientes"></caption>
+							<div
+								children="@load(vm.listBusinessPartnerRoute)">
+								<template name="children">
+									<groupbox closable="false"
+										mold="3d">
+										<caption
+											label="@load(each.tbusinessPartnerBranch.name)">
+										</caption>
+										<listbox>
+											<listhead>
+												<listheader hflex="2"
+													label="Articulo">
+												</listheader>
+												<listheader hflex="2"
+													label="Unidad">
+												</listheader>
+												<listheader hflex="1"
+													label="Pedido">
+												</listheader>
+												<listheader hflex="1"
+													label="Disponible">
+												</listheader>
+												<listheader hflex="1"
+													label="Kg">
+												</listheader>
+												<listheader hflex="1"
+													label="Despacho">
+												</listheader>
+												<listheader hflex="2"
+													label="Precio">
+												</listheader>
+											</listhead>
+										</listbox>
+									</groupbox>
+									<space></space>
+								</template>
+							</div>
+						</window>
+					</cell>
+				</row>
+				<row>
+					<button image="resource/images/icons/search.png"
+						label="Buscar" onClick="@command('search')">
+					</button>
+					<cell colspan="2">
+						<button disabled="@load(vm.disableAll)"
+							image="resource/images/icons/save.png" label="Guardar"
+							onClick="@command('save', lbx = lbxBusinessPartnerRoutes)">
+						</button>
+						<space></space>
+						<button disabled="@load(not vm.disableAll)"
+							image="resource/images/icons/edit.png" label="Editar"
+							onClick="@command('edit')">
+						</button>
+						<space></space>
+						<button image="resource/images/icons/cancel.png"
+							label="Cancelar" onClick="@command('restartForm')">
+						</button>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>

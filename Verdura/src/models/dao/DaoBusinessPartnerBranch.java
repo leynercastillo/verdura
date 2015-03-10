@@ -1,9 +1,14 @@
 package models.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import models.TbasicData;
 import models.TbusinessPartnerBranch;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -71,11 +76,40 @@ public class DaoBusinessPartnerBranch {
 			return false;
 		}
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public List<TbusinessPartnerBranch> listAllActiveByType(TbasicData type) {
+		Session session = getCurrentSession();
+		String hql = "select branchs from TbusinessPartner partner inner join partner.tbusinessPartnerBranches branchs where partner.tbasicDataByType = :type and partner.status = 'A' order by partner.idBusinessPartner asc";
+		Query query = session.createQuery(hql);
+		query.setParameter("type", type);
+		return query.list();
+	}
+
 	public TbusinessPartnerBranch findByField(Object value, String field) {
 		Criteria criteria = getCurrentSession().createCriteria(TbusinessPartnerBranch.class);
 		criteria.add(Restrictions.eq(field, value));
 		Object bp = criteria.uniqueResult();
 		return bp != null ? (TbusinessPartnerBranch) bp : null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TbusinessPartnerBranch> listSearch(String rif, String partnerName, String branchName, String branchContactName) {
+		Session session = getCurrentSession();
+		String hql = "select branchs, rifType, partnerType from TbusinessPartner partner inner join partner.tbusinessPartnerBranches branchs inner join partner.tbasicDataByRifType rifType inner join partner.tbasicDataByType partnerType where lower(partner.rif) like :partnerRif and lower(partner.name) like :partnerName and lower(branchs.name) like :branchsName and lower(branchs.contactName) like :branchsContact order by partner.name asc";
+		Query query = session.createQuery(hql);
+		query.setParameter("partnerRif", '%' + rif.toLowerCase() + '%');
+		query.setParameter("partnerName", '%' + partnerName.toLowerCase() + '%');
+		query.setParameter("branchsName", '%' + branchName.toLowerCase() + '%');
+		query.setParameter("branchsContact", '%' + branchContactName.toLowerCase() + '%');
+		List<Object[]> listParner = (List<Object[]>) query.list();
+		List<TbusinessPartnerBranch> listBranch = new ArrayList<TbusinessPartnerBranch>();
+		for (Object[] objects : listParner) {
+			TbusinessPartnerBranch partnerBranch = (TbusinessPartnerBranch) objects[0];
+			partnerBranch.getTbusinessPartner().setTbasicDataByRifType((TbasicData) objects[1]);
+			partnerBranch.getTbusinessPartner().setTbasicDataByType((TbasicData) objects[2]);
+			listBranch.add(partnerBranch);
+		}
+		return listBranch;
 	}
 }

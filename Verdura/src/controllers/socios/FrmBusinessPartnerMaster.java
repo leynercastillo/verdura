@@ -432,7 +432,7 @@ public class FrmBusinessPartnerMaster {
 				if (!serviceBusinessPartnerItem.save(tbusinesPartnerItem)) {
 					Clients.showNotification("No se pudo guardar dirección socio", "error", null, "middle_center", 2000);
 					return;
-				}	
+				}
 			}
 			for (BusinessPartnerItemCustom businessPartnerItem : listBusinessPartnerItemForDelete) {
 				TbusinesPartnerItem tbusinessPartnerItem = new TbusinesPartnerItem();
@@ -500,8 +500,9 @@ public class FrmBusinessPartnerMaster {
 	@Command
 	public void search() {
 		restartForm();
-		disableAll = true;
-		update = false;
+		// disableAll = true;
+		// update = false;
+		Executions.createComponents("system/socios/frmBusinessPartnerSearch.zul", null, null);
 	}
 
 	@NotifyChange({ "listBusinessPartnerName", "listBusinessPartnerRif" })
@@ -568,10 +569,15 @@ public class FrmBusinessPartnerMaster {
 
 	@NotifyChange("*")
 	@GlobalCommand
-	public void selectedBusinessPartner(@BindingParam("businessPartner") TbusinessPartner businessPartner) {
+	public void selectedBusinessPartner(@BindingParam("businessPartner") TbusinessPartnerBranch businessPartnerBranch) {
 		this.businessPartner = new TbusinessPartner();
-		this.businessPartner = businessPartner;
+		this.businessPartner = serviceBusinessPartner.findById(businessPartnerBranch.getTbusinessPartner().getIdBusinessPartner());
 		listBusinessPartnerBranch = new ArrayList<TbusinessPartnerBranch>(this.businessPartner.getTbusinessPartnerBranches());
+		listBusinessPartnerItem.clear();
+		for (TbusinesPartnerItem businessPartnerItem : this.businessPartner.getTbusinesPartnerItems()) {
+			BusinessPartnerItemCustom pbItemCustom = new BusinessPartnerItemCustom(businessPartnerItem, businessPartnerItem.getTitem());
+			listBusinessPartnerItem.add(pbItemCustom);
+		}
 		disableAll = false;
 		update = true;
 	}
@@ -601,7 +607,7 @@ public class FrmBusinessPartnerMaster {
 
 	@NotifyChange({ "listBusinessPartnerItem" })
 	@Command
-	public void deleteItem(@BindingParam("bpItem")BusinessPartnerItemCustom businesPartnerItem) {
+	public void deleteItem(@BindingParam("bpItem") BusinessPartnerItemCustom businesPartnerItem) {
 		for (Iterator<BusinessPartnerItemCustom> iterator = listBusinessPartnerItem.iterator(); iterator.hasNext();) {
 			BusinessPartnerItemCustom auxBusinessPartnerItem = iterator.next();
 			if (auxBusinessPartnerItem.equals(businesPartnerItem)) {

@@ -29,6 +29,11 @@ public class ServiceVehicle {
 	}
 
 	@Transactional(readOnly = true)
+	public List<Tvehicle> listActive() {
+		return daoVehicle.listByField("status", 'A');
+	}
+
+	@Transactional(readOnly = true)
 	public List<Tvehicle> listByDocNum(String docNum) {
 		return daoVehicle.listByField("docNum", docNum);
 	}

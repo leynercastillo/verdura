@@ -28,20 +28,20 @@ public class SecurityRole implements java.io.Serializable {
 	private int idSecurityRole;
 	private String name;
 	private String description;
-	private short status;
+	private char status;
 	private Set<SecurityGroup> securityGroups = new HashSet<SecurityGroup>(0);
 
 	public SecurityRole() {
 	}
 
-	public SecurityRole(int idSecurityRole, String name, String description, short status) {
+	public SecurityRole(int idSecurityRole, String name, String description, char status) {
 		this.idSecurityRole = idSecurityRole;
 		this.name = name;
 		this.description = description;
 		this.status = status;
 	}
 
-	public SecurityRole(int idSecurityRole, String name, String description, short status, Set<SecurityGroup> securityGroups) {
+	public SecurityRole(int idSecurityRole, String name, String description, char status, Set<SecurityGroup> securityGroups) {
 		this.idSecurityRole = idSecurityRole;
 		this.name = name;
 		this.description = description;
@@ -51,7 +51,7 @@ public class SecurityRole implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "security_role_id_seq")
-    @SequenceGenerator(name = "security_role_id_seq", sequenceName = "security_role_id_seq")
+	@SequenceGenerator(name = "security_role_id_seq", sequenceName = "security_role_id_seq")
 	@Column(name = "id_security_role", unique = true, nullable = false)
 	public int getIdSecurityRole() {
 		return this.idSecurityRole;
@@ -79,12 +79,12 @@ public class SecurityRole implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@Column(name = "status", nullable = false)
-	public short getStatus() {
+	@Column(name = "status", nullable = false, length = 1)
+	public char getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(short status) {
+	public void setStatus(char status) {
 		this.status = status;
 	}
 

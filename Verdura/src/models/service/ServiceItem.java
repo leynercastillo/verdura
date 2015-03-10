@@ -43,9 +43,14 @@ public class ServiceItem {
 	public List<Titem> listByName(String name) {
 		return daoItem.listByString("name", name);
 	}
-	
+
 	@Transactional(readOnly = true)
-	public List<Titem> listActive(){
+	public List<Titem> listActive() {
 		return daoItem.listActiveOrderedByField("name");
+	}
+
+	@Transactional(readOnly = true)
+	public List<Titem> listAll() {
+		return daoItem.listAll();
 	}
 }

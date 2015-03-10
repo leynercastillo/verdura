@@ -1,0 +1,56 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<http auto-config="true">
+		<intercept-url access="ROLE_USER" pattern="/index.jsp" />
+		<intercept-url access="ROLE_USER" pattern="/system/index.zul" />
+		<intercept-url access="ROLE_MENU" pattern="/system/frmMenu.zul" />
+		<intercept-url access="ROLE_REPORT" pattern="/system/frmReport.zul" />
+		<intercept-url access="ROLE_ITEM"
+			pattern="/system/articulos/frmItemMaster.zul" />
+		<intercept-url access="ROLE_ITEM"
+			pattern="/system/articulos/frmItemSearch.zul" />
+		<intercept-url access="ROLE_SALE" pattern="/system/compras/frmPurchase.zul" />
+		<intercept-url access="ROLE_SALE"
+			pattern="/system/compras/frmPurchasesResume.zul" />
+		<intercept-url access="ROLE_SALE"
+			pattern="/system/compras/frmSearchPurchases.zul" />
+		<intercept-url access="ROLE_WAY"
+			pattern="/system/despacho/guia/frmWayBill.zul" />
+		<intercept-url access="ROLE_ROUTE"
+			pattern="/system/despacho/rutas/frmSearchBusinessPartner.zul" />
+		<intercept-url access="ROLE_ROUTE"
+			pattern="/system/despacho/rutas/frmSearchRoute.zul" />
+		<intercept-url access="ROLE_ROUTE"
+			pattern="/system/despacho/rutas/frmTruckRoute.zul" />
+		<intercept-url access="ROLE_VEHICLE"
+			pattern="/system/despacho/vehiculos/frmSearchVehicle.zul" />
+		<intercept-url access="ROLE_VEHICLE"
+			pattern="/system/despacho/vehiculos/frmVehicle.zul" />
+		<intercept-url access="ROLE_VEHICLE"
+			pattern="/system/despacho/vehiculos/frmSearchVehicle.zul" />
+		<intercept-url access="ROLE_ORDER" pattern="/system/pedidos/frmOrders.zul" />
+		<intercept-url access="ROLE_ORDER"
+			pattern="/system/pedidos/frmOrdersResume.zul" />
+		<intercept-url access="ROLE_ORDER"
+			pattern="/system/pedidos/frmSearchOrders.zul" />
+		<intercept-url access="ROLE_PARTNER"
+			pattern="/system/socios/frmBusinessPartnerMaster.zul" />
+		<intercept-url access="ROLE_PARTNER"
+			pattern="/system/socios/frmBusinessPartnerSearch.zul" />
+
+		<form-login login-page="/login.jsp" default-target-url="/index.jsp"
+			authentication-failure-url="/login.jsp?login_error=1" />
+		<logout logout-success-url="/login.jsp" />
+		<!-- <session-management> <concurrency-control max-sessions="1" /> </session-management> -->
+	</http>
+	<authentication-manager>
+		<authentication-provider user-service-ref="serviceUserDetail">
+			<password-encoder hash="sha-256"></password-encoder>
+		</authentication-provider>
+	</authentication-manager>
+</beans:beans>

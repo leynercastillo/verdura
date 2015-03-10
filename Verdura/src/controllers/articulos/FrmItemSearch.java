@@ -5,26 +5,33 @@ import java.util.List;
 import java.util.Map;
 
 import models.Titem;
+import models.service.ServiceItem;
 
 import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
-import org.zkoss.bind.annotation.ContextParam;
-import org.zkoss.bind.annotation.ContextType;
-import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
-import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.select.Selectors;
-import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
 
-public class FrmItemList {
+public class FrmItemSearch {
 
-	@Wire("#window")
-	private Window window;
+	@WireVariable
+	private ServiceItem serviceItem;
 
 	private List<Titem> listItems;
+
 	private Titem selectedItem;
+	private ItemFilter itemFilter;
+
+	public ItemFilter getItemFilter() {
+		return itemFilter;
+	}
+
+	public void setItemFilter(ItemFilter itemFilter) {
+		this.itemFilter = itemFilter;
+	}
 
 	public List<Titem> getListItems() {
 		return listItems;
@@ -43,26 +50,34 @@ public class FrmItemList {
 	}
 
 	@Init
-	public void init(@ExecutionArgParam("listItem") List<Titem> listItems, @ContextParam(ContextType.VIEW) Component view) {
-		this.listItems = listItems;
-		Selectors.wireComponents(view, this, false);
+	public void init() {
+		restarForm();
+	}
+
+	@NotifyChange("*")
+	@Command
+	public void restarForm() {
+		listItems = serviceItem.listAll();
+		itemFilter = new ItemFilter();
 	}
 
 	@NotifyChange("selectedItem")
 	@Command
-	public void sendItem() {
+	public void sendItem(@BindingParam("window") Window window) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("item", selectedItem);
 		window.detach();
 		BindUtils.postGlobalCommand(null, null, "selectedItem", map);
 	}
 
-	public String weightUnitDescription(String unit, int measure) {
-		return measure + " - " + unit;
+	@NotifyChange({ "listItems" })
+	@Command
+	public void dataFilter() {
+		listItems = itemFilter.getFilter(itemFilter);
 	}
 
 	@Command
-	public void close() {
+	public void close(@BindingParam("window") Window window) {
 		window.detach();
 	}
 }

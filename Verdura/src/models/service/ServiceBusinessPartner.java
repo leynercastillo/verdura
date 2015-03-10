@@ -27,6 +27,11 @@ public class ServiceBusinessPartner {
 	}
 
 	@Transactional(readOnly = true)
+	public TbusinessPartner findById(int id) {
+		return daoBusinessPartner.findByString(id, "idBusinessPartner");
+	}
+
+	@Transactional(readOnly = true)
 	public TbusinessPartner findSupplierByRif(String rif) {
 		return daoBusinessPartner.findTypeBusinessPartnerByString(rif, "rif", serviceBasicData.findSuplier());
 	}
@@ -42,6 +47,16 @@ public class ServiceBusinessPartner {
 	}
 
 	@Transactional(readOnly = true)
+	public List<TbusinessPartner> listAll() {
+		return daoBusinessPartner.listAll();
+	}
+
+	@Transactional(readOnly = true)
+	public List<TbusinessPartner> listAllCustomersActive() {
+		return daoBusinessPartner.listAllActiveByType(serviceBasicData.findCustomer());
+	}
+
+	@Transactional(readOnly = true)
 	public List<TbusinessPartner> listByName(String name) {
 		return daoBusinessPartner.listByString("name", name);
 	}
@@ -50,7 +65,7 @@ public class ServiceBusinessPartner {
 	public List<TbusinessPartner> listByNameByCustomer(String name) {
 		return daoBusinessPartner.listByStringAndTypeBusinessPartner("name", name, serviceBasicData.findCustomer());
 	}
-	
+
 	@Transactional(readOnly = true)
 	public List<TbusinessPartner> listByNameBySupplier(String name) {
 		return daoBusinessPartner.listByStringAndTypeBusinessPartner("name", name, serviceBasicData.findSuplier());

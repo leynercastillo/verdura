@@ -1,10 +1,14 @@
 package models.dao;
 
+import java.util.List;
+
 import models.TinputMeasureUnit;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +21,7 @@ public class DaoInputMeasureUnit {
 	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
-	
+
 	/**
 	 * @param model
 	 *            Object to save in database
@@ -68,5 +72,12 @@ public class DaoInputMeasureUnit {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TinputMeasureUnit> listByField(String field, Object value) {
+		Criteria criteria = getCurrentSession().createCriteria(TinputMeasureUnit.class);
+		criteria.add(Restrictions.eq(field, value));
+		return criteria.list();
 	}
 }

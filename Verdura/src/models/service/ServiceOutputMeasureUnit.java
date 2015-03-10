@@ -1,5 +1,8 @@
 package models.service;
 
+import java.util.List;
+
+import models.Titem;
 import models.ToutputMeasureUnit;
 import models.dao.DaoOutputMeasureUnit;
 
@@ -21,9 +24,14 @@ public class ServiceOutputMeasureUnit {
 			return daoOutputMeasureUnit.update(outputMeasureUnit);
 		}
 	}
-	
+
 	@Transactional
 	public boolean delete(ToutputMeasureUnit outputMeasureUnit) {
 		return daoOutputMeasureUnit.delete(outputMeasureUnit);
+	}
+
+	@Transactional(readOnly = true)
+	public List<ToutputMeasureUnit> listByItem(Titem item) {
+		return daoOutputMeasureUnit.listByField("titem", item);
 	}
 }

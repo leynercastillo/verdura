@@ -1,6 +1,16 @@
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
 <zk>
 	<window apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('controllers.FrmIndex')">
+		<toolbar align="end">
+			<hbox>
+				<label value="@load(vm.user.name)"></label>
+				<space></space>
+				<a href="/j_spring_security_logout"
+					label="Cerrar sesion" style="color: blue">
+				</a>
+			</hbox>
+		</toolbar>
 		<include src="@load(vm.page)"></include>
 	</window>
 </zk>

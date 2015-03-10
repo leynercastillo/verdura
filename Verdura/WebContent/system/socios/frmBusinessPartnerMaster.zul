@@ -17,13 +17,9 @@
 			<rows>
 				<row>
 					<label sclass="formLabel" value="Nombre:"></label>
-					<combobox autocomplete="@load(vm.disableAll)"
-						autodrop="@load(vm.disableAll)" buttonVisible="false" hflex="1"
-						maxlength="100" model="@load(vm.listBusinessPartnerName)"
-						onChange="@command(vm.disableAll ? 'loadBusinessPartner':'', field='name', val=self.value)"
-						onFocus="@command(vm.disableAll ? 'searchBusinessPartnerByField':'', field='name')"
+					<textbox hflex="1" maxlength="100"
 						value="@save(vm.businessPartner.name, before = 'save') @load(vm.businessPartner.name) @validator(vm.noEmpty, component = self)">
-					</combobox>
+					</textbox>
 					<label sclass="formLabel" value="Tipo:"></label>
 					<combobox disabled="@load(vm.disableAll)"
 						model="@load(vm.listBusinessPartnerType)" readonly="true"
@@ -52,15 +48,11 @@
 								</comboitem>
 							</template>
 						</combobox>
-						<combobox autocomplete="@load(vm.disableAll)"
-							autodrop="@load(vm.disableAll)" buttonVisible="false"
-							disabled="@load(vm.update)" maxlength="15"
-							model="@load(vm.listBusinessPartnerRif)"
-							onChange="@command(vm.disableAll ? 'loadBusinessPartner':'', field='rif', val=self.value)"
-							onFocus="@command(vm.disableAll ? 'searchBusinessPartnerByField':'', field='rif')"
+						<textbox disabled="@load(vm.update)"
+							maxlength="15"
 							value="@save(vm.businessPartner.rif, before = 'save') @load(vm.businessPartner.rif) @validator(vm.noRepeatRif, component = self)"
 							width="73%">
-						</combobox>
+						</textbox>
 					</div>
 					<space></space>
 					<space></space>
@@ -336,8 +328,10 @@
 																</combobox>
 															</listcell>
 															<listcell>
-																<doublespinner constraint="min 0" format="#,##0.00"
-																	hflex="1" step="0.5" style="text-align: right" value="@load(businesPartnerItem.price) @save(businesPartnerItem.price)">
+																<doublespinner
+																	constraint="min 0" format="#,##0.00" hflex="1"
+																	step="0.5" style="text-align: right"
+																	value="@load(businesPartnerItem.price) @save(businesPartnerItem.price)">
 																</doublespinner>
 															</listcell>
 															<listcell>

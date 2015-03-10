@@ -16,7 +16,7 @@
 						<treechildren>
 							<treeitem>
 								<treerow>
-									<treecell label="Articulos"
+									<treecell label="Productos"
 										onClick="@command('optionSelected', optionSelected='system/articulos/frmItemMaster.zul')">
 									</treecell>
 								</treerow>
@@ -82,7 +82,15 @@
 						<treechildren>
 							<treeitem>
 								<treerow>
-									<treecell label="Despacho">
+									<treecell label="Despacho"
+										onClick="@command('optionSelected', optionSelected='system/despacho/guia/frmWayBill.zul')">
+									</treecell>
+								</treerow>
+							</treeitem>
+							<treeitem>
+								<treerow>
+									<treecell label="Rutas"
+										onClick="@command('optionSelected', optionSelected='system/despacho/rutas/frmTruckRoute.zul')">
 									</treecell>
 								</treerow>
 							</treeitem>

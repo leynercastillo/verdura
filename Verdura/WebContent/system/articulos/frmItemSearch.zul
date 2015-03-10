@@ -1,0 +1,54 @@
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" border="normal"
+		closable="true" height="70%" id="window" mode="modal"
+		onClose="@command('close', window = self)"
+		viewModel="@id('vm') @init('controllers.articulos.FrmItemSearch')"
+		width="60%">
+		<style src="resource/style/styleZK.css"></style>
+		<caption label="Buscar Productos" zclass="formTitle"></caption>
+		<listbox model="@load(vm.listItems)" mold="paging"
+			onSelect="@command('sendItem', window = window)" pageSize="10"
+			pagingPosition="both" selectedItem="@bind(vm.selectedItem)">
+			<auxhead>
+				<auxheader colspan="1">
+					<image src="/resource/images/icons/filter.png">
+					</image>
+					<textbox hflex="5" instant="true"
+						onChange="@command('dataFilter')"
+						value="@bind(vm.itemFilter.code)">
+					</textbox>
+				</auxheader>
+				<auxheader colspan="1">
+					<image src="/resource/images/icons/filter.png">
+					</image>
+					<textbox hflex="5" instant="true"
+						onChange="@command('dataFilter')"
+						value="@bind(vm.itemFilter.name)">
+					</textbox>
+				</auxheader>
+				<auxheader colspan="4"></auxheader>
+			</auxhead>
+			<listhead>
+				<listheader hflex="1" label="Codigo"
+					sort="auto(code)">
+				</listheader>
+				<listheader hflex="1" label="Descripcion"
+					sort="auto(name)">
+				</listheader>
+				<listheader hflex="1" label="Tipo"
+					sort="auto(tbasicData.name)">
+				</listheader>
+			</listhead>
+			<template name="model" var="item">
+				<listitem>
+					<listcell label="@load(item.code)"></listcell>
+					<listcell label="@load(item.name)"></listcell>
+					<listcell
+						label="@load(item.tbasicData.name)">
+					</listcell>
+				</listitem>
+			</template>
+		</listbox>
+	</window>
+</zk>

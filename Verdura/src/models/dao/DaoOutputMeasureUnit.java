@@ -1,10 +1,14 @@
 package models.dao;
 
+import java.util.List;
+
 import models.ToutputMeasureUnit;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -68,5 +72,12 @@ public class DaoOutputMeasureUnit {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ToutputMeasureUnit> listByField(String field, Object value) {
+		Criteria criteria = getCurrentSession().createCriteria(ToutputMeasureUnit.class);
+		criteria.add(Restrictions.eq(field, value));
+		return criteria.list();
 	}
 }

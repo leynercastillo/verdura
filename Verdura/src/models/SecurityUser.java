@@ -27,13 +27,13 @@ public class SecurityUser implements java.io.Serializable {
 	private String name;
 	private String email;
 	private String password;
-	private short status;
+	private char status;
 	private Set<SecurityGroup> securityGroups = new HashSet<SecurityGroup>(0);
 
 	public SecurityUser() {
 	}
 
-	public SecurityUser(int idSecurityUser, String name, String email, String password, short status) {
+	public SecurityUser(int idSecurityUser, String name, String email, String password, char status) {
 		this.idSecurityUser = idSecurityUser;
 		this.name = name;
 		this.email = email;
@@ -41,7 +41,7 @@ public class SecurityUser implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public SecurityUser(int idSecurityUser, String name, String email, String password, short status, Set<SecurityGroup> securityGroups) {
+	public SecurityUser(int idSecurityUser, String name, String email, String password, char status, Set<SecurityGroup> securityGroups) {
 		this.idSecurityUser = idSecurityUser;
 		this.name = name;
 		this.email = email;
@@ -52,7 +52,7 @@ public class SecurityUser implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "security_user_id_seq")
-    @SequenceGenerator(name = "security_user_id_seq", sequenceName = "security_user_id_seq")
+	@SequenceGenerator(name = "security_user_id_seq", sequenceName = "security_user_id_seq")
 	@Column(name = "id_security_user", unique = true, nullable = false)
 	public int getIdSecurityUser() {
 		return this.idSecurityUser;
@@ -80,7 +80,7 @@ public class SecurityUser implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@Column(name = "password", nullable = false, length = 50)
+	@Column(name = "password", nullable = false, length = 100)
 	public String getPassword() {
 		return this.password;
 	}
@@ -89,12 +89,12 @@ public class SecurityUser implements java.io.Serializable {
 		this.password = password;
 	}
 
-	@Column(name = "status", nullable = false)
-	public short getStatus() {
+	@Column(name = "status", nullable = false, length = 1)
+	public char getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(short status) {
+	public void setStatus(char status) {
 		this.status = status;
 	}
 

@@ -1,0 +1,103 @@
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" border="normal"
+		closable="true" id="win" mode="modal"
+		onClose="@command('close', window = self)"
+		viewModel="@id('vm') @init('controllers.despacho.ruta.CtrlSearchBusinessPartner')"
+		width="90%">
+		<style src="resource/style/styleZK.css"></style>
+		<caption label="Buscar clientes" zclass="formTitleLabel"></caption>
+		<grid>
+			<rows>
+				<row>
+					<listbox checkmark="true"
+						model="@load(vm.listCustomers)" mold="paging" multiple="true"
+						pageSize="10" pagingPosition="both"
+						selectedItems="@bind(vm.listTempCustomers)">
+						<auxhead>
+							<auxheader colspan="1">
+								<image
+									src="/resource/images/icons/filter.png">
+								</image>
+								<textbox hflex="5" instant="true"
+									onChange="@command('dataFilter')"
+									value="@bind(vm.partnerFilter.rif)">
+								</textbox>
+							</auxheader>
+							<auxheader colspan="1">
+								<image
+									src="/resource/images/icons/filter.png">
+								</image>
+								<textbox hflex="5" instant="true"
+									onChange="@command('dataFilter')"
+									value="@bind(vm.partnerFilter.name)">
+								</textbox>
+							</auxheader>
+							<auxheader colspan="1">
+								<image
+									src="/resource/images/icons/filter.png">
+								</image>
+								<textbox hflex="5" instant="true"
+									onChange="@command('dataFilter')"
+									value="@bind(vm.partnerFilter.branchName)">
+								</textbox>
+							</auxheader>
+							<auxheader>
+								<image
+									src="/resource/images/icons/filter.png">
+								</image>
+								<textbox hflex="5" instant="true"
+									onChange="@command('dataFilter')"
+									value="@bind(vm.partnerFilter.address)">
+								</textbox>
+							</auxheader>
+							<auxheader>
+								<space></space>
+							</auxheader>
+						</auxhead>
+						<listhead>
+							<listheader hflex="1" label="Rif"
+								sort="auto(tbusinessPartner.rif)">
+							</listheader>
+							<listheader hflex="1" label="Cliente"
+								sort="auto(tbusinessPartner.name)">
+							</listheader>
+							<listheader hflex="1" label="Sucursal"
+								sort="auto(name)">
+							</listheader>
+							<listheader hflex="1" label="Direccion"
+								sort="auto(address)">
+							</listheader>
+						</listhead>
+						<template name="model" var="customer">
+							<listitem>
+								<listcell
+									label="@load(vm.buildRif(customer))">
+								</listcell>
+								<listcell
+									label="@load(customer.tbusinessPartner.name)">
+								</listcell>
+								<listcell
+									label="@load(customer.name)">
+								</listcell>
+								<listcell
+									label="@load(customer.address)">
+								</listcell>
+							</listitem>
+						</template>
+					</listbox>
+				</row>
+				<row>
+					<hbox>
+						<button label="Aceptar"
+							onClick="@command('addCustomers', window = win)">
+						</button>
+						<button label="Cancelar"
+							onClick="@command('close', window = win)">
+						</button>
+					</hbox>
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>
