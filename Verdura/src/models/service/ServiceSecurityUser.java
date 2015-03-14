@@ -1,4 +1,4 @@
-package models.service.security;
+package models.service;
 
 import java.util.List;
 

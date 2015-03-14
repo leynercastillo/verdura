@@ -1,7 +1,7 @@
 package controllers;
 
 import models.SecurityUser;
-import models.service.security.ServiceSecurityUser;
+import models.service.ServiceSecurityUser;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;

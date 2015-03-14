@@ -1,6 +1,7 @@
 package models.service.security;
 
 import models.SecurityUser;
+import models.service.ServiceSecurityUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

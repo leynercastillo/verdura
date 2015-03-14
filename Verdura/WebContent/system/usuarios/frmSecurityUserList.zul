@@ -1,0 +1,101 @@
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<zk>
+	<style src="resource/style/styleZK.css"></style>
+	<window apply="org.zkoss.bind.BindComposer" border="normal"
+		closable="true" onClose="@command('close')"
+		viewModel="@id('vm') @init('controllers.usuarios.FrmSecurityUserList')">
+		<caption label="Maestro de Usuarios" zclass="formTitleLabel">
+		</caption>
+		<grid>
+			<rows>
+				<row>
+					<listbox
+						model="@load(vm.listUsers) @template(each.editUser ? 'editable' : 'notEditable')">
+						<listhead>
+							<listheader label="Usuario"
+								sort="auto(user.name)" width="20%">
+							</listheader>
+							<listheader label="Correo electrónico"
+								sort="auto(user.email)" width="20%">
+							</listheader>
+							<listheader label="Contraseña"
+								width="15%">
+							</listheader>
+							<listheader label="Estado"
+								sort="auto(user.status)" width="15%">
+							</listheader>
+							<listheader label="Editar"></listheader>
+						</listhead>
+						<template name="notEditable">
+							<listitem>
+								<listcell
+									label="@load(each.user.name)">
+								</listcell>
+								<listcell
+									label="@load(each.user.email)">
+								</listcell>
+								<listcell label="**********"></listcell>
+								<listcell
+									label="@load(each.user.status eq 'A' ? 'Activo' : 'Inactivo')">
+								</listcell>
+								<listcell>
+									<button
+										image="/resource/images/icons/edit.png" label="Editar"
+										onClick="@command('edit', user = each)"
+										onCreate="@command('changed', Component = self, user = each)">
+									</button>
+								</listcell>
+							</listitem>
+						</template>
+						<template name="editable">
+							<listitem>
+								<listcell
+									label="@load(each.user.name)">
+								</listcell>
+								<listcell
+									label="@load(each.user.email)">
+								</listcell>
+								<listcell>
+									<textbox hflex="1" type="password"
+										value="@load(each.user.password) @save(each.user.password)">
+									</textbox>
+								</listcell>
+								<listcell>
+									<radiogroup hflex="1"
+										selectedItem="@save(each.user.status)">
+										<radio
+											checked="@load(each.user.status eq 'A' ? 'true' : 'false')"
+											label="Activo" sclass="frmLabel" value="A">
+										</radio>
+										<space></space>
+										<radio
+											checked="@load(each.user.status eq 'I' ? 'true' : 'false')"
+											label="Inactivo" sclass="formLabel" value="I">
+										</radio>
+									</radiogroup>
+								</listcell>
+								<listcell>
+									<div>
+										<button
+											image="/resource/images/icons/save.png" label="Guardar"
+											onClick="@command('save', user = each)">
+										</button>
+										<button
+											image="/resource/images/icons/cancel.png" label="Cancelar"
+											onClick="@command('edit', user = each)">
+										</button>
+									</div>
+								</listcell>
+							</listitem>
+						</template>
+					</listbox>
+				</row>
+				<row>
+					<button image="/resource/images/icons/add.png"
+						label="Nuevo" onClick="@command('addUser')">
+					</button>
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>

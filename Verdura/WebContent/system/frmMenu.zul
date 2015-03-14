@@ -109,26 +109,8 @@
 						<treechildren>
 							<treeitem>
 								<treerow>
-									<treecell>
-										<label
-											value="Maestro Usuarios">
-										</label>
-									</treecell>
-								</treerow>
-							</treeitem>
-							<treeitem>
-								<treerow>
-									<treecell>
-										<label value="Roles y grupos"></label>
-									</treecell>
-								</treerow>
-							</treeitem>
-							<treeitem>
-								<treerow>
-									<treecell>
-										<label
-											value="Control de Acceso">
-										</label>
+									<treecell label="Maestro Usuarios"
+										onClick="@command('optionSelected', optionSelected='system/usuarios/frmSecurityUserList.zul')">
 									</treecell>
 								</treerow>
 							</treeitem>
